@@ -95,4 +95,75 @@ router.delete('/posts/:id', requireAuth, requireAdmin, async (req, res) => {
   }
 })
 
+// ── GET /api/admin/quizzes ───────────────────────────────
+router.get('/quizzes', requireAuth, requireAdmin, async (req, res) => {
+  try {
+    const { data, error } = await getDB()
+      .from('quizzes').select('*').order('sort_order').order('created_at')
+    if (error) throw error
+    res.json({ ok: true, quizzes: data || [] })
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
+// ── POST /api/admin/quizzes ──────────────────────────────
+router.post('/quizzes', requireAuth, requireAdmin, async (req, res) => {
+  try {
+    const { quiz_id, icon, title, sub, previews, type, questions, results, tiers, status, sort_order } = req.body
+    if (!quiz_id || !title) return res.status(400).json({ error: 'quiz_id and title are required.' })
+
+    const { data: existing } = await getDB().from('quizzes').select('id').eq('quiz_id', quiz_id).maybeSingle()
+    if (existing) return res.status(409).json({ error: `Quiz ID "${quiz_id}" already exists.` })
+
+    const { data, error } = await getDB().from('quizzes').insert({
+      quiz_id, icon, title, sub,
+      previews:   Array.isArray(previews)   ? previews   : [],
+      type:       type || 'key',
+      questions:  Array.isArray(questions)  ? questions  : [],
+      results:    results || {},
+      tiers:      Array.isArray(tiers)      ? tiers      : [],
+      status:     status || 'published',
+      sort_order: sort_order || 0,
+    }).select().single()
+    if (error) throw error
+    res.status(201).json({ ok: true, quiz: data })
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
+// ── PUT /api/admin/quizzes/:id ───────────────────────────
+router.put('/quizzes/:id', requireAuth, requireAdmin, async (req, res) => {
+  try {
+    const { icon, title, sub, previews, type, questions, results, tiers, status, sort_order } = req.body
+    const { data, error } = await getDB().from('quizzes').update({
+      icon, title, sub,
+      previews:   Array.isArray(previews)   ? previews   : [],
+      type:       type || 'key',
+      questions:  Array.isArray(questions)  ? questions  : [],
+      results:    results || {},
+      tiers:      Array.isArray(tiers)      ? tiers      : [],
+      status:     status || 'published',
+      sort_order: sort_order || 0,
+      updated_at: new Date().toISOString(),
+    }).eq('id', req.params.id).select().single()
+    if (error) throw error
+    res.json({ ok: true, quiz: data })
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
+// ── DELETE /api/admin/quizzes/:id ────────────────────────
+router.delete('/quizzes/:id', requireAuth, requireAdmin, async (req, res) => {
+  try {
+    const { error } = await getDB().from('quizzes').delete().eq('id', req.params.id)
+    if (error) throw error
+    res.json({ ok: true })
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
 module.exports = router

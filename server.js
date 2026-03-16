@@ -17,9 +17,10 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 // ── API routes ────────────────────────────────────────────
 app.use('/api/auth',      require('./routes/auth'))
-app.use('/auth',          require('./routes/auth'))  // for /auth/callback
+app.use('/auth',          require('./routes/auth'))
 app.use('/api/horoscope', require('./routes/horoscope'))
 app.use('/api/blog',      require('./routes/blog'))
+app.use('/api/quizzes',   require('./routes/quizzes'))
 app.use('/api/admin',     require('./routes/admin'))
 
 // ── Debug ────────────────────────────────────────────────

@@ -93,6 +93,8 @@
       <div class="admin-nav">
         <button class="anav-btn active" onclick="showPanel('posts')">📝 Blog Posts</button>
         <button class="anav-btn"        onclick="showPanel('new')">✦ New Post</button>
+        <button class="anav-btn"        onclick="showPanel('quizzes')">🔮 Quizzes</button>
+        <button class="anav-btn"        onclick="showPanel('newquiz')">+ New Quiz</button>
         <button class="anav-btn"        onclick="showPanel('horoscope')">🌑 Horoscope</button>
       </div>
 
@@ -174,6 +176,97 @@
           </button>
           <button class="btn btn-o" onclick="clearForm()">Clear Form</button>
           <button class="btn btn-o" onclick="showPanel('posts')">Cancel</button>
+        </div>
+      </div>
+
+      <!-- ── PANEL: QUIZ LIST ── -->
+      <div class="panel" id="panel-quizzes">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <h2 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--ivory)">All Quizzes</h2>
+          <button class="btn btn-f" style="font-size:.6rem;padding:7px 14px" onclick="showPanel('newquiz')">+ New Quiz</button>
+        </div>
+        <div id="quizzesNotice"></div>
+        <p style="color:var(--textd);font-size:.82rem;font-style:italic;margin-bottom:14px">Quizzes stored here override the built-in quizzes. The quiz ID must match exactly (e.g. <code style="background:var(--bg2);padding:2px 6px;border-radius:4px">archetype</code>, <code style="background:var(--bg2);padding:2px 6px;border-radius:4px">score</code>) to replace existing ones, or use a new ID to add a new quiz.</p>
+        <div id="quizzesList"><p style="color:var(--textd);font-style:italic;font-size:.9rem">Loading quizzes...</p></div>
+      </div>
+
+      <!-- ── PANEL: NEW / EDIT QUIZ ── -->
+      <div class="panel" id="panel-newquiz">
+        <h2 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--ivory);margin-bottom:6px" id="quizFormTitle">New Quiz</h2>
+        <p style="color:var(--textd);font-size:.82rem;font-style:italic;margin-bottom:18px">Write your quiz data as JSON. Use the templates below to get started.</p>
+        <div id="quizNotice"></div>
+        <input type="hidden" id="editQuizId">
+
+        <div class="row3">
+          <div class="field">
+            <label>Quiz ID * <span style="color:var(--textd);font-size:.5rem">(URL: /quiz-play.html?q=your-id)</span></label>
+            <input type="text" id="qId" placeholder="scorpio-shadow">
+          </div>
+          <div class="field">
+            <label>Icon</label>
+            <input type="text" id="qIcon" placeholder="🔮" value="🔮">
+          </div>
+          <div class="field">
+            <label>Type</label>
+            <select id="qType" onchange="updateQuizTemplate()">
+              <option value="key">Key (Archetype result)</option>
+              <option value="score">Score (0-100 result)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Title *</label>
+          <input type="text" id="qTitle" placeholder="What's Your Scorpio Shadow?">
+        </div>
+
+        <div class="field">
+          <label>Subtitle</label>
+          <input type="text" id="qSub" placeholder="Short description shown on the intro screen">
+        </div>
+
+        <div class="field">
+          <label>Preview Labels <span style="color:var(--textd);font-size:.5rem">(JSON array — shown on intro as teaser)</span></label>
+          <input type="text" id="qPreviews" placeholder='["🌑 The Void", "🔥 The Rage", "🌊 The Depth", "🌿 The Healer"]'>
+        </div>
+
+        <div class="field">
+          <label>Questions <span style="color:var(--textd);font-size:.5rem">(JSON array)</span>
+            <button class="tb-btn" style="margin-left:8px" onclick="insertQuestionTemplate()">+ Insert Question Template</button>
+          </label>
+          <textarea class="content-editor" id="qQuestions" rows="14" placeholder='[{"q":"Your question?","opts":[{"t":"Answer 1","k":"result1"},{"t":"Answer 2","k":"result2"}]}]'></textarea>
+        </div>
+
+        <div class="field" id="qResultsField">
+          <label>Results <span style="color:var(--textd);font-size:.5rem">(JSON object — keys match the "k" values in questions)</span>
+            <button class="tb-btn" style="margin-left:8px" onclick="insertResultTemplate()">+ Insert Result Template</button>
+          </label>
+          <textarea class="content-editor" id="qResults" rows="14" placeholder='{"result1":{"icon":"🌑","title":"The Shadow","sub":"subtitle","traits":["Trait1"],"body":"Paragraph one.\n\nParagraph two."}}'></textarea>
+        </div>
+
+        <div class="field hidden" id="qTiersField">
+          <label>Tiers <span style="color:var(--textd);font-size:.5rem">(JSON array — for score quizzes)</span></label>
+          <textarea class="content-editor" id="qTiers" rows="10" placeholder='[{"min":0,"max":40,"tag":"Label","title":"Title","color":"#6a7ea8","body":"Description"}]'></textarea>
+        </div>
+
+        <div class="row2">
+          <div class="field">
+            <label>Status</label>
+            <select id="qStatus">
+              <option value="published">Published</option>
+              <option value="draft">Draft</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Sort Order <span style="color:var(--textd);font-size:.5rem">(lower = shown first)</span></label>
+            <input type="number" id="qOrder" value="0" min="0">
+          </div>
+        </div>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px">
+          <button class="btn btn-f" style="padding:11px 24px" onclick="saveQuiz()"><span id="saveQuizLabel">Save Quiz ✦</span></button>
+          <button class="btn btn-o" onclick="clearQuizForm()">Clear</button>
+          <button class="btn btn-o" onclick="showPanel('quizzes')">Cancel</button>
         </div>
       </div>
 
@@ -275,14 +368,20 @@ function showPanel(name) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'))
   document.querySelectorAll('.anav-btn').forEach(b => b.classList.remove('active'))
   document.getElementById('panel-' + name)?.classList.add('active')
-  const idx = ['posts','new','horoscope'].indexOf(name)
+  const idx = ['posts','new','quizzes','newquiz','horoscope'].indexOf(name)
   document.querySelectorAll('.anav-btn')[idx]?.classList.add('active')
-  if (name === 'posts') loadPosts()
+  if (name === 'posts')    loadPosts()
+  if (name === 'quizzes')  loadQuizzes()
   if (name === 'horoscope') loadHoroscopes()
   if (name === 'new') {
     document.getElementById('formTitle').textContent = 'New Post'
     document.getElementById('saveLabel').textContent = 'Publish Post ✦'
     clearForm()
+  }
+  if (name === 'newquiz') {
+    document.getElementById('quizFormTitle').textContent = 'New Quiz'
+    document.getElementById('saveQuizLabel').textContent = 'Save Quiz ✦'
+    clearQuizForm()
   }
 }
 
@@ -467,6 +566,169 @@ async function publishHoroscope(id) {
   const { ok, error } = await API.publishHoroscope(id)
   if (ok) { notice('horoscopeNotice','ok','✦ Horoscope published!'); loadHoroscopes() }
   else notice('horoscopeNotice','err', error || 'Could not publish.')
+}
+
+// ── Load quizzes ──────────────────────────────────────────
+async function loadQuizzes() {
+  const list = document.getElementById('quizzesList')
+  const { ok, data } = await API.req('GET', '/api/admin/quizzes')
+  if (!ok || !data.quizzes?.length) {
+    list.innerHTML = '<p style="color:var(--textd);font-style:italic;font-size:.9rem">No custom quizzes yet. The built-in quizzes (archetype, score, love, planet) are hardcoded in quiz.js. Add a quiz here to override them or create new ones.</p>'
+    return
+  }
+  list.innerHTML = `<div class="post-list">
+    ${data.quizzes.map(q => `
+      <div class="post-item">
+        <div style="flex:1;min-width:200px">
+          <div class="post-title">${q.icon} ${q.title}</div>
+          <div class="post-meta" style="margin-top:3px">ID: ${q.quiz_id} · ${q.type} · ${(q.questions||[]).length} questions</div>
+        </div>
+        <span class="post-status ${q.status === 'published' ? 'status-pub' : 'status-draft'}">${q.status === 'published' ? '● Live' : '● Draft'}</span>
+        <button class="action-btn" onclick="editQuiz('${q.id}')">Edit</button>
+        <button class="action-btn del" onclick="deleteQuiz('${q.id}','${q.title}')">Delete</button>
+      </div>`).join('')}
+  </div>`
+}
+
+// ── Edit quiz ─────────────────────────────────────────────
+async function editQuiz(id) {
+  const { ok, data } = await API.req('GET', '/api/admin/quizzes')
+  if (!ok) return
+  const q = data.quizzes.find(x => x.id === id)
+  if (!q) return
+  document.getElementById('editQuizId').value  = q.id
+  document.getElementById('qId').value         = q.quiz_id
+  document.getElementById('qIcon').value       = q.icon || '🔮'
+  document.getElementById('qTitle').value      = q.title || ''
+  document.getElementById('qSub').value        = q.sub   || ''
+  document.getElementById('qType').value       = q.type  || 'key'
+  document.getElementById('qPreviews').value   = JSON.stringify(q.previews || [])
+  document.getElementById('qQuestions').value  = JSON.stringify(q.questions || [], null, 2)
+  document.getElementById('qResults').value    = JSON.stringify(q.results   || {}, null, 2)
+  document.getElementById('qTiers').value      = JSON.stringify(q.tiers     || [], null, 2)
+  document.getElementById('qStatus').value     = q.status || 'published'
+  document.getElementById('qOrder').value      = q.sort_order || 0
+  document.getElementById('quizFormTitle').textContent = 'Edit Quiz'
+  document.getElementById('saveQuizLabel').textContent = 'Save Changes ✦'
+  updateQuizTemplate()
+  showPanel('newquiz')
+  window.scrollTo(0,0)
+}
+
+// ── Delete quiz ───────────────────────────────────────────
+async function deleteQuiz(id, title) {
+  if (!confirm(`Delete quiz "${title}"? This cannot be undone.`)) return
+  const { ok, error } = await API.req('DELETE', `/api/admin/quizzes/${id}`)
+  if (ok) { notice('quizzesNotice','ok','Quiz deleted.'); loadQuizzes() }
+  else notice('quizzesNotice','err', error || 'Could not delete quiz.')
+}
+
+// ── Save quiz ─────────────────────────────────────────────
+async function saveQuiz() {
+  notice('quizNotice','','')
+  const id       = document.getElementById('editQuizId').value
+  const quiz_id  = document.getElementById('qId').value.trim().toLowerCase().replace(/\s+/g,'-')
+  const icon     = document.getElementById('qIcon').value.trim() || '🔮'
+  const title    = document.getElementById('qTitle').value.trim()
+  const sub      = document.getElementById('qSub').value.trim()
+  const type     = document.getElementById('qType').value
+  const status   = document.getElementById('qStatus').value
+  const order    = parseInt(document.getElementById('qOrder').value) || 0
+
+  if (!quiz_id) return notice('quizNotice','err','Quiz ID is required.')
+  if (!title)   return notice('quizNotice','err','Title is required.')
+
+  // Parse JSON fields
+  let previews, questions, results, tiers
+  try { previews  = JSON.parse(document.getElementById('qPreviews').value  || '[]') } catch { return notice('quizNotice','err','Previews JSON is invalid.') }
+  try { questions = JSON.parse(document.getElementById('qQuestions').value || '[]') } catch { return notice('quizNotice','err','Questions JSON is invalid.') }
+  try { results   = JSON.parse(document.getElementById('qResults').value   || '{}') } catch { return notice('quizNotice','err','Results JSON is invalid.') }
+  try { tiers     = JSON.parse(document.getElementById('qTiers').value     || '[]') } catch { return notice('quizNotice','err','Tiers JSON is invalid.') }
+
+  document.getElementById('saveQuizLabel').textContent = 'Saving...'
+
+  const body   = { quiz_id, icon, title, sub, previews, type, questions, results, tiers, status, sort_order: order }
+  const method = id ? 'PUT' : 'POST'
+  const url    = id ? `/api/admin/quizzes/${id}` : '/api/admin/quizzes'
+
+  const { ok, error } = await API.req(method, url, body)
+  document.getElementById('saveQuizLabel').textContent = id ? 'Save Changes ✦' : 'Save Quiz ✦'
+
+  if (ok) {
+    notice('quizNotice','ok', id ? '✦ Quiz updated!' : '✦ Quiz saved and live!')
+    loadQuizzes()
+  } else {
+    notice('quizNotice','err', error || 'Could not save quiz.')
+  }
+}
+
+// ── Clear quiz form ───────────────────────────────────────
+function clearQuizForm() {
+  ;['editQuizId','qId','qTitle','qSub','qPreviews','qQuestions','qResults','qTiers'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = ''
+  })
+  document.getElementById('qIcon').value   = '🔮'
+  document.getElementById('qType').value   = 'key'
+  document.getElementById('qStatus').value = 'published'
+  document.getElementById('qOrder').value  = '0'
+  const n = document.getElementById('quizNotice'); if (n) n.innerHTML = ''
+  updateQuizTemplate()
+}
+
+// ── Show/hide results vs tiers based on type ──────────────
+function updateQuizTemplate() {
+  const type = document.getElementById('qType').value
+  document.getElementById('qResultsField').classList.toggle('hidden', type === 'score')
+  document.getElementById('qTiersField').classList.toggle('hidden',   type === 'key')
+}
+
+// ── Insert question template ──────────────────────────────
+function insertQuestionTemplate() {
+  const type = document.getElementById('qType').value
+  const ta   = document.getElementById('qQuestions')
+  const tpl  = type === 'score'
+    ? `{
+  "q": "Your question here?",
+  "opts": [
+    {"t": "Answer option 1", "p": 2},
+    {"t": "Answer option 2", "p": 5},
+    {"t": "Answer option 3", "p": 8},
+    {"t": "Answer option 4", "p": 10}
+  ]
+}`
+    : `{
+  "q": "Your question here?",
+  "opts": [
+    {"t": "Answer option 1", "k": "result_key_1"},
+    {"t": "Answer option 2", "k": "result_key_2"},
+    {"t": "Answer option 3", "k": "result_key_3"},
+    {"t": "Answer option 4", "k": "result_key_4"}
+  ]
+}`
+  try {
+    const arr = JSON.parse(ta.value || '[]')
+    arr.push(JSON.parse(tpl))
+    ta.value = JSON.stringify(arr, null, 2)
+  } catch { ta.value = '[' + tpl + ']' }
+}
+
+// ── Insert result template ────────────────────────────────
+function insertResultTemplate() {
+  const ta  = document.getElementById('qResults')
+  const key = 'result_key_' + (Date.now()%1000)
+  const tpl = {
+    icon:   '🌑',
+    title:  'Result Title',
+    sub:    'One line description of this result',
+    traits: ['Trait 1', 'Trait 2', 'Trait 3'],
+    compat: 'Best matched with: Cancer, Pisces',
+    body:   'First paragraph about this result.\n\nSecond paragraph with more detail.'
+  }
+  try {
+    const obj = JSON.parse(ta.value || '{}')
+    obj[key] = tpl
+    ta.value = JSON.stringify(obj, null, 2)
+  } catch { ta.value = JSON.stringify({ [key]: tpl }, null, 2) }
 }
 
 // ── Notice helper ─────────────────────────────────────────

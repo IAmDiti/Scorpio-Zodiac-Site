@@ -67,8 +67,24 @@ create table if not exists public.posts (
   updated_at   timestamptz default now()
 );
 
--- CRITICAL: disable RLS so Node.js server can read and write
-alter table public.users      disable row level security;
+create table if not exists public.quizzes (
+  id           uuid default gen_random_uuid() primary key,
+  quiz_id      text unique not null,
+  icon         text default '🔮',
+  title        text not null,
+  sub          text,
+  previews     jsonb default '[]',
+  type         text default 'key',
+  questions    jsonb default '[]',
+  results      jsonb default '{}',
+  tiers        jsonb default '[]',
+  status       text default 'published',
+  sort_order   int  default 0,
+  created_at   timestamptz default now(),
+  updated_at   timestamptz default now()
+);
+
+alter table public.quizzes disable row level security;
 alter table public.horoscopes disable row level security;
 alter table public.posts      disable row level security;
 

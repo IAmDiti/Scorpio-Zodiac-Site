@@ -108,7 +108,7 @@ let pts  = 0      // points total (for score quiz)
 
 function initQuiz() {
   const param = new URLSearchParams(window.location.search).get('q')
-  Q = QUIZZES[param]
+  if (!Q) Q = QUIZZES[param]  // use hardcoded if not loaded from DB
   const root = document.getElementById('quizRoot')
   if (!root) return
   if (!Q) { root.innerHTML = '<p style="text-align:center;color:var(--textd);padding:60px 0">Quiz not found. <a href="/quiz.html" style="color:var(--lav)">Back to quizzes →</a></p>'; return }
@@ -287,4 +287,24 @@ function renderResult(result) {
 }
 
 // init
-document.addEventListener('authReady', initQuiz, { once: true })
+document.addEventListener('authReady', async () => {
+  const param = new URLSearchParams(window.location.search).get('q')
+  if (!param) return
+
+  // Try to load from database first
+  try {
+    const res  = await fetch(`/api/quizzes/${param}`, { credentials: 'include' })
+    const data = await res.json()
+    if (data.ok && data.quiz) {
+      Q = data.quiz
+      Q.questions = Q.questions || []
+      Q.results   = Q.results   || {}
+      Q.tiers     = Q.tiers     || []
+      initQuiz()
+      return
+    }
+  } catch (e) {}
+
+  // Fallback to hardcoded quizzes
+  initQuiz()
+}, { once: true })
