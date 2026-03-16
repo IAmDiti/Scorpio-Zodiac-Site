@@ -1,6 +1,24 @@
 // auth.js — login state, modal, dropdown, profile
 let SZ = null  // current user — null = guest
 
+// ── reCAPTCHA site key — replace with your real key ─────
+const RECAPTCHA_SITE_KEY = 'YOUR_RECAPTCHA_SITE_KEY'
+
+// ── Get reCAPTCHA token ───────────────────────────────────
+async function getRecaptchaToken(action) {
+  return new Promise((resolve) => {
+    if (typeof grecaptcha === 'undefined' || !RECAPTCHA_SITE_KEY || RECAPTCHA_SITE_KEY === 'YOUR_RECAPTCHA_SITE_KEY') {
+      resolve(null) // skip if not configured
+      return
+    }
+    grecaptcha.ready(() => {
+      grecaptcha.execute(RECAPTCHA_SITE_KEY, { action })
+        .then(token => resolve(token))
+        .catch(() => resolve(null))
+    })
+  })
+}
+
 // ── init ────────────────────────────────────────────────
 async function initAuth() {
   const { ok, data } = await API.me()
@@ -97,12 +115,35 @@ function closeProfileModal() {
 }
 
 // ── actions ──────────────────────────────────────────────
+// ── GOOGLE LOGIN ──────────────────────────────────────────
+async function doGoogleLogin() {
+  const { ok, data, error } = await API.req('GET', '/api/auth/google-url')
+  if (ok && data.url) {
+    window.location.href = data.url
+  } else {
+    toast('Google login not configured yet.')
+  }
+}
+
 async function doSignup() {
   clearMsgs()
   const name  = g('sName'), email = g('sEmail'), pass = g('sPass'), birth = g('sBirth')
   if (!name)        return err('sErr', 'Please enter your name.')
   if (!email)       return err('sErr', 'Please enter your email.')
   if (pass.length < 6) return err('sErr', 'Password needs at least 6 characters.')
+
+  loading('btnSignup', 'Checking...')
+
+  // reCAPTCHA v3 — invisible check
+  const token = await getRecaptchaToken('signup')
+  if (token) {
+    const { ok, data } = await API.req('POST', '/api/auth/verify-captcha', { token })
+    if (!ok || (data.score !== undefined && data.score < 0.5)) {
+      loading('btnSignup', 'Begin My Journey')
+      return err('sErr', 'Security check failed. Please try again.')
+    }
+  }
+
   loading('btnSignup', 'Creating account...')
   const { ok, data, error } = await API.signup(name, email, pass, birth)
   loading('btnSignup', 'Begin My Journey')
