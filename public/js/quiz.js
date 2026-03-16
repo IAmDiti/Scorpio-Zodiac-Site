@@ -136,7 +136,7 @@ function startQuiz() {
   cur = 0; keys = {}; pts = 0
   renderQ()
 }
-//
+
 function renderQ() {
   const q    = Q.questions[cur]
   const tot  = Q.questions.length
@@ -184,6 +184,7 @@ function pick(i) {
 }
 
 function showResult() {
+  // Compute result first (so it's ready after login)
   let result
   if (Q.type === 'score') {
     const pct = Math.round((pts / (Q.questions.length*10)) * 100)
@@ -194,6 +195,48 @@ function showResult() {
     result = { ...Q.results[top] }
   }
 
+  // Store result so we can show it after login
+  window._quizResult = result
+
+  // ── GATE — must be logged in to see results ─────────────
+  const isLoggedIn = !!(window.SZ || (typeof SZ !== 'undefined' && SZ))
+  if (!isLoggedIn) {
+    const root = document.getElementById('quizRoot')
+    root.innerHTML = `
+      <div style="text-align:center;padding:40px 20px;animation:fadeUp .4s ease">
+        <div style="font-size:3rem;margin-bottom:16px">🔮</div>
+        <h2 style="font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--ivory);margin-bottom:10px">Your Result Is Ready</h2>
+        <p style="color:var(--texts);font-style:italic;max-width:360px;margin:0 auto 24px;line-height:1.75">
+          You've completed the quiz. Sign in or create a free account to reveal your result.
+        </p>
+        <div style="background:linear-gradient(135deg,#1e1a30,#1a1528);border:1px solid #3a3258;border-radius:var(--rl);padding:28px;max-width:400px;margin:0 auto">
+          <div style="font-size:1.4rem;color:var(--lav);margin-bottom:10px">♏</div>
+          <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--ivory);margin-bottom:8px">Unlock Your Result</h3>
+          <p style="color:var(--texts);font-size:.88rem;font-style:italic;margin-bottom:18px;line-height:1.65">
+            Free forever. No credit card. Just your cosmic truth.
+          </p>
+          <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+            <button onclick="openModal('signup')" class="btn btn-f" style="padding:11px 24px">Join Free — See My Result</button>
+            <button onclick="openModal('login')"  class="btn btn-o" style="padding:11px 24px">Sign In</button>
+          </div>
+        </div>
+        <button onclick="startQuiz()" style="margin-top:18px;background:none;border:none;cursor:pointer;font-family:'DM Mono',monospace;font-size:.58rem;color:var(--textd);text-decoration:underline">Retake Quiz</button>
+      </div>`
+
+    // When user logs in — show result automatically
+    document.addEventListener('authReady', function onAuth() {
+      if (window.SZ || (typeof SZ !== 'undefined' && SZ)) {
+        document.removeEventListener('authReady', onAuth)
+        renderResult(window._quizResult)
+      }
+    })
+    return
+  }
+
+  renderResult(result)
+}
+
+function renderResult(result) {
   const root = document.getElementById('quizRoot')
   root.innerHTML = `
     <div style="animation:fadeUp .4s ease">
@@ -232,9 +275,8 @@ function showResult() {
       <div style="background:linear-gradient(135deg,#1e1a30,#1a1528);border:1px solid #3a3258;border-radius:var(--rl);padding:24px;text-align:center;margin-bottom:14px">
         <div style="font-size:1.4rem;color:var(--lav);margin-bottom:9px">♏</div>
         <h3 style="font-family:'Playfair Display',serif;font-size:1rem;color:var(--ivory);margin-bottom:7px">Your result shapes your horoscope</h3>
-        <p style="color:var(--texts);font-size:.85rem;font-style:italic;margin-bottom:14px;line-height:1.6">Create your free account to get a daily reading tailored to your <strong style="color:var(--lav);font-style:normal">${result.title}</strong>.</p>
-        <button onclick="openModal('signup')" class="btn btn-f" style="padding:11px 28px">Unlock My Personal Reading ✦</button>
-        <p style="font-family:'DM Mono',monospace;font-size:.52rem;color:var(--textd);margin-top:8px">Free forever · No credit card</p>
+        <p style="color:var(--texts);font-size:.85rem;font-style:italic;margin-bottom:14px;line-height:1.6">Read your daily horoscope tailored to your <strong style="color:var(--lav);font-style:normal">${result.title}</strong> energy.</p>
+        <a href="/" class="btn btn-f" style="padding:11px 28px;text-decoration:none;display:inline-block">Read My Daily Horoscope ✦</a>
       </div>
 
       <div style="display:flex;gap:9px;justify-content:center;flex-wrap:wrap">
