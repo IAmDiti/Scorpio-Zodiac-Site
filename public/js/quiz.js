@@ -136,7 +136,7 @@ function startQuiz() {
   cur = 0; keys = {}; pts = 0
   renderQ()
 }
-
+//
 function renderQ() {
   const q    = Q.questions[cur]
   const tot  = Q.questions.length
