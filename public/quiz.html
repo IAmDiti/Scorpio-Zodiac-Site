@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scorpio Quizzes — Discover Your Cosmic Identity | Scorpio Zodiac</title>
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+<div id="stars"></div>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div id="app">
+
+  <nav>
+    <a href="/" class="logo"><span class="logo-g">♏</span> Scorpio Zodiac</a>
+    <div class="nav-links">
+      <a href="/"          class="nav-link">Horoscope</a>
+      <a href="/blog.html" class="nav-link">Blog</a>
+      <a href="/quiz.html" class="nav-link active">Quizzes</a>
+    </div>
+    <div class="nav-right" id="navRight">
+      <button class="btn btn-o" onclick="openModal('login')">Sign In</button>
+      <button class="btn btn-f" onclick="openModal('signup')">Join Free</button>
+    </div>
+  </nav>
+
+  <section class="hero" style="padding-bottom:32px">
+    <div class="hg">♏</div>
+    <p style="font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--lavd);margin-bottom:10px">Scorpio Zodiac · Self Discovery</p>
+    <h1>Know Yourself<br><em>At the Deepest Level</em></h1>
+    <p class="hsub">Four quizzes designed for Scorpios who aren't afraid of what they might find.</p>
+  </section>
+
+  <div class="wrap" style="padding-bottom:60px">
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px">
+
+      <a href="/quiz-play.html?q=archetype" class="bc" style="display:block;text-decoration:none;padding:24px">
+        <div style="font-size:2rem;margin-bottom:10px">🦂</div>
+        <span class="bc-tag" style="background:linear-gradient(135deg,#3d3055,#4a3048);border-color:#6b5580;color:var(--lav)">Most Popular</span>
+        <h2 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--ivory);line-height:1.3;margin:10px 0 8px">What's Your Scorpio Archetype?</h2>
+        <p class="bc-e">The Phoenix, The Shadow, The Mystic, The Alchemist — which one are you?</p>
+        <div style="display:flex;gap:12px;margin-bottom:12px">
+          <span class="bc-d">✦ 8 questions</span>
+          <span class="bc-d">✦ 4 archetypes</span>
+        </div>
+        <span style="font-family:'DM Mono',monospace;font-size:.6rem;color:var(--lav);text-transform:uppercase;letter-spacing:.08em">Begin Quiz →</span>
+      </a>
+
+      <a href="/quiz-play.html?q=score" class="bc" style="display:block;text-decoration:none;padding:24px">
+        <div style="font-size:2rem;margin-bottom:10px">⚡</div>
+        <span class="bc-tag" style="background:linear-gradient(135deg,#3d3055,#4a3048);border-color:#6b5580;color:var(--lav)">Most Honest</span>
+        <h2 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--ivory);line-height:1.3;margin:10px 0 8px">How Scorpio Are You Really?</h2>
+        <p class="bc-e">Get your true Scorpio intensity score out of 100. Answer honestly.</p>
+        <div style="display:flex;gap:12px;margin-bottom:12px">
+          <span class="bc-d">✦ 10 questions</span>
+          <span class="bc-d">✦ Score out of 100</span>
+        </div>
+        <span style="font-family:'DM Mono',monospace;font-size:.6rem;color:var(--lav);text-transform:uppercase;letter-spacing:.08em">Begin Quiz →</span>
+      </a>
+
+      <a href="/quiz-play.html?q=love" class="bc" style="display:block;text-decoration:none;padding:24px">
+        <div style="font-size:2rem;margin-bottom:10px">♥</div>
+        <span class="bc-tag" style="background:linear-gradient(135deg,#3d3055,#4a3048);border-color:#6b5580;color:var(--lav)">Most Shared</span>
+        <h2 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--ivory);line-height:1.3;margin:10px 0 8px">What's Your Scorpio Love Style?</h2>
+        <p class="bc-e">The Protector, The Pursuer, The Devotee, or The Transformer — find out.</p>
+        <div style="display:flex;gap:12px;margin-bottom:12px">
+          <span class="bc-d">✦ 8 questions</span>
+          <span class="bc-d">✦ 4 love styles</span>
+        </div>
+        <span style="font-family:'DM Mono',monospace;font-size:.6rem;color:var(--lav);text-transform:uppercase;letter-spacing:.08em">Begin Quiz →</span>
+      </a>
+
+      <a href="/quiz-play.html?q=planet" class="bc" style="display:block;text-decoration:none;padding:24px">
+        <div style="font-size:2rem;margin-bottom:10px">🪐</div>
+        <span class="bc-tag" style="background:linear-gradient(135deg,#3d3055,#4a3048);border-color:#6b5580;color:var(--lav)">Most Revealing</span>
+        <h2 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--ivory);line-height:1.3;margin:10px 0 8px">Which Planet Rules Your Emotions?</h2>
+        <p class="bc-e">Your sun sign tells one story. Your emotional planet tells another — often the truer one.</p>
+        <div style="display:flex;gap:12px;margin-bottom:12px">
+          <span class="bc-d">✦ 9 questions</span>
+          <span class="bc-d">✦ 7 planets</span>
+        </div>
+        <span style="font-family:'DM Mono',monospace;font-size:.6rem;color:var(--lav);text-transform:uppercase;letter-spacing:.08em">Begin Quiz →</span>
+      </a>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="fl">♏ Scorpio Zodiac</div>
+    <nav class="fn"><a href="/">Horoscope</a><a href="/blog.html">Blog</a><a href="/quiz.html">Quizzes</a></nav>
+    <p>Guided by the stars. Built for the depths. © <span id="ftY"></span> Scorpio Zodiac</p>
+  </footer>
+</div>
+
+<!-- AUTH MODAL -->
+<div class="mbg" id="authModal">
+  <div class="modal">
+    <button class="mx" onclick="closeModal()">✕</button>
+    <div class="mg">♏</div>
+    <h2>Scorpio Zodiac</h2>
+    <p class="msub">Your full cosmic truth awaits</p>
+    <div class="sw">
+      <button class="swb active" id="sw1" onclick="switchTab('login')">Sign In</button>
+      <button class="swb" id="sw2" onclick="switchTab('signup')">Join Free</button>
+    </div>
+    <div id="fLogin">
+      <div class="fg"><label>Email</label><input type="email" id="lEmail" placeholder="you@cosmos.com"></div>
+      <div class="fg"><label>Password</label><input type="password" id="lPass" placeholder="••••••••"></div>
+      <div class="err hidden" id="lErr"></div>
+      <button class="btn btn-f btn-block" id="btnLogin" onclick="doLogin()">Enter ♏</button>
+    </div>
+    <div id="fSignup" class="hidden">
+      <div class="fg"><label>Your Name</label><input type="text" id="sName" placeholder="Scorpio Seeker"></div>
+      <div class="fg"><label>Email</label><input type="email" id="sEmail" placeholder="you@cosmos.com"></div>
+      <div class="fg"><label>Password</label><input type="password" id="sPass" placeholder="Min. 6 characters"></div>
+      <div class="err hidden" id="sErr"></div>
+      <button class="btn btn-f btn-block" id="btnSignup" onclick="doSignup()">Begin My Journey</button>
+    </div>
+    <div id="fForgot" class="hidden">
+      <button class="bbtn" onclick="switchTab('login')">← Back</button>
+      <div class="fg"><label>Email</label><input type="email" id="fEmail"></div>
+      <div class="err hidden" id="fErr"></div>
+      <div class="okm hidden" id="fOk"></div>
+      <button class="btn btn-f btn-block" id="btnForgot" onclick="doForgot()">Send Reset Link</button>
+    </div>
+  </div>
+</div>
+<div class="mbg" id="profModal"><div class="modal"><button class="mx" onclick="closeProfileModal()">✕</button><div class="mg">♏</div><h2>My Profile</h2><p class="msub">Update your cosmic details</p><div class="fg"><label>Name</label><input type="text" id="pName"></div><div class="fg"><label>Email</label><input type="email" id="pEmail"></div><div class="fg"><label>Birth Date</label><input type="date" id="pBirth"></div><div class="fg"><label>New Password</label><input type="password" id="pPass"></div><div class="fg"><label>Confirm</label><input type="password" id="pPass2"></div><div class="err hidden" id="pErr"></div><div class="okm hidden" id="pOk"></div><button class="btn btn-f btn-block" id="btnProf" onclick="doSaveProfile()">Save Changes ✦</button><div style="height:1px;background:var(--bdr);margin:14px 0"></div><button class="btn btn-o btn-block" onclick="doLogout()">Log Out</button></div></div>
+<div class="toast" id="toast"></div>
+
+<script src="/js/api.js"></script>
+<script src="/js/auth.js"></script>
+<script>
+  ;(function(){ const el=document.getElementById('ftY'); if(el) el.textContent=new Date().getFullYear() })()
+  ;(function(){
+    const el = document.getElementById('stars')
+    if (!el) return
+    for (let i=0;i<100;i++){
+      const s=document.createElement('div'); s.className='star'
+      const sz=Math.random()*1.8+0.3
+      s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--d:${3+Math.random()*5}s;animation-delay:${Math.random()*6}s`
+      el.appendChild(s)
+    }
+  })()
+</script>
+</body>
+</html>

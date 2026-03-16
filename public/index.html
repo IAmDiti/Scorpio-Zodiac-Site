@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scorpio Daily Horoscope 2026 | Scorpio Zodiac</title>
+  <meta name="description" content="Free Scorpio daily horoscope — love, career, health and spiritual guidance.">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+<div id="stars"></div>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div id="app">
+
+  <!-- NAV -->
+  <nav>
+    <a href="/" class="logo"><span class="logo-g">♏</span> Scorpio Zodiac</a>
+    <div class="nav-links">
+      <a href="/"          class="nav-link active">Horoscope</a>
+      <a href="/blog.html"  class="nav-link">Blog</a>
+      <a href="/quiz.html"  class="nav-link">Quizzes</a>
+    </div>
+    <div class="nav-right" id="navRight">
+      <button class="btn btn-o" onclick="openModal('login')">Sign In</button>
+      <button class="btn btn-f" onclick="openModal('signup')">Join Free</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hg">♏</div>
+    <div class="hdate" id="hdate"></div>
+    <h1>Your Cosmic Truth<br><em>Awaits</em>, Scorpio</h1>
+    <p class="hsub">Guided by the stars. Rooted in your depths. A daily reading shaped by who you truly are.</p>
+    <div class="cw" id="cw"></div>
+    <!-- Energy rings -->
+    <div class="rings">
+      <div class="ri"><div class="rl-">Love</div><div class="rw"><svg viewBox="0 0 44 44" width="44" height="44"><circle cx="22" cy="22" r="17" fill="none" stroke="#2e2a42" stroke-width="3"/><circle id="rc-love" cx="22" cy="22" r="17" fill="none" stroke="#9b7090" stroke-width="3" stroke-linecap="round" stroke-dasharray="107" stroke-dashoffset="107"/></svg><span class="rn" id="rn-love">—</span></div><div class="rp" id="rp-love">—</div></div>
+      <div class="ri"><div class="rl-">Career</div><div class="rw"><svg viewBox="0 0 44 44" width="44" height="44"><circle cx="22" cy="22" r="17" fill="none" stroke="#2e2a42" stroke-width="3"/><circle id="rc-career" cx="22" cy="22" r="17" fill="none" stroke="#6a7ea8" stroke-width="3" stroke-linecap="round" stroke-dasharray="107" stroke-dashoffset="107"/></svg><span class="rn" id="rn-career">—</span></div><div class="rp" id="rp-career">—</div></div>
+      <div class="ri"><div class="rl-">Health</div><div class="rw"><svg viewBox="0 0 44 44" width="44" height="44"><circle cx="22" cy="22" r="17" fill="none" stroke="#2e2a42" stroke-width="3"/><circle id="rc-health" cx="22" cy="22" r="17" fill="none" stroke="#7a8a6a" stroke-width="3" stroke-linecap="round" stroke-dasharray="107" stroke-dashoffset="107"/></svg><span class="rn" id="rn-health">—</span></div><div class="rp" id="rp-health">—</div></div>
+      <div class="ri"><div class="rl-">Spirit</div><div class="rw"><svg viewBox="0 0 44 44" width="44" height="44"><circle cx="22" cy="22" r="17" fill="none" stroke="#2e2a42" stroke-width="3"/><circle id="rc-spirit" cx="22" cy="22" r="17" fill="none" stroke="#8a7040" stroke-width="3" stroke-linecap="round" stroke-dasharray="107" stroke-dashoffset="107"/></svg><span class="rn" id="rn-spirit">—</span></div><div class="rp" id="rp-spirit">—</div></div>
+    </div>
+  </section>
+
+  <div class="wrap">
+
+    <!-- READING CARD -->
+    <section class="section">
+      <div class="sl"><span>Your Reading</span></div>
+      <div class="card">
+        <div class="tabs" id="tabs">
+          <button class="tab active" data-tab="daily">Daily</button>
+          <button class="tab"        data-tab="weekly">Weekly</button>
+          <button class="tab"        data-tab="monthly">Monthly</button>
+        </div>
+
+        <!-- DAILY -->
+        <div class="tp active" id="tp-daily">
+          <div class="ch"><span class="ci">🌑</span><span class="ct">Today's Reading</span><span class="pill" id="rdPill">Guest</span></div>
+          <div id="rdLoading"><p class="reading" style="color:var(--textd);font-style:italic">Loading your reading...</p></div>
+          <div id="guestPrev"></div>
+          <div class="bg- hidden" id="blurGate">
+            <p class="bt" id="blurTxt"></p>
+            <div class="bv">
+              <p class="bm">Unlock your <em>full reading</em> — it's free</p>
+              <button class="btn btn-f" onclick="openModal('signup')">Reveal Full Reading</button>
+            </div>
+          </div>
+          <div class="hidden" id="fullRead"></div>
+          <!-- Generate button — only shows when logged in + no horoscope -->
+          <div class="hidden" id="generateBox" style="text-align:center;padding:24px 0">
+            <p class="reading" style="color:var(--textd);font-style:italic;margin-bottom:16px">No horoscope for today yet.</p>
+            <button class="btn btn-f" id="generateBtn" onclick="generateHoroscope()">✦ Generate Today's Horoscope</button>
+            <p style="font-family:'DM Mono',monospace;font-size:.56rem;color:var(--textd);margin-top:10px">Uses Claude AI · Takes ~15 seconds</p>
+          </div>
+        </div>
+
+        <!-- WEEKLY -->
+        <div class="tp" id="tp-weekly">
+          <div class="ch"><span class="ci">🌙</span><span class="ct">This Week</span><span class="pill m">Member</span></div>
+          <div id="weeklyC"></div>
+        </div>
+
+        <!-- MONTHLY -->
+        <div class="tp" id="tp-monthly">
+          <div class="ch"><span class="ci">🌕</span><span class="ct">This Month</span><span class="pill m">Member</span></div>
+          <div id="monthlyC"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPATIBILITY -->
+    <section class="section">
+      <div class="sl"><span>Compatibility Oracle</span></div>
+      <div class="card">
+        <p class="ci2">Choose a sign to reveal your cosmic alignment with Scorpio</p>
+        <div class="sg" id="signsGrid"></div>
+        <div class="cr" id="compatResult">
+          <div class="cr-h">
+            <div class="cr-ring">
+              <svg viewBox="0 0 80 80" width="80" height="80">
+                <circle cx="40" cy="40" r="33" fill="none" stroke="#2e2a42" stroke-width="5"/>
+                <circle id="cc" cx="40" cy="40" r="33" fill="none" stroke="#9b7090" stroke-width="5" stroke-linecap="round" stroke-dasharray="207" stroke-dashoffset="207"/>
+              </svg>
+              <span class="cr-p" id="cpct">—</span>
+            </div>
+            <div><div class="cr-t" id="ctit"></div><div class="cr-s" id="csub"></div></div>
+          </div>
+          <div class="ms">
+            <div class="mr"><span class="mlb">Passion</span><div class="mt2"><div class="mf m1" id="m1"></div></div></div>
+            <div class="mr"><span class="mlb">Trust</span><div class="mt2"><div class="mf m2" id="m2"></div></div></div>
+            <div class="mr"><span class="mlb">Intellect</span><div class="mt2"><div class="mf m3" id="m3"></div></div></div>
+            <div class="mr"><span class="mlb">Growth</span><div class="mt2"><div class="mf m4" id="m4"></div></div></div>
+          </div>
+          <p class="reading" id="cdesc"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SHARE CARD -->
+    <section class="section">
+      <div class="sl"><span>Share Your Reading</span></div>
+      <div class="card">
+        <canvas id="shareCanvas" width="1080" height="1080"></canvas>
+        <div class="sr">
+          <button class="btn btn-f" onclick="downloadCard()">Download Card</button>
+          <button class="btn btn-o" onclick="copyCaption()">Copy Caption</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOG -->
+    <section class="section" id="blogSection" style="display:none">
+      <div class="sl"><span>From the Blog</span></div>
+      <div class="bg2-" id="blogGrid"></div>
+      <div style="text-align:center;margin-top:14px">
+        <a href="/blog.html" class="btn btn-o">View All Articles →</a>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>
+    <div class="fl">♏ Scorpio Zodiac</div>
+    <nav class="fn"><a href="/">Horoscope</a><a href="/blog.html">Blog</a><a href="/quiz.html">Quizzes</a></nav>
+    <p>Guided by the stars. Built for the depths. © <span id="ftY"></span> Scorpio Zodiac</p>
+  </footer>
+
+</div>
+
+<!-- AUTH MODAL -->
+<div class="mbg" id="authModal">
+  <div class="modal">
+    <button class="mx" onclick="closeModal()">✕</button>
+    <div class="mg">♏</div>
+    <h2>Scorpio Zodiac</h2>
+    <p class="msub">Your full cosmic truth awaits</p>
+    <div class="sw">
+      <button class="swb active" id="sw1" onclick="switchTab('login')">Sign In</button>
+      <button class="swb"        id="sw2" onclick="switchTab('signup')">Join Free</button>
+    </div>
+    <!-- Login -->
+    <div id="fLogin">
+      <div class="fg"><label>Email</label><input type="email" id="lEmail" placeholder="you@cosmos.com"></div>
+      <div class="fg"><label>Password</label><input type="password" id="lPass" placeholder="••••••••"></div>
+      <div class="err hidden" id="lErr"></div>
+      <button class="btn btn-f btn-block" id="btnLogin" onclick="doLogin()">Enter ♏</button>
+      <button class="lbtn" onclick="switchTab('forgot')">Forgot password?</button>
+    </div>
+    <!-- Signup -->
+    <div id="fSignup" class="hidden">
+      <div class="fg"><label>Your Name</label><input type="text"      id="sName"  placeholder="Scorpio Seeker"></div>
+      <div class="fg"><label>Email</label>     <input type="email"    id="sEmail" placeholder="you@cosmos.com"></div>
+      <div class="fg"><label>Birth Date</label><input type="date"     id="sBirth"></div>
+      <div class="fg"><label>Password</label>  <input type="password" id="sPass"  placeholder="Min. 6 characters"></div>
+      <div class="err hidden" id="sErr"></div>
+      <button class="btn btn-f btn-block" id="btnSignup" onclick="doSignup()">Begin My Journey</button>
+    </div>
+    <!-- Forgot -->
+    <div id="fForgot" class="hidden">
+      <button class="bbtn" onclick="switchTab('login')">← Back to Sign In</button>
+      <p style="color:var(--texts);font-style:italic;font-size:.88rem;margin-bottom:12px">Enter your email and we'll send a reset link.</p>
+      <div class="fg"><label>Email</label><input type="email" id="fEmail" placeholder="you@cosmos.com"></div>
+      <div class="err hidden" id="fErr"></div>
+      <div class="okm hidden" id="fOk"></div>
+      <button class="btn btn-f btn-block" id="btnForgot" onclick="doForgot()">Send Reset Link</button>
+    </div>
+  </div>
+</div>
+
+<!-- PROFILE MODAL -->
+<div class="mbg" id="profModal">
+  <div class="modal">
+    <button class="mx" onclick="closeProfileModal()">✕</button>
+    <div class="mg">♏</div>
+    <h2>My Profile</h2>
+    <p class="msub">Update your cosmic details</p>
+    <div class="fg"><label>Name</label>         <input type="text"      id="pName"  placeholder="Your name"></div>
+    <div class="fg"><label>Email</label>         <input type="email"     id="pEmail" placeholder="your@email.com"></div>
+    <div class="fg"><label>Birth Date</label>    <input type="date"      id="pBirth"></div>
+    <div class="fg"><label>New Password <small style="color:var(--textd)">(leave blank to keep)</small></label>
+                                                 <input type="password"  id="pPass"  placeholder="New password"></div>
+    <div class="fg"><label>Confirm Password</label><input type="password" id="pPass2" placeholder="Confirm"></div>
+    <div class="err hidden" id="pErr"></div>
+    <div class="okm hidden" id="pOk"></div>
+    <button class="btn btn-f btn-block" id="btnProf" onclick="doSaveProfile()">Save Changes ✦</button>
+    <div style="height:1px;background:var(--bdr);margin:14px 0"></div>
+    <button class="btn btn-o btn-block" onclick="doLogout()">Log Out</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script src="/js/api.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/main.js"></script>
+<script>
+// Load blog posts after auth
+document.addEventListener('authReady', async () => {
+  const { ok, data } = await API.posts(3)
+  if (!ok || !data.posts?.length) return
+  const grid = document.getElementById('blogGrid')
+  const sec  = document.getElementById('blogSection')
+  if (!grid || !sec) return
+  grid.innerHTML = data.posts.map(p => `
+    <a href="/post.html?slug=${p.slug}" class="bc">
+      <div class="bc-tag">${p.tag_label||p.category||'Astrology'}</div>
+      <h3 class="bc-t">${p.title}</h3>
+      <p class="bc-e">${p.excerpt||''}</p>
+      <div class="bc-f">
+        <span class="bc-d">${new Date(p.published_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</span>
+        <span class="bc-r">${p.read_time}</span>
+      </div>
+    </a>`).join('')
+  sec.style.display = 'block'
+}, { once: true })
+</script>
+</body>
+</html>

@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin | Scorpio Zodiac</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <style>
+    .admin-wrap { max-width:860px; margin:0 auto; padding:32px 20px 80px; }
+    .admin-nav  { display:flex; gap:6px; margin-bottom:28px; flex-wrap:wrap; }
+    .anav-btn   { padding:8px 18px; border-radius:40px; font-family:'DM Mono',monospace; font-size:.62rem; text-transform:uppercase; letter-spacing:.07em; cursor:pointer; border:1px solid var(--bdr); background:transparent; color:var(--textd); transition:all .2s; }
+    .anav-btn:hover, .anav-btn.active { background:var(--surf2); border-color:var(--bdr2); color:var(--lav); }
+    .panel      { display:none; }
+    .panel.active { display:block; }
+    .field      { margin-bottom:16px; }
+    .field label { display:block; font-family:'DM Mono',monospace; font-size:.58rem; text-transform:uppercase; letter-spacing:.1em; color:var(--textd); margin-bottom:5px; }
+    .field input, .field textarea, .field select {
+      width:100%; padding:10px 13px; background:var(--bg); border:1px solid var(--bdr);
+      border-radius:10px; color:var(--text); font-family:'Lora',serif; font-size:.95rem;
+      outline:none; transition:border-color .2s;
+    }
+    .field input:focus, .field textarea:focus { border-color:var(--lavd); }
+    .field textarea { resize:vertical; min-height:120px; }
+    .field select   { cursor:pointer; }
+    .row2   { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .row3   { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
+    .post-list { display:flex; flex-direction:column; gap:10px; margin-top:20px; }
+    .post-item { background:var(--surf); border:1px solid var(--bdr); border-radius:var(--r); padding:16px 18px; display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+    .post-title { font-family:'Playfair Display',serif; color:var(--ivory); font-size:.95rem; flex:1; min-width:200px; }
+    .post-meta  { font-family:'DM Mono',monospace; font-size:.55rem; color:var(--textd); }
+    .post-status { font-family:'DM Mono',monospace; font-size:.55rem; padding:2px 8px; border-radius:20px; }
+    .status-pub  { background:#1a2a1a; border:1px solid #3a6a3a; color:#80c880; }
+    .status-draft{ background:#2a2010; border:1px solid #6a5020; color:#c8a060; }
+    .action-btn  { padding:5px 12px; border-radius:20px; font-family:'DM Mono',monospace; font-size:.55rem; text-transform:uppercase; cursor:pointer; border:1px solid var(--bdr); background:transparent; color:var(--texts); transition:all .2s; }
+    .action-btn:hover { border-color:var(--lav); color:var(--lav); }
+    .action-btn.del:hover { border-color:#e08090; color:#e08090; }
+    .content-editor { font-family:'DM Mono',monospace; font-size:.82rem; min-height:320px; line-height:1.7; }
+    .toolbar { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:8px; }
+    .tb-btn { padding:4px 10px; background:var(--bg2); border:1px solid var(--bdr); border-radius:6px; font-family:'DM Mono',monospace; font-size:.6rem; color:var(--texts); cursor:pointer; transition:all .2s; }
+    .tb-btn:hover { border-color:var(--lavd); color:var(--lav); }
+    .preview-box { background:var(--bg); border:1px solid var(--bdr); border-radius:10px; padding:20px; min-height:120px; margin-top:8px; }
+    .preview-box p      { color:#9d94b4; line-height:1.9; margin-bottom:14px; font-size:.97rem; }
+    .preview-box h2     { font-family:'Playfair Display',serif; color:#e8e0d5; font-size:1.1rem; margin:24px 0 10px; padding-left:12px; border-left:2px solid #7a6d9a; }
+    .preview-box strong { color:#ddd5e8; }
+    .preview-box blockquote { border-left:3px solid #7a6d9a; padding:10px 16px; margin:14px 0; background:#1e1b2e; border-radius:0 8px 8px 0; font-style:italic; color:#9d94b4; }
+    .notice { padding:10px 14px; border-radius:8px; font-family:'DM Mono',monospace; font-size:.65rem; margin-bottom:14px; }
+    .notice.ok  { background:#1a2a1a; border:1px solid #3a6a3a; color:#80c880; }
+    .notice.err { background:#2a1520; border:1px solid #7a3040; color:#e08090; }
+    .divider-line { height:1px; background:var(--bdr); margin:24px 0; }
+    #accessDenied { text-align:center; padding:80px 20px; }
+  </style>
+</head>
+<body>
+<div id="stars"></div>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div id="app">
+
+  <nav>
+    <a href="/" class="logo"><span class="logo-g">♏</span> Scorpio Zodiac</a>
+    <div class="nav-links">
+      <a href="/"          class="nav-link">Horoscope</a>
+      <a href="/blog.html" class="nav-link">Blog</a>
+      <a href="/quiz.html" class="nav-link">Quizzes</a>
+    </div>
+    <div class="nav-right" id="navRight">
+      <button class="btn btn-o" onclick="openModal('login')">Sign In</button>
+      <button class="btn btn-f" onclick="openModal('signup')">Join Free</button>
+    </div>
+  </nav>
+
+  <!-- ACCESS DENIED (shown if not admin) -->
+  <div id="accessDenied" class="hidden">
+    <div style="font-size:2rem;color:var(--lav);margin-bottom:16px">♏</div>
+    <h2 style="font-family:'Playfair Display',serif;color:var(--ivory);margin-bottom:10px">Access Restricted</h2>
+    <p style="color:var(--texts);font-style:italic">This page is only accessible to the site admin.</p>
+    <a href="/" class="btn btn-f" style="display:inline-block;margin-top:20px;text-decoration:none">Go Home</a>
+  </div>
+
+  <!-- ADMIN PANEL -->
+  <div id="adminPanel" class="hidden">
+    <div class="admin-wrap">
+
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:10px">
+        <div>
+          <h1 style="font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--ivory)">♏ Admin Panel</h1>
+          <p style="font-family:'DM Mono',monospace;font-size:.58rem;color:var(--textd);margin-top:3px">Scorpio Zodiac — Content Management</p>
+        </div>
+        <a href="/" class="btn btn-o" style="text-decoration:none;font-size:.6rem">← Back to Site</a>
+      </div>
+
+      <!-- NAV TABS -->
+      <div class="admin-nav">
+        <button class="anav-btn active" onclick="showPanel('posts')">📝 Blog Posts</button>
+        <button class="anav-btn"        onclick="showPanel('new')">✦ New Post</button>
+        <button class="anav-btn"        onclick="showPanel('horoscope')">🌑 Horoscope</button>
+      </div>
+
+      <!-- ── PANEL: BLOG POSTS LIST ── -->
+      <div class="panel active" id="panel-posts">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <h2 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--ivory)">All Posts</h2>
+          <button class="btn btn-f" style="font-size:.6rem;padding:7px 14px" onclick="showPanel('new')">+ New Post</button>
+        </div>
+        <div id="postsNotice"></div>
+        <div id="postsList"><p style="color:var(--textd);font-style:italic;font-size:.9rem">Loading posts...</p></div>
+      </div>
+
+      <!-- ── PANEL: NEW / EDIT POST ── -->
+      <div class="panel" id="panel-new">
+        <h2 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--ivory);margin-bottom:20px" id="formTitle">New Post</h2>
+        <div id="postNotice"></div>
+        <input type="hidden" id="editId">
+
+        <div class="field">
+          <label>Title *</label>
+          <input type="text" id="postTitle" placeholder="The 7 Hidden Traits of Scorpio Nobody Talks About">
+        </div>
+
+        <div class="row2">
+          <div class="field">
+            <label>Slug * <span style="color:var(--textd);font-size:.5rem">(URL: /post.html?slug=your-slug)</span></label>
+            <input type="text" id="postSlug" placeholder="scorpio-hidden-traits">
+          </div>
+          <div class="field">
+            <label>Category / Tag</label>
+            <input type="text" id="postTag" placeholder="Personality" value="Astrology">
+          </div>
+        </div>
+
+        <div class="row2">
+          <div class="field">
+            <label>Read Time</label>
+            <input type="text" id="postReadTime" placeholder="6 min read" value="5 min read">
+          </div>
+          <div class="field">
+            <label>Status</label>
+            <select id="postStatus">
+              <option value="published">Published — Live now</option>
+              <option value="draft">Draft — Hidden</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Excerpt <span style="color:var(--textd);font-size:.5rem">(shown on blog listing)</span></label>
+          <textarea id="postExcerpt" rows="2" placeholder="One powerful sentence that makes someone want to read more."></textarea>
+        </div>
+
+        <div class="field">
+          <label>Content <span style="color:var(--textd);font-size:.5rem">(HTML — use toolbar buttons to insert tags)</span></label>
+          <!-- Toolbar -->
+          <div class="toolbar">
+            <button class="tb-btn" onclick="ins('p')">¶ Paragraph</button>
+            <button class="tb-btn" onclick="ins('h2')">H2 Heading</button>
+            <button class="tb-btn" onclick="ins('strong')"><b>Bold</b></button>
+            <button class="tb-btn" onclick="ins('em')"><i>Italic</i></button>
+            <button class="tb-btn" onclick="ins('blockquote')">" Quote</button>
+            <button class="tb-btn" onclick="ins('br')">↵ Line Break</button>
+            <button class="tb-btn" onclick="togglePreview()">👁 Preview</button>
+          </div>
+          <textarea class="content-editor" id="postContent" placeholder="<p>Start writing your article here...</p>&#10;&#10;<h2>Section Title</h2>&#10;&#10;<p>Another paragraph...</p>" oninput="livePreview()"></textarea>
+        </div>
+
+        <!-- Live Preview -->
+        <div id="previewWrap" style="display:none;margin-bottom:16px">
+          <p style="font-family:'DM Mono',monospace;font-size:.58rem;color:var(--textd);margin-bottom:8px;text-transform:uppercase;letter-spacing:.1em">Preview</p>
+          <div class="preview-box" id="previewBox"></div>
+        </div>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn btn-f" style="padding:11px 24px" onclick="savePost()">
+            <span id="saveLabel">Publish Post ✦</span>
+          </button>
+          <button class="btn btn-o" onclick="clearForm()">Clear Form</button>
+          <button class="btn btn-o" onclick="showPanel('posts')">Cancel</button>
+        </div>
+      </div>
+
+      <!-- ── PANEL: HOROSCOPE ── -->
+      <div class="panel" id="panel-horoscope">
+        <h2 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--ivory);margin-bottom:6px">Horoscope Manager</h2>
+        <p style="color:var(--textd);font-style:italic;font-size:.85rem;margin-bottom:20px">Generate and manage daily horoscopes. The cron runs automatically at 6 AM UTC every day.</p>
+
+        <div id="horoscopeNotice"></div>
+
+        <!-- Generate now -->
+        <div class="card" style="margin-bottom:20px">
+          <h3 style="font-family:'Playfair Display',serif;color:var(--ivory);margin-bottom:8px">Generate Today's Horoscope</h3>
+          <p style="color:var(--textd);font-size:.85rem;margin-bottom:14px">Calls Claude AI and publishes a new horoscope immediately. Takes ~15 seconds.</p>
+          <button class="btn btn-f" id="genBtn" onclick="generateNow()">✦ Generate &amp; Publish Now</button>
+        </div>
+
+        <!-- Recent horoscopes -->
+        <h3 style="font-family:'Playfair Display',serif;color:var(--ivory);margin-bottom:12px">Recent Horoscopes</h3>
+        <div id="horoscopeList"><p style="color:var(--textd);font-style:italic;font-size:.85rem">Loading...</p></div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="fl">♏ Scorpio Zodiac</div>
+    <nav class="fn"><a href="/">Horoscope</a><a href="/blog.html">Blog</a><a href="/quiz.html">Quizzes</a></nav>
+    <p>Guided by the stars. Built for the depths. © <span id="ftY"></span> Scorpio Zodiac</p>
+  </footer>
+</div>
+
+<!-- AUTH MODAL (for login if needed) -->
+<div class="mbg" id="authModal">
+  <div class="modal">
+    <button class="mx" onclick="closeModal()">✕</button>
+    <div class="mg">♏</div>
+    <h2>Admin Access</h2>
+    <p class="msub">Sign in to access the admin panel</p>
+    <div class="sw">
+      <button class="swb active" id="sw1" onclick="switchTab('login')">Sign In</button>
+      <button class="swb" id="sw2" onclick="switchTab('signup')">Join Free</button>
+    </div>
+    <div id="fLogin">
+      <div class="fg"><label>Email</label><input type="email" id="lEmail" placeholder="you@cosmos.com"></div>
+      <div class="fg"><label>Password</label><input type="password" id="lPass" placeholder="••••••••"></div>
+      <div class="err hidden" id="lErr"></div>
+      <button class="btn btn-f btn-block" id="btnLogin" onclick="doLogin()">Enter ♏</button>
+    </div>
+    <div id="fSignup" class="hidden">
+      <div class="fg"><label>Name</label><input type="text" id="sName"></div>
+      <div class="fg"><label>Email</label><input type="email" id="sEmail"></div>
+      <div class="fg"><label>Password</label><input type="password" id="sPass"></div>
+      <div class="err hidden" id="sErr"></div>
+      <button class="btn btn-f btn-block" id="btnSignup" onclick="doSignup()">Begin My Journey</button>
+    </div>
+    <div id="fForgot" class="hidden">
+      <button class="bbtn" onclick="switchTab('login')">← Back</button>
+      <div class="fg"><label>Email</label><input type="email" id="fEmail"></div>
+      <div class="err hidden" id="fErr"></div>
+      <div class="okm hidden" id="fOk"></div>
+      <button class="btn btn-f btn-block" id="btnForgot" onclick="doForgot()">Send Reset Link</button>
+    </div>
+  </div>
+</div>
+<div class="mbg" id="profModal"><div class="modal"><button class="mx" onclick="closeProfileModal()">✕</button><div class="mg">♏</div><h2>My Profile</h2><p class="msub">Update your cosmic details</p><div class="fg"><label>Name</label><input type="text" id="pName"></div><div class="fg"><label>Email</label><input type="email" id="pEmail"></div><div class="fg"><label>Birth Date</label><input type="date" id="pBirth"></div><div class="fg"><label>New Password</label><input type="password" id="pPass"></div><div class="fg"><label>Confirm</label><input type="password" id="pPass2"></div><div class="err hidden" id="pErr"></div><div class="okm hidden" id="pOk"></div><button class="btn btn-f btn-block" id="btnProf" onclick="doSaveProfile()">Save Changes ✦</button><div style="height:1px;background:var(--bdr);margin:14px 0"></div><button class="btn btn-o btn-block" onclick="doLogout()">Log Out</button></div></div>
+<div class="toast" id="toast"></div>
+
+<script src="/js/api.js"></script>
+<script src="/js/auth.js"></script>
+<script>
+const ADMIN_EMAIL = 'ditidon@gmail.com'
+
+// ── Init ─────────────────────────────────────────────────
+document.addEventListener('authReady', () => {
+  if (!SZ || SZ.email !== ADMIN_EMAIL) {
+    document.getElementById('accessDenied').classList.remove('hidden')
+    document.getElementById('adminPanel').classList.add('hidden')
+    if (!SZ) openModal('login')
+  } else {
+    document.getElementById('accessDenied').classList.add('hidden')
+    document.getElementById('adminPanel').classList.remove('hidden')
+    loadPosts()
+    loadHoroscopes()
+  }
+}, { once: true })
+
+document.addEventListener('authReady', () => {
+  if (SZ?.email === ADMIN_EMAIL) {
+    document.getElementById('accessDenied').classList.add('hidden')
+    document.getElementById('adminPanel').classList.remove('hidden')
+    loadPosts()
+    loadHoroscopes()
+  }
+})
+
+// ── Panel switching ───────────────────────────────────────
+function showPanel(name) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'))
+  document.querySelectorAll('.anav-btn').forEach(b => b.classList.remove('active'))
+  document.getElementById('panel-' + name)?.classList.add('active')
+  const idx = ['posts','new','horoscope'].indexOf(name)
+  document.querySelectorAll('.anav-btn')[idx]?.classList.add('active')
+  if (name === 'posts') loadPosts()
+  if (name === 'horoscope') loadHoroscopes()
+  if (name === 'new') {
+    document.getElementById('formTitle').textContent = 'New Post'
+    document.getElementById('saveLabel').textContent = 'Publish Post ✦'
+    clearForm()
+  }
+}
+
+// ── Load posts ────────────────────────────────────────────
+async function loadPosts() {
+  const list = document.getElementById('postsList')
+  const { ok, data } = await API.posts(50)
+  if (!ok || !data.posts?.length) {
+    list.innerHTML = '<p style="color:var(--textd);font-style:italic;font-size:.9rem">No posts yet. Click "+ New Post" to write your first article.</p>'
+    return
+  }
+  list.innerHTML = `<div class="post-list">
+    ${data.posts.map(p => `
+      <div class="post-item">
+        <div style="flex:1;min-width:200px">
+          <div class="post-title">${p.title}</div>
+          <div class="post-meta" style="margin-top:3px">${p.tag_label||p.category} · ${p.read_time} · ${new Date(p.published_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</div>
+        </div>
+        <span class="post-status ${p.status === 'published' ? 'status-pub' : 'status-draft'}">${p.status === 'published' ? '● Live' : '● Draft'}</span>
+        <button class="action-btn" onclick="editPost('${p.slug}')">Edit</button>
+        <button class="action-btn del" onclick="deletePost('${p.slug}','${p.id}')">Delete</button>
+      </div>`).join('')}
+  </div>`
+}
+
+// ── Edit post ─────────────────────────────────────────────
+async function editPost(slug) {
+  const { ok, data } = await API.post(slug)
+  if (!ok) return
+  const p = data.post
+  document.getElementById('editId').value       = p.id
+  document.getElementById('postTitle').value    = p.title || ''
+  document.getElementById('postSlug').value     = p.slug  || ''
+  document.getElementById('postTag').value      = p.tag_label || p.category || ''
+  document.getElementById('postReadTime').value = p.read_time || '5 min read'
+  document.getElementById('postStatus').value   = p.status || 'published'
+  document.getElementById('postExcerpt').value  = p.excerpt || ''
+  document.getElementById('postContent').value  = p.content || ''
+  document.getElementById('formTitle').textContent = 'Edit Post'
+  document.getElementById('saveLabel').textContent = 'Save Changes ✦'
+  livePreview()
+  showPanel('new')
+  window.scrollTo(0,0)
+}
+
+// ── Delete post ───────────────────────────────────────────
+async function deletePost(slug, id) {
+  if (!confirm(`Delete "${slug}"? This cannot be undone.`)) return
+  const { ok, error } = await API.req('DELETE', `/api/admin/posts/${id}`)
+  if (ok) { notice('postsNotice', 'ok', 'Post deleted.'); loadPosts() }
+  else notice('postsNotice', 'err', error || 'Could not delete post.')
+}
+
+// ── Save post ─────────────────────────────────────────────
+async function savePost() {
+  const id       = document.getElementById('editId').value
+  const title    = document.getElementById('postTitle').value.trim()
+  const slug     = document.getElementById('postSlug').value.trim().toLowerCase().replace(/\s+/g,'-')
+  const tag      = document.getElementById('postTag').value.trim()
+  const readTime = document.getElementById('postReadTime').value.trim()
+  const status   = document.getElementById('postStatus').value
+  const excerpt  = document.getElementById('postExcerpt').value.trim()
+  const content  = document.getElementById('postContent').value.trim()
+
+  if (!title)   return notice('postNotice','err','Title is required.')
+  if (!slug)    return notice('postNotice','err','Slug is required.')
+  if (!content) return notice('postNotice','err','Content cannot be empty.')
+
+  document.getElementById('saveLabel').textContent = 'Saving...'
+
+  const body = { title, slug, tag_label: tag, category: tag, read_time: readTime, status, excerpt, content }
+  const method = id ? 'PUT' : 'POST'
+  const url    = id ? `/api/admin/posts/${id}` : '/api/admin/posts'
+
+  const { ok, data, error } = await API.req(method, url, body)
+  document.getElementById('saveLabel').textContent = id ? 'Save Changes ✦' : 'Publish Post ✦'
+
+  if (ok) {
+    notice('postNotice','ok', id ? '✦ Post updated successfully!' : '✦ Post published successfully!')
+    if (!id) { clearForm(); document.getElementById('editId').value = '' }
+    loadPosts()
+  } else {
+    notice('postNotice','err', error || 'Could not save post.')
+  }
+}
+
+// ── Clear form ────────────────────────────────────────────
+function clearForm() {
+  ;['editId','postTitle','postSlug','postExcerpt','postContent'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = ''
+  })
+  document.getElementById('postTag').value      = 'Astrology'
+  document.getElementById('postReadTime').value = '5 min read'
+  document.getElementById('postStatus').value   = 'published'
+  document.getElementById('previewBox').innerHTML = ''
+  document.getElementById('previewWrap').style.display = 'none'
+  const n = document.getElementById('postNotice'); if (n) n.innerHTML = ''
+}
+
+// ── Content toolbar ───────────────────────────────────────
+function ins(tag) {
+  const ta = document.getElementById('postContent')
+  const sel = ta.value.substring(ta.selectionStart, ta.selectionEnd)
+  let snippet
+  if (tag === 'br') snippet = '\n'
+  else if (tag === 'p') snippet = `<p>${sel || 'Your paragraph here.'}</p>`
+  else if (tag === 'h2') snippet = `<h2>${sel || 'Section Title'}</h2>`
+  else snippet = `<${tag}>${sel || '...'}</${tag}>`
+  const start = ta.selectionStart
+  ta.value = ta.value.substring(0, start) + '\n' + snippet + '\n' + ta.value.substring(ta.selectionEnd)
+  ta.selectionStart = ta.selectionEnd = start + snippet.length + 2
+  ta.focus()
+  livePreview()
+}
+
+// ── Preview ───────────────────────────────────────────────
+let previewOn = false
+function togglePreview() {
+  previewOn = !previewOn
+  document.getElementById('previewWrap').style.display = previewOn ? 'block' : 'none'
+  if (previewOn) livePreview()
+}
+function livePreview() {
+  if (!previewOn) return
+  const box = document.getElementById('previewBox')
+  box.innerHTML = document.getElementById('postContent').value
+}
+
+// ── Auto-generate slug from title ─────────────────────────
+document.getElementById('postTitle')?.addEventListener('input', function() {
+  const slugEl = document.getElementById('postSlug')
+  if (!slugEl.value || slugEl.dataset.manual !== 'true') {
+    slugEl.value = this.value.toLowerCase()
+      .replace(/[^a-z0-9\s-]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-').substring(0,60)
+  }
+})
+document.getElementById('postSlug')?.addEventListener('input', function() {
+  this.dataset.manual = 'true'
+})
+
+// ── Generate horoscope ────────────────────────────────────
+async function generateNow() {
+  const btn = document.getElementById('genBtn')
+  btn.textContent = '⏳ Generating... (~15 seconds)'
+  btn.disabled = true
+  notice('horoscopeNotice','','')
+
+  const { ok, data, error } = await API.generateHoroscope()
+  btn.textContent = '✦ Generate & Publish Now'
+  btn.disabled = false
+
+  if (ok) {
+    notice('horoscopeNotice','ok','✦ Horoscope generated and published successfully!')
+    loadHoroscopes()
+  } else {
+    notice('horoscopeNotice','err', error || 'Could not generate horoscope. Check your ANTHROPIC_API_KEY.')
+  }
+}
+
+// ── Load horoscopes list ──────────────────────────────────
+async function loadHoroscopes() {
+  const list = document.getElementById('horoscopeList')
+  const { ok, data } = await API.req('GET', '/api/horoscope/list')
+  if (!ok || !data.horoscopes?.length) {
+    list.innerHTML = '<p style="color:var(--textd);font-style:italic;font-size:.85rem">No horoscopes yet.</p>'
+    return
+  }
+  list.innerHTML = `<div class="post-list">
+    ${data.horoscopes.map(h => `
+      <div class="post-item">
+        <div style="flex:1">
+          <div class="post-title" style="font-size:.9rem">${h.date}</div>
+          <div class="post-meta" style="margin-top:2px">♥${h.love_score} ◈${h.career_score} ◉${h.health_score} ☽${h.spirit_score}</div>
+        </div>
+        <span class="post-status ${h.status === 'published' ? 'status-pub' : 'status-draft'}">${h.status === 'published' ? '● Live' : '● Draft'}</span>
+        ${h.status !== 'published' ? `<button class="action-btn" onclick="publishHoroscope('${h.id}')">Publish</button>` : ''}
+      </div>`).join('')}
+  </div>`
+}
+
+async function publishHoroscope(id) {
+  const { ok, error } = await API.publishHoroscope(id)
+  if (ok) { notice('horoscopeNotice','ok','✦ Horoscope published!'); loadHoroscopes() }
+  else notice('horoscopeNotice','err', error || 'Could not publish.')
+}
+
+// ── Notice helper ─────────────────────────────────────────
+function notice(id, type, msg) {
+  const el = document.getElementById(id)
+  if (!el) return
+  if (!msg) { el.innerHTML = ''; return }
+  el.innerHTML = `<div class="notice ${type}">${msg}</div>`
+}
+
+// ── Footer year + stars ───────────────────────────────────
+;(function(){ const el=document.getElementById('ftY'); if(el) el.textContent=new Date().getFullYear() })()
+;(function(){
+  const el = document.getElementById('stars'); if (!el) return
+  for (let i=0;i<80;i++){
+    const s=document.createElement('div'); s.className='star'
+    const sz=Math.random()*1.8+0.3
+    s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--d:${3+Math.random()*5}s;animation-delay:${Math.random()*6}s`
+    el.appendChild(s)
+  }
+})()
+</script>
+</body>
+</html>

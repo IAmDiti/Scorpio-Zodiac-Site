@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scorpio Astrology Blog | Scorpio Zodiac</title>
+  <meta name="description" content="Deep-dive Scorpio astrology articles — traits, compatibility, retrograde guides and seasonal forecasts.">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+<div id="stars"></div>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div id="app">
+
+  <nav>
+    <a href="/" class="logo"><span class="logo-g">♏</span> Scorpio Zodiac</a>
+    <div class="nav-links">
+      <a href="/"          class="nav-link">Horoscope</a>
+      <a href="/blog.html" class="nav-link active">Blog</a>
+      <a href="/quiz.html" class="nav-link">Quizzes</a>
+    </div>
+    <div class="nav-right" id="navRight">
+      <button class="btn btn-o" onclick="openModal('login')">Sign In</button>
+      <button class="btn btn-f" onclick="openModal('signup')">Join Free</button>
+    </div>
+  </nav>
+
+  <section class="hero" style="padding-bottom:32px">
+    <div class="hg">✍</div>
+    <p style="font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--lavd);margin-bottom:10px">Scorpio Zodiac · Journal</p>
+    <h1>Cosmic Wisdom<br><em>For the Depths</em></h1>
+    <p class="hsub">Astrology articles written for Scorpios who crave more than surface-level readings.</p>
+  </section>
+
+  <div class="wrap" style="padding-bottom:60px">
+
+    <!-- Posts load here -->
+    <div id="blogLoading" style="text-align:center;padding:40px 0">
+      <p class="reading" style="color:var(--textd);font-style:italic">Loading articles...</p>
+    </div>
+
+    <div id="blogContent" class="hidden"></div>
+
+    <!-- Newsletter -->
+    <div style="background:linear-gradient(135deg,#1e1a30,#1a1528);border:1px solid #3a3258;border-radius:var(--rl);padding:36px;text-align:center;margin-top:40px">
+      <div style="font-size:1.6rem;color:var(--lav);margin-bottom:10px">♏</div>
+      <h2 style="font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--ivory);margin-bottom:8px">Weekly Cosmic Dispatch</h2>
+      <p style="color:var(--texts);font-style:italic;margin-bottom:18px;font-size:.9rem">Get your Scorpio weekly forecast every Sunday. Free forever.</p>
+      <div style="display:flex;gap:8px;max-width:380px;margin:0 auto;flex-wrap:wrap;justify-content:center">
+        <input type="email" placeholder="your@email.com"
+          style="flex:1;min-width:200px;padding:9px 14px;background:var(--bg);border:1px solid var(--bdr);border-radius:40px;color:var(--text);font-family:'Lora',serif;font-size:.9rem;outline:none">
+        <button class="btn btn-f">Subscribe</button>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="fl">♏ Scorpio Zodiac</div>
+    <nav class="fn"><a href="/">Horoscope</a><a href="/blog.html">Blog</a><a href="/quiz.html">Quizzes</a></nav>
+    <p>Guided by the stars. Built for the depths. © <span id="ftY"></span> Scorpio Zodiac</p>
+  </footer>
+</div>
+
+<!-- AUTH MODAL -->
+<div class="mbg" id="authModal">
+  <div class="modal">
+    <button class="mx" onclick="closeModal()">✕</button>
+    <div class="mg">♏</div>
+    <h2>Scorpio Zodiac</h2>
+    <p class="msub">Your full cosmic truth awaits</p>
+    <div class="sw">
+      <button class="swb active" id="sw1" onclick="switchTab('login')">Sign In</button>
+      <button class="swb" id="sw2" onclick="switchTab('signup')">Join Free</button>
+    </div>
+    <div id="fLogin">
+      <div class="fg"><label>Email</label><input type="email" id="lEmail" placeholder="you@cosmos.com"></div>
+      <div class="fg"><label>Password</label><input type="password" id="lPass" placeholder="••••••••"></div>
+      <div class="err hidden" id="lErr"></div>
+      <button class="btn btn-f btn-block" id="btnLogin" onclick="doLogin()">Enter ♏</button>
+      <button class="lbtn" onclick="switchTab('forgot')">Forgot password?</button>
+    </div>
+    <div id="fSignup" class="hidden">
+      <div class="fg"><label>Your Name</label><input type="text" id="sName" placeholder="Scorpio Seeker"></div>
+      <div class="fg"><label>Email</label><input type="email" id="sEmail" placeholder="you@cosmos.com"></div>
+      <div class="fg"><label>Birth Date</label><input type="date" id="sBirth"></div>
+      <div class="fg"><label>Password</label><input type="password" id="sPass" placeholder="Min. 6 characters"></div>
+      <div class="err hidden" id="sErr"></div>
+      <button class="btn btn-f btn-block" id="btnSignup" onclick="doSignup()">Begin My Journey</button>
+    </div>
+    <div id="fForgot" class="hidden">
+      <button class="bbtn" onclick="switchTab('login')">← Back</button>
+      <div class="fg"><label>Email</label><input type="email" id="fEmail" placeholder="you@cosmos.com"></div>
+      <div class="err hidden" id="fErr"></div>
+      <div class="okm hidden" id="fOk"></div>
+      <button class="btn btn-f btn-block" id="btnForgot" onclick="doForgot()">Send Reset Link</button>
+    </div>
+  </div>
+</div>
+
+<!-- PROFILE MODAL -->
+<div class="mbg" id="profModal">
+  <div class="modal" style="max-height:90vh;overflow-y:auto">
+    <button class="mx" onclick="closeProfileModal()">✕</button>
+    <div class="mg">♏</div>
+    <h2>My Profile</h2>
+    <p class="msub">Update your cosmic details</p>
+    <div class="fg"><label>Name</label><input type="text" id="pName" placeholder="Your name"></div>
+    <div class="fg"><label>Email</label><input type="email" id="pEmail" placeholder="your@email.com"></div>
+    <div class="fg"><label>Birth Date</label><input type="date" id="pBirth"></div>
+    <div class="fg"><label>New Password</label><input type="password" id="pPass" placeholder="New password"></div>
+    <div class="fg"><label>Confirm Password</label><input type="password" id="pPass2" placeholder="Confirm"></div>
+    <div class="err hidden" id="pErr"></div>
+    <div class="okm hidden" id="pOk"></div>
+    <button class="btn btn-f btn-block" id="btnProf" onclick="doSaveProfile()">Save Changes ✦</button>
+    <div style="height:1px;background:var(--bdr);margin:14px 0"></div>
+    <button class="btn btn-o btn-block" onclick="doLogout()">Log Out</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="/js/api.js"></script>
+<script src="/js/auth.js"></script>
+<script>
+  ;(function(){ const el=document.getElementById('ftY'); if(el) el.textContent=new Date().getFullYear() })()
+  ;(function(){
+    const el = document.getElementById('stars')
+    if (!el) return
+    for (let i=0;i<100;i++){
+      const s=document.createElement('div'); s.className='star'
+      const sz=Math.random()*1.8+0.3
+      s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--d:${3+Math.random()*5}s;animation-delay:${Math.random()*6}s`
+      el.appendChild(s)
+    }
+  })()
+
+  document.addEventListener('authReady', async () => {
+    const { ok, data } = await API.posts(20)
+    const loading = document.getElementById('blogLoading')
+    const content = document.getElementById('blogContent')
+    if (loading) loading.style.display = 'none'
+    if (!content) return
+    content.classList.remove('hidden')
+
+    if (!ok || !data.posts?.length) {
+      content.innerHTML = `<div class="card" style="text-align:center;padding:40px">
+        <p class="reading" style="color:var(--textd);font-style:italic">No articles yet. Check back soon.</p>
+      </div>`
+      return
+    }
+
+    const [featured, ...rest] = data.posts
+
+    content.innerHTML = `
+      <!-- Featured -->
+      <div class="sl"><span>Latest</span></div>
+      <a href="/post.html?slug=${featured.slug}" class="bc" style="display:block;margin-bottom:32px;padding:28px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+          <span class="bc-tag" style="background:linear-gradient(135deg,#3d3055,#4a3048);border-color:#6b5580;color:var(--lav)">${featured.tag_label||featured.category||'Astrology'}</span>
+          <span class="bc-d">${new Date(featured.published_at).toLocaleDateString('en-US',{month:'long',year:'numeric'})}</span>
+        </div>
+        <h2 style="font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--ivory);line-height:1.3;margin-bottom:10px">${featured.title}</h2>
+        <p class="bc-e">${featured.excerpt||''}</p>
+        <span style="font-family:'DM Mono',monospace;font-size:.6rem;color:var(--lav);text-transform:uppercase;letter-spacing:.08em">Read Article →</span>
+      </a>
+
+      ${rest.length ? `
+        <div class="sl"><span>All Articles</span></div>
+        <div class="bg2-">
+          ${rest.map(p=>`
+            <a href="/post.html?slug=${p.slug}" class="bc">
+              <div class="bc-tag">${p.tag_label||p.category||'Astrology'}</div>
+              <h3 class="bc-t">${p.title}</h3>
+              <p class="bc-e">${p.excerpt||''}</p>
+              <div class="bc-f">
+                <span class="bc-d">${new Date(p.published_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</span>
+                <span class="bc-r">${p.read_time}</span>
+              </div>
+            </a>`).join('')}
+        </div>` : ''}
+    `
+  }, { once: true })
+</script>
+</body>
+</html>
