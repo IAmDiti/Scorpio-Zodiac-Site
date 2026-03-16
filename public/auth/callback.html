@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Signing you in...</title>
+  <style>
+    body { background:#12101a; color:#a897c8; font-family:'DM Mono',monospace; display:flex; align-items:center; justify-content:center; min-height:100vh; margin:0; font-size:.9rem; }
+    .msg { text-align:center; }
+    .glyph { font-size:2rem; margin-bottom:12px; animation:pulse 1.5s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:.5} 50%{opacity:1} }
+  </style>
+</head>
+<body>
+  <div class="msg">
+    <div class="glyph">♏</div>
+    <div>Signing you in...</div>
+  </div>
+
+  <script>
+    // Supabase sometimes puts the token in the URL hash (#access_token=...)
+    // We need to exchange it for our own session
+
+    async function handleCallback() {
+      const hash   = window.location.hash.substring(1)
+      const params = new URLSearchParams(hash)
+      const search = new URLSearchParams(window.location.search)
+
+      const accessToken  = params.get('access_token')
+      const refreshToken = params.get('refresh_token')
+      const code         = search.get('code')
+      const error        = search.get('error')
+
+      if (error) {
+        window.location.href = '/?error=' + error
+        return
+      }
+
+      if (code) {
+        // Server handles code exchange — just redirect to server callback
+        window.location.href = '/api/auth/callback?code=' + code
+        return
+      }
+
+      if (accessToken) {
+        // Exchange Supabase access token for our JWT
+        try {
+          const res  = await fetch('/api/auth/google-token', {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({ access_token: accessToken }),
+          })
+          const data = await res.json()
+          if (data.ok) {
+            window.location.href = '/'
+            return
+          }
+        } catch (e) {
+          console.error('Token exchange error:', e)
+        }
+      }
+
+      // Fallback
+      window.location.href = '/'
+    }
+
+    handleCallback()
+  </script>
+</body>
+</html>

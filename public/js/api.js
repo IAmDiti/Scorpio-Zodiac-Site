@@ -17,6 +17,8 @@ const API = {
   me()                                     { return this.req('GET',  '/api/auth/me') },
   updateProfile(data)                      { return this.req('PUT',  '/api/auth/profile', data) },
   forgotPassword(email)                    { return this.req('POST', '/api/auth/forgot-password', { email }) },
+  googleUrl()                              { return this.req('GET',  '/api/auth/google-url') },
+  googleToken(access_token)               { return this.req('POST', '/api/auth/google-token', { access_token }) },
   todayHoroscope()                         { return this.req('GET',  '/api/horoscope/today') },
   generateHoroscope()                      { return this.req('POST', '/api/horoscope/generate') },
   posts(limit)                             { return this.req('GET',  `/api/blog/posts?limit=${limit||10}`) },

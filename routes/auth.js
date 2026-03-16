@@ -149,7 +149,7 @@ router.get('/google-url', async (req, res) => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${process.env.APP_URL || 'http://localhost:3000'}/auth/callback`,
+      redirectTo: `${process.env.APP_URL || 'http://localhost:3000'}/auth/callback.html`,
         queryParams: { access_type: 'offline', prompt: 'consent' },
       },
     })
@@ -163,38 +163,112 @@ router.get('/google-url', async (req, res) => {
 // ── GET /auth/callback ────────────────────────────────────
 router.get('/callback', async (req, res) => {
   try {
-    const code = req.query.code
+    const code  = req.query.code
+    const error = req.query.error
+
+    if (error) return res.redirect('/?error=' + error)
     if (!code) return res.redirect('/?error=no_code')
 
     const supabase = getSupabase()
-    const { data, error } = await supabase.auth.exchangeCodeForSession(code)
-    if (error || !data.user) return res.redirect('/?error=auth_failed')
+    const { data, error: exchError } = await supabase.auth.exchangeCodeForSession(code)
+
+    if (exchError || !data?.user) {
+      console.error('Exchange error:', exchError?.message)
+      return res.redirect('/?error=auth_failed')
+    }
 
     const googleUser = data.user
-    const email = googleUser.email
-    const name  = googleUser.user_metadata?.full_name || googleUser.user_metadata?.name || email.split('@')[0]
+    const email      = googleUser.email?.toLowerCase()
+    const name       = googleUser.user_metadata?.full_name ||
+                       googleUser.user_metadata?.name ||
+                       email?.split('@')[0] || 'Scorpio User'
 
+    if (!email) return res.redirect('/?error=no_email')
+
+    // Find or create user in our users table
     let { data: existing } = await getDB()
-      .from('users').select('*').eq('email', email.toLowerCase()).maybeSingle()
+      .from('users')
+      .select('*')
+      .eq('email', email)
+      .maybeSingle()
 
     if (!existing) {
       const { data: newUser, error: insertError } = await getDB()
         .from('users')
-        .insert({ name, email: email.toLowerCase(), password_hash: 'google-' + crypto.randomBytes(16).toString('hex') })
-        .select('*').single()
-      if (insertError) return res.redirect('/?error=db_error')
+        .insert({
+          name,
+          email,
+          password_hash: 'google-' + crypto.randomBytes(16).toString('hex'),
+        })
+        .select('*')
+        .single()
+
+      if (insertError) {
+        console.error('Insert error:', insertError.message)
+        return res.redirect('/?error=db_error')
+      }
       existing = newUser
     }
 
+    // Set our JWT cookie and redirect home
     setToken(res, existing)
+    console.log('Google login success:', email)
     res.redirect('/')
+
   } catch (err) {
     console.error('Google callback error:', err.message)
     res.redirect('/?error=server_error')
   }
 })
 
-// ── POST /api/auth/verify-captcha ─────────────────────────
+// ── POST /api/auth/google-token ───────────────────────────
+// Exchanges Supabase access token for our JWT cookie
+router.post('/google-token', async (req, res) => {
+  try {
+    const { access_token } = req.body
+    if (!access_token) return res.status(400).json({ error: 'No token provided' })
+
+    const supabase = getSupabase()
+    const { data: { user }, error } = await supabase.auth.getUser(access_token)
+
+    if (error || !user) return res.status(401).json({ error: 'Invalid token' })
+
+    const email = user.email?.toLowerCase()
+    const name  = user.user_metadata?.full_name || user.user_metadata?.name || email?.split('@')[0] || 'Scorpio User'
+
+    if (!email) return res.status(400).json({ error: 'No email' })
+
+    let { data: existing } = await getDB()
+      .from('users').select('*').eq('email', email).maybeSingle()
+
+    if (!existing) {
+      const { data: newUser, error: insertError } = await getDB()
+        .from('users')
+        .insert({ name, email, password_hash: 'google-' + crypto.randomBytes(16).toString('hex') })
+        .select('*').single()
+      if (insertError) throw insertError
+      existing = newUser
+    }
+
+    setToken(res, existing)
+    console.log('Google token login success:', email)
+    res.json({ ok: true, user: { id: existing.id, name: existing.name, email: existing.email } })
+
+  } catch (err) {
+    console.error('Google token error:', err.message)
+    res.status(500).json({ error: err.message })
+  }
+})
+
+// ── GET /api/auth/callback (alias) ───────────────────────
+router.get('/callback', async (req, res) => {
+  // redirect to /auth/callback which is registered in server.js
+  const code = req.query.code
+  if (code) {
+    return res.redirect('/auth/callback?code=' + code)
+  }
+  res.redirect('/')
+})
 router.post('/verify-captcha', async (req, res) => {
   try {
     const { token } = req.body
