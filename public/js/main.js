@@ -138,18 +138,15 @@ function renderReading(h) {
   if (tabs) tabs.classList.toggle('show', isUser)
 
   if (!h) {
-    const el = document.getElementById('tp-daily')
-    if (el) el.querySelector('#rdContent') && (el.querySelector('#rdContent').innerHTML =
-      '<p class="reading" style="color:var(--textd);font-style:italic;text-align:center;padding:14px 0">No horoscope published yet. Check back soon.</p>')
-    // Show generate button only for admin
-    const ADMIN_EMAIL = 'ditidon@gmail.com'
-    if (SZ && SZ.email === ADMIN_EMAIL) {
-      document.getElementById('generateBox')?.classList.remove('hidden')
+    const loading = document.getElementById('rdLoading')
+    if (loading) loading.style.display = 'none'
+    const full = document.getElementById('fullRead')
+    if (full && isUser) {
+      full.classList.remove('hidden')
+      full.innerHTML = `<p style="color:var(--textd);font-style:italic;text-align:center;padding:28px 0;font-size:.95rem">Today's reading is on its way. Check back shortly.</p>`
     }
     return
   }
-  // Hide generate box when horoscope exists
-  document.getElementById('generateBox')?.classList.add('hidden')
 
   const gp   = document.getElementById('guestPrev')
   const bg   = document.getElementById('blurGate')
