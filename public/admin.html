@@ -551,13 +551,15 @@ async function generatePersonalNow() {
     notice('horoscopeNotice','err', error || 'Could not generate personal horoscopes.')
   }
 }
+
+async function generateNow() {
   const btn = document.getElementById('genBtn')
-  btn.textContent = '⏳ Generating... (~15 seconds)'
+  btn.textContent = 'Generating... (~15 seconds)'
   btn.disabled = true
   notice('horoscopeNotice','','')
 
   const { ok, data, error } = await API.generateHoroscope()
-  btn.textContent = '✦ Generate & Publish Now'
+  btn.textContent = 'Generate & Publish Now'
   btn.disabled = false
 
   if (ok) {
