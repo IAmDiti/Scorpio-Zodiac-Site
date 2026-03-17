@@ -19,6 +19,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use('/api/auth',      require('./routes/auth'))
 app.use('/auth',          require('./routes/auth'))
 app.use('/api/horoscope', require('./routes/horoscope'))
+app.use('/api/personal',  require('./routes/personal'))
 app.use('/api/blog',      require('./routes/blog'))
 app.use('/api/quizzes',   require('./routes/quizzes'))
 app.use('/api/admin',     require('./routes/admin'))
@@ -49,4 +50,11 @@ app.listen(PORT, () => {
   // Also checks on startup — generates today's if missing
   const { startCron } = require('./cron')
   startCron()
+
+  // ── Start personal horoscope cron (6:30 AM UTC) ─────────
+  // Generates personalized reading for each user with a birth date
+  const nodeCron = require('node-cron')
+  const { generatePersonalHoroscopes } = require('./personal-cron')
+  nodeCron.schedule('30 6 * * *', generatePersonalHoroscopes, { timezone: 'UTC' })
+  console.log('✓ Personal horoscope cron scheduled — runs at 06:30 UTC\n')
 })

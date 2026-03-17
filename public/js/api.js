@@ -21,6 +21,8 @@ const API = {
   googleToken(access_token)               { return this.req('POST', '/api/auth/google-token', { access_token }) },
   todayHoroscope()                         { return this.req('GET',  '/api/horoscope/today') },
   generateHoroscope()                      { return this.req('POST', '/api/horoscope/generate') },
+  personalToday()                          { return this.req('GET',  '/api/personal/today') },
+  personalChart()                          { return this.req('GET',  '/api/personal/chart') },
   posts(limit)                             { return this.req('GET',  `/api/blog/posts?limit=${limit||10}`) },
   post(slug)                               { return this.req('GET',  `/api/blog/posts/${slug}`) },
 }

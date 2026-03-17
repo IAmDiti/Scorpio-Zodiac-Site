@@ -27,6 +27,8 @@ create table if not exists public.horoscopes (
   daily_career         text,
   daily_health         text,
   daily_spiritual      text,
+  daily_power_move     text,
+  daily_final_line     text,
   lucky_numbers        text,
   lucky_color          text,
   lucky_crystal        text,
@@ -67,7 +69,27 @@ create table if not exists public.posts (
   updated_at   timestamptz default now()
 );
 
-create table if not exists public.quizzes (
+create table if not exists public.personal_horoscopes (
+  id           uuid default gen_random_uuid() primary key,
+  user_id      uuid not null references public.users(id) on delete cascade,
+  date         date not null,
+  moon_sign    text,
+  venus_sign   text,
+  mars_sign    text,
+  overall      text,
+  love         text,
+  career       text,
+  health       text,
+  spiritual    text,
+  power_move   text,
+  final_line   text,
+  affirmation  text,
+  reflection   text,
+  created_at   timestamptz default now(),
+  unique(user_id, date)
+);
+alter table public.personal_horoscopes disable row level security;
+create index if not exists idx_personal_horoscopes_user_date on public.personal_horoscopes(user_id, date);
   id           uuid default gen_random_uuid() primary key,
   quiz_id      text unique not null,
   icon         text default '🔮',

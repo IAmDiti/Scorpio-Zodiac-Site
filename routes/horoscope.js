@@ -30,106 +30,27 @@ router.post('/generate', requireAuth, async (_req, res) => {
     const dateNice = new Date().toLocaleDateString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric' })
 
     const prompt = `You are an elite astrologer, behavioral psychologist, and high-level copywriter specializing in Scorpio personality.
-
 Your task is to write a DAILY Scorpio horoscope that feels deeply personal, emotionally precise, and psychologically intense — never generic.
-
-DATE: [INSERT DATE]
+DATE: ${dateNice}
 
 CORE GOAL:
-The reader must feel:
-- “This is exactly about me”
-- slightly exposed (in a good way)
-- emotionally engaged
-- compelled to come back tomorrow
-
----
+The reader must feel "This is exactly about me", slightly exposed (in a good way), emotionally engaged, compelled to come back tomorrow.
 
 MANDATORY RULES:
-
 - Write in second person ("you")
-- Do NOT use em dashes (—) or long dashes
 - Tone: intense, observant, emotionally sharp, slightly confrontational
-- Avoid ALL clichés (no “good things are coming”, no “stay positive”)
+- Avoid ALL clichés (no "good things are coming", no "stay positive")
 - Every sentence must feel specific and intentional
-- Total length: 120–180 words
-- Do NOT repeat the same theme every day (rotate: power, desire, confidence, clarity, transformation, control, emotional depth — not only betrayal)
+- Do NOT repeat the same theme every day (rotate: power, desire, confidence, clarity, transformation, control, emotional depth)
 
----
-
-PSYCHOLOGICAL ELEMENTS (must include at least 3):
-
+PSYCHOLOGICAL ELEMENTS (include at least 3):
 - A subtle behavioral detail (pause, tone, silence, distance, look, timing)
 - Internal conflict (what you feel vs what you admit)
 - Power dynamic (who is in control / losing control)
 - Hidden truth or realization
 - Emotional tension (attraction, doubt, resistance)
 
----
-
-STRUCTURE:
-
-1. ✦ OVERALL ENERGY (2–3 sentences)
-- Start with a bold, intrusive insight (hook)
-- Make something unavoidable or already happening
-
-2. ♥ LOVE & RELATIONSHIPS (2–3 sentences)
-- Focus on emotional tension or subtle signals
-- Include one micro-specific observation
-
-3. ◈ CAREER & AMBITION (2–3 sentences)
-- Focus on positioning, strategy, or hidden dynamics
-- Make it feel like something is shifting
-
-4. ◉ HEALTH & BODY (1–2 sentences)
-- Connect physical sensation to emotional resistance
-
-5. ☽ SPIRITUAL GUIDANCE (1–2 sentences)
-- Reveal a deeper truth the reader already senses
-
-6. ⚡ POWER MOVE (1 sentence — REQUIRED)
-- Give a clear, specific behavioral action
-- Must feel like insider advice
-
-7. 🎯 FINAL LINE (1 sentence — REQUIRED)
-- Cinematic, sharp, memorable
-- Should feel like a truth hitting directly
-
----
-
-STYLE REQUIREMENTS:
-
-- At least ONE “ego-trigger” line:
-  Example style: “You’re not confused—you’re avoiding the answer.”
-  
-- At least ONE “micro-specific moment”:
-  Example: “that pause before they answered”, “the way their tone changed”
-
-- Avoid repeating “someone is fake” every day — vary themes
-
----
-
-FORBIDDEN:
-
-- No vague statements
-- No repetition
-- No soft, safe endings
-- No filler sentences
-
----
-
-QUALITY CHECK (before finishing):
-
-Ask yourself:
-- Would a Scorpio screenshot this?
-- Does at least one line feel slightly uncomfortable but true?
-- Is there a clear action (Power Move)?
-- Is the ending strong enough to stay in their mind?
-
-If not — rewrite.
-
----
-
-Write like you understand something about them they haven’t admitted yet.
+STYLE: At least ONE ego-trigger line + ONE micro-specific moment. Vary themes daily.
 
 Return ONLY valid JSON, no markdown:
 {
@@ -138,8 +59,10 @@ Return ONLY valid JSON, no markdown:
   "daily_overall":"2-3 sentences",
   "daily_love":"2-3 sentences",
   "daily_career":"2-3 sentences",
-  "daily_health":"2-3 sentences",
-  "daily_spiritual":"2-3 sentences",
+  "daily_health":"1-2 sentences",
+  "daily_spiritual":"1-2 sentences",
+  "daily_power_move":"1 sentence — specific behavioral action, insider advice",
+  "daily_final_line":"1 sentence — cinematic, sharp, memorable",
   "lucky_numbers":"8 · 17 · 23",
   "lucky_color":"one color",
   "lucky_crystal":"one crystal",
@@ -160,7 +83,8 @@ Return ONLY valid JSON, no markdown:
   "monthly_mantra":"two words",
   "monthly_affirmation":"one sentence in quotes",
   "monthly_reflection":"one question"
-}`
+}
+Energy scores: integers 45–95, vary daily, never all the same.`
 
     const r = await fetch('https://api.anthropic.com/v1/messages', {
       method:  'POST',
@@ -186,6 +110,8 @@ Return ONLY valid JSON, no markdown:
       daily_career:        d.daily_career        || '',
       daily_health:        d.daily_health        || '',
       daily_spiritual:     d.daily_spiritual     || '',
+      daily_power_move:    d.daily_power_move    || '',
+      daily_final_line:    d.daily_final_line    || '',
       lucky_numbers:       d.lucky_numbers       || '',
       lucky_color:         d.lucky_color         || '',
       lucky_crystal:       d.lucky_crystal       || '',
