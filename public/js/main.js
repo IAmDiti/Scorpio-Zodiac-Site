@@ -36,18 +36,25 @@ async function loadHoroscope() {
   // If user is logged in, try to get their personal horoscope
   if (SZ) {
     const { ok: pOk, data: pData } = await API.personalToday()
+
     if (pOk && pData.horoscope) {
-      // Show personal reading instead of generic
       PZ = pData.horoscope
-      renderRings(HZ) // use generic scores for rings
+      renderRings(HZ)
       renderCW(HZ)
       renderPersonalReading(PZ)
       if (HZ) drawCard(HZ)
       return
     }
-    // No personal yet — show chart info if they have birth date
-    if (pOk && pData.reason === 'not_generated' && pData.chart) {
+
+    // Has birth date but not generated yet
+    if (pOk && pData.reason === 'not_generated') {
+      window._hasBirthDate = true
       window._userChart = pData.chart
+    }
+
+    // No birth date at all
+    if (pOk && pData.reason === 'no_birth_date') {
+      window._hasBirthDate = false
     }
   }
 
@@ -79,9 +86,9 @@ function renderPersonalReading(p) {
     const chart = window._userChart || { moon: p.moon_sign, venus: p.venus_sign, mars: p.mars_sign }
     const chartBadge = (p.moon_sign || p.venus_sign) ? `
       <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px">
-        ${p.moon_sign  ? `<span style="padding:3px 10px;background:var(--bg2);border:1px solid var(--bdr2);border-radius:20px;font-family:'DM Mono',monospace;font-size:.55rem;color:var(--lav)">🌙 Moon in ${p.moon_sign}</span>` : ''}
-        ${p.venus_sign ? `<span style="padding:3px 10px;background:var(--bg2);border:1px solid var(--bdr2);border-radius:20px;font-family:'DM Mono',monospace;font-size:.55rem;color:var(--rose)">♀ Venus in ${p.venus_sign}</span>` : ''}
-        ${p.mars_sign  ? `<span style="padding:3px 10px;background:var(--bg2);border:1px solid var(--bdr2);border-radius:20px;font-family:'DM Mono',monospace;font-size:.55rem;color:var(--gold)">♂ Mars in ${p.mars_sign}</span>` : ''}
+        ${p.moon_sign  ? `<span style="padding:3px 10px;background:var(--bg2);border:1px solid var(--bdr2);border-radius:20px;font-family:'DM Mono',monospace;font-size:.55rem;color:var(--lav)">Moon in ${p.moon_sign}</span>` : ''}
+        ${p.venus_sign ? `<span style="padding:3px 10px;background:var(--bg2);border:1px solid var(--bdr2);border-radius:20px;font-family:'DM Mono',monospace;font-size:.55rem;color:var(--rose)">Venus in ${p.venus_sign}</span>` : ''}
+        ${p.mars_sign  ? `<span style="padding:3px 10px;background:var(--bg2);border:1px solid var(--bdr2);border-radius:20px;font-family:'DM Mono',monospace;font-size:.55rem;color:var(--gold)">Mars in ${p.mars_sign}</span>` : ''}
       </div>` : ''
     full.innerHTML = chartBadge + buildPersonal(p)
   }
@@ -156,13 +163,13 @@ function renderReading(h) {
     if (full) {
       full.classList.remove('hidden')
       // If user has no birth date, show prompt to add it
-      const noBirthPrompt = !SZ?.birth_date ? `
+      const noBirthPrompt = (window._hasBirthDate === false) ? `
         <div style="background:linear-gradient(135deg,#1e1a30,#1a1528);border:1px solid #5c4a82;border-radius:var(--r);padding:14px 16px;margin-bottom:16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
           <div style="flex:1;min-width:200px">
-            <p style="font-family:'DM Mono',monospace;font-size:.58rem;color:var(--lav);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px">✦ Unlock Personalized Readings</p>
+            <p style="font-family:'DM Mono',monospace;font-size:.58rem;color:var(--lav);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px">Unlock Personalized Readings</p>
             <p style="color:var(--texts);font-size:.85rem;font-style:italic">Add your birth date to get a horoscope written for your specific chart.</p>
           </div>
-          <button onclick="openProfileModal()" class="btn btn-f" style="font-size:.6rem;padding:7px 14px;white-space:nowrap">Add Birth Date →</button>
+          <button onclick="openProfileModal()" class="btn btn-f" style="font-size:.6rem;padding:7px 14px;white-space:nowrap">Add Birth Date</button>
         </div>` : ''
       full.innerHTML = noBirthPrompt + buildDaily(h)
     }
@@ -188,24 +195,24 @@ document.addEventListener('click', e => {
 function s(icon, title, text) {
   if (!text) return ''
   const ps = text.split('\n').filter(Boolean).map(p=>`<p class="reading mt">${p}</p>`).join('')
-  return `<div style="margin-bottom:4px"><div class="rs-h"><span class="rs-ic">${icon}</span><span class="rs-t">${title}</span></div>${ps}</div><div class="div"></div>`
+  return `<div style="margin-bottom:4px"><div class="rs-h"><span class="rs-t">${title}</span></div>${ps}</div><div class="div"></div>`
 }
 
 function buildPersonal(p) {
   return `<div class="div"></div>
-    ${s('✦','Overall Energy',p.overall)}
-    ${s('♥','Love & Relationships',p.love)}
-    ${s('◈','Career & Ambition',p.career)}
-    ${s('◉','Health & Body',p.health)}
-    ${s('☽','Spiritual Guidance',p.spiritual)}
+    ${s('','Overall Energy',p.overall)}
+    ${s('','Love & Relationships',p.love)}
+    ${s('','Career & Ambition',p.career)}
+    ${s('','Health & Body',p.health)}
+    ${s('','Spiritual Guidance',p.spiritual)}
     ${p.power_move ? `
     <div style="padding:14px 18px;border-radius:var(--r);background:linear-gradient(135deg,#1e2a1e,#1a2518);border:1px solid #3a6a3a;border-left:3px solid #80c880;margin-bottom:14px">
-      <div style="font-family:'DM Mono',monospace;font-size:.52rem;text-transform:uppercase;letter-spacing:.1em;color:#80c880;margin-bottom:6px">⚡ Power Move</div>
+      <div style="font-family:'DM Mono',monospace;font-size:.52rem;text-transform:uppercase;letter-spacing:.1em;color:#80c880;margin-bottom:6px">Power Move</div>
       <p style="color:var(--ivory);font-size:.97rem;line-height:1.65;margin:0">${p.power_move}</p>
     </div>` : ''}
     ${p.final_line ? `
     <div style="padding:14px 18px;border-radius:var(--r);background:linear-gradient(135deg,#1e1a30,#12101a);border:1px solid #5c4a82;margin-bottom:14px;text-align:center">
-      <p style="font-family:'Playfair Display',serif;font-size:1.05rem;font-style:italic;color:var(--lav);line-height:1.6;margin:0">🎯 ${p.final_line}</p>
+      <p style="font-family:'Playfair Display',serif;font-size:1.05rem;font-style:italic;color:var(--lav);line-height:1.6;margin:0">${p.final_line}</p>
     </div>` : ''}
     <div class="div"></div>
     <div class="aff"><div class="al">Your Affirmation</div><p class="at">${p.affirmation||''}</p></div>
@@ -214,19 +221,19 @@ function buildPersonal(p) {
 
 function buildDaily(h) {
   return `<div class="div"></div>
-    ${s('✦','Overall Energy',h.daily_overall)}
-    ${s('♥','Love & Relationships',h.daily_love)}
-    ${s('◈','Career & Ambition',h.daily_career)}
-    ${s('◉','Health & Body',h.daily_health)}
-    ${s('☽','Spiritual Guidance',h.daily_spiritual)}
+    ${s('','Overall Energy',h.daily_overall)}
+    ${s('','Love & Relationships',h.daily_love)}
+    ${s('','Career & Ambition',h.daily_career)}
+    ${s('','Health & Body',h.daily_health)}
+    ${s('','Spiritual Guidance',h.daily_spiritual)}
     ${h.daily_power_move ? `
     <div style="padding:14px 18px;border-radius:var(--r);background:linear-gradient(135deg,#1e2a1e,#1a2518);border:1px solid #3a6a3a;border-left:3px solid #80c880;margin-bottom:14px">
-      <div style="font-family:'DM Mono',monospace;font-size:.52rem;text-transform:uppercase;letter-spacing:.1em;color:#80c880;margin-bottom:6px">⚡ Power Move</div>
+      <div style="font-family:'DM Mono',monospace;font-size:.52rem;text-transform:uppercase;letter-spacing:.1em;color:#80c880;margin-bottom:6px">Power Move</div>
       <p style="color:var(--ivory);font-size:.97rem;line-height:1.65;margin:0">${h.daily_power_move}</p>
     </div>` : ''}
     ${h.daily_final_line ? `
     <div style="padding:14px 18px;border-radius:var(--r);background:linear-gradient(135deg,#1e1a30,#12101a);border:1px solid #5c4a82;margin-bottom:14px;text-align:center">
-      <p style="font-family:'Playfair Display',serif;font-size:1.05rem;font-style:italic;color:var(--lav);line-height:1.6;margin:0">🎯 ${h.daily_final_line}</p>
+      <p style="font-family:'Playfair Display',serif;font-size:1.05rem;font-style:italic;color:var(--lav);line-height:1.6;margin:0">${h.daily_final_line}</p>
     </div>` : ''}
     <div class="lucky">
       <div class="li"><span class="ll">Numbers</span><span class="lv">${h.lucky_numbers||'—'}</span></div>
