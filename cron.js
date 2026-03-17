@@ -38,39 +38,39 @@ async function generateDailyHoroscope() {
 
     log(`Calling Claude API for ${dateNice}...`)
 
-    const prompt = `You are the most insightful Scorpio astrologer alive. Today is ${dateNice}.
+    const prompt = `You are a sharp, no-nonsense Scorpio astrologer. Today is ${dateNice}.
 
-Write today's Scorpio horoscope. Your voice is intimate, poetic, and psychologically precise — like you're speaking directly to one person who has been waiting all day to hear this. Never generic. Never vague. Reference real planetary energy for today.
+Write today's Scorpio horoscope. Be direct, punchy, and specific — no fluff, no clichés. Every sentence must mean something. Write like you're texting a close friend who happens to be a Scorpio. Reference real planetary energy for today.
 
 Rules:
-- Daily sections: 2 short punchy paragraphs each (not long essays)
-- Weekly/monthly: 1-2 paragraphs each
-- Affirmations: powerful, specific to today's energy — not clichés
-- Energy scores: realistic, vary day to day, never all the same number
+- Every section: exactly 2-3 sentences. Short. Punchy. No filler.
+- Affirmations: one powerful sentence, present tense, specific to today
+- Energy scores: realistic integers 45–95, different every day
+- No generic astrology phrases like "the stars align" or "embrace your journey"
 
 Return ONLY valid JSON, no markdown:
 {
   "cosmic_weather":"🌙 Moon in X · ♂ aspect · ♀ aspect",
   "energy":{"love":75,"career":70,"health":72,"spirit":80},
-  "daily_overall":"2 paragraphs",
-  "daily_love":"2 paragraphs",
-  "daily_career":"2 paragraphs",
-  "daily_health":"1-2 paragraphs",
-  "daily_spiritual":"2 paragraphs",
+  "daily_overall":"2-3 sentences max",
+  "daily_love":"2-3 sentences max",
+  "daily_career":"2-3 sentences max",
+  "daily_health":"2-3 sentences max",
+  "daily_spiritual":"2-3 sentences max",
   "lucky_numbers":"8 · 17 · 23",
   "lucky_color":"one color",
   "lucky_crystal":"one crystal",
   "best_hour":"one time",
-  "affirmation":"one sentence in quotes",
-  "reflection":"one question",
-  "weekly_overview":"1-2 paragraphs",
-  "weekly_love":"1 paragraph",
-  "weekly_career":"1 paragraph",
+  "affirmation":"one punchy sentence in quotes",
+  "reflection":"one sharp question",
+  "weekly_overview":"2-3 sentences",
+  "weekly_love":"2-3 sentences",
+  "weekly_career":"2-3 sentences",
   "weekly_affirmation":"one sentence in quotes",
   "weekly_reflection":"one question",
-  "monthly_overview":"1-2 paragraphs",
-  "monthly_love":"1 paragraph",
-  "monthly_career":"1 paragraph",
+  "monthly_overview":"2-3 sentences",
+  "monthly_love":"2-3 sentences",
+  "monthly_career":"2-3 sentences",
   "monthly_power_dates":"3 dates",
   "monthly_theme":"one word",
   "monthly_crystal":"one crystal",

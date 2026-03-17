@@ -29,39 +29,46 @@ router.post('/generate', requireAuth, async (_req, res) => {
     const today    = new Date().toISOString().split('T')[0]
     const dateNice = new Date().toLocaleDateString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric' })
 
-    const prompt = `You are a professional astrologer for Scorpio Zodiac. Today is ${dateNice}.
-Write a complete horoscope package for Scorpio. Be deep, psychological, poetic.
-Return ONLY valid JSON, no markdown, no explanation:
+    const prompt = `You are a sharp, no-nonsense Scorpio astrologer. Today is ${dateNice}.
+
+Write today's Scorpio horoscope. Be direct, punchy, and specific — no fluff, no clichés. Every sentence must mean something. Write like you're texting a close friend who happens to be a Scorpio. Reference real planetary energy for today.
+
+Rules:
+- Every section: exactly 2-3 sentences. Short. Punchy. No filler.
+- Affirmations: one powerful sentence, present tense, specific to today
+- Energy scores: realistic integers 45–95, different every day
+- No generic phrases like "the stars align" or "embrace your journey"
+
+Return ONLY valid JSON, no markdown:
 {
   "cosmic_weather":"🌙 Moon in X · ♂ aspect · ♀ aspect",
   "energy":{"love":75,"career":70,"health":72,"spirit":80},
-  "daily_overall":"2 paragraphs",
-  "daily_love":"2 paragraphs",
-  "daily_career":"2 paragraphs",
-  "daily_health":"1-2 paragraphs",
-  "daily_spiritual":"2 paragraphs",
+  "daily_overall":"2-3 sentences",
+  "daily_love":"2-3 sentences",
+  "daily_career":"2-3 sentences",
+  "daily_health":"2-3 sentences",
+  "daily_spiritual":"2-3 sentences",
   "lucky_numbers":"8 · 17 · 23",
-  "lucky_color":"Deep rose",
-  "lucky_crystal":"Obsidian",
-  "best_hour":"9 PM",
-  "affirmation":"Your affirmation",
-  "reflection":"Your question",
-  "weekly_overview":"2 paragraphs",
-  "weekly_love":"1-2 paragraphs",
-  "weekly_career":"1-2 paragraphs",
-  "weekly_affirmation":"affirmation",
-  "weekly_reflection":"question",
-  "monthly_overview":"2 paragraphs",
-  "monthly_love":"1-2 paragraphs",
-  "monthly_career":"1-2 paragraphs",
-  "monthly_power_dates":"12 · 20 · 28",
-  "monthly_theme":"Emergence",
-  "monthly_crystal":"Black Tourmaline",
-  "monthly_mantra":"I Transform",
-  "monthly_affirmation":"affirmation",
-  "monthly_reflection":"question"
-}
-Energy scores: integers 45–95, vary daily.`
+  "lucky_color":"one color",
+  "lucky_crystal":"one crystal",
+  "best_hour":"one time",
+  "affirmation":"one punchy sentence in quotes",
+  "reflection":"one sharp question",
+  "weekly_overview":"2-3 sentences",
+  "weekly_love":"2-3 sentences",
+  "weekly_career":"2-3 sentences",
+  "weekly_affirmation":"one sentence in quotes",
+  "weekly_reflection":"one question",
+  "monthly_overview":"2-3 sentences",
+  "monthly_love":"2-3 sentences",
+  "monthly_career":"2-3 sentences",
+  "monthly_power_dates":"3 dates",
+  "monthly_theme":"one word",
+  "monthly_crystal":"one crystal",
+  "monthly_mantra":"two words",
+  "monthly_affirmation":"one sentence in quotes",
+  "monthly_reflection":"one question"
+}`
 
     const r = await fetch('https://api.anthropic.com/v1/messages', {
       method:  'POST',
