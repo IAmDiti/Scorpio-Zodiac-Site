@@ -132,6 +132,18 @@ async function doSignup() {
   if (!email)       return err('sErr', 'Please enter your email.')
   if (pass.length < 6) return err('sErr', 'Password needs at least 6 characters.')
 
+  // Age gate — must be 16 or older
+  if (birth) {
+    const birthDate = new Date(birth)
+    const today     = new Date()
+    let age = today.getFullYear() - birthDate.getFullYear()
+    const m = today.getMonth() - birthDate.getMonth()
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) age--
+    if (age < 16) {
+      return err('sErr', 'You must be at least 16 years old to create an account.')
+    }
+  }
+
   // Scorpio-only gate — check birth date if provided
   if (birth) {
     const month = new Date(birth).getUTCMonth() + 1
