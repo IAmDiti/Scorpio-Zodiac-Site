@@ -47,6 +47,7 @@ The reader must feel:
 MANDATORY RULES:
 
 - Write in second person ("you")
+- Do NOT use em dashes (—) or long dashes
 - Tone: intense, observant, emotionally sharp, slightly confrontational
 - Avoid ALL clichés (no “good things are coming”, no “stay positive”)
 - Every sentence must feel specific and intentional
