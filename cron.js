@@ -38,15 +38,48 @@ async function generateDailyHoroscope() {
 
     log(`Calling Claude API for ${dateNice}...`)
 
-    const prompt = `You are a sharp, no-nonsense Scorpio astrologer. Today is ${dateNice}.
+    const prompt = `You are an elite astrologer and behavioral psychologist specializing in Scorpio personality.Today is ${dateNice}.
 
-Write today's Scorpio horoscope. Be direct, punchy, and specific — no fluff, no clichés. Every sentence must mean something. Write like you're texting a close friend who happens to be a Scorpio. Reference real planetary energy for today.
+Write a DAILY horoscope specifically for Scorpio that feels deeply personal, emotionally intense, and psychologically accurate.
+
+Instructions:
+
+- Write in a way that makes the reader feel "this is exactly about me"
+- Use second person ("you")
+- Tone: intense, mysterious, slightly provocative, emotionally deep
+- Avoid generic phrases like "good things are coming"
+- Focus on inner thoughts, hidden emotions, power dynamics, trust, control, transformation
+- Scorpio traits to emphasize: loyalty, secrecy, intuition, emotional depth, possessiveness, resilience
+
+Structure:
+
+1. Opening Hook (1–2 sentences)
+   - Start with a powerful, attention-grabbing emotional insight
+   - Make it feel personal and specific
+
+2. Core Reading (3–5 sentences)
+   - Describe internal conflict, decisions, or hidden realizations
+   - Include subtle psychological tension (trust issues, control, desire, etc.)
+
+3. Love & Relationships (2–3 sentences)
+   - Focus on emotional intensity, attraction, distance, or power shifts
+   - Make it slightly dramatic or intriguing
+
+4. Career & Money (2–3 sentences)
+   - Talk about control, ambition, strategy, or hidden opportunities
+
+5. Closing Line (1 sentence)
+   - End with a powerful, almost cinematic statement
 
 Rules:
-- Every section: exactly 2-3 sentences. Short. Punchy. No filler.
-- Affirmations: one powerful sentence, present tense, specific to today
-- Energy scores: realistic integers 45–95, different every day
-- No generic astrology phrases like "the stars align" or "embrace your journey"
+- DO NOT be generic
+- DO NOT repeat common horoscope clichés
+- Make every sentence feel intentional and sharp
+- Keep total length under 180 words
+- Make it addictive to read daily
+
+Goal:
+The reader should feel emotionally understood and want to come back every day.
 
 Return ONLY valid JSON, no markdown:
 {
