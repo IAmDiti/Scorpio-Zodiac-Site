@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms of Service | Scorpio Zodiac</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <style>
+    .legal { max-width:680px; margin:0 auto; padding:40px 20px 80px; }
+    .legal h1 { font-family:'Playfair Display',serif; font-size:2rem; color:var(--ivory); margin-bottom:8px; }
+    .legal .updated { font-family:'DM Mono',monospace; font-size:.6rem; color:var(--textd); text-transform:uppercase; letter-spacing:.1em; margin-bottom:36px; display:block; }
+    .legal h2 { font-family:'Playfair Display',serif; font-size:1.1rem; color:var(--lav); margin:32px 0 12px; }
+    .legal p  { color:var(--texts); line-height:1.85; margin-bottom:14px; font-size:.95rem; }
+    .legal ul { color:var(--texts); line-height:1.85; margin-bottom:14px; padding-left:20px; font-size:.95rem; }
+    .legal ul li { margin-bottom:6px; }
+    .legal a  { color:var(--lav); text-decoration:none; }
+    .legal a:hover { text-decoration:underline; }
+    .divider  { height:1px; background:var(--bdr); margin:32px 0; }
+  </style>
+</head>
+<body>
+<div id="stars"></div>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div id="app">
+
+  <nav>
+    <a href="/" class="logo"><span class="logo-g">♏</span> Scorpio Zodiac</a>
+    <div class="nav-links">
+      <a href="/"          class="nav-link">Horoscope</a>
+      <a href="/blog.html" class="nav-link">Blog</a>
+      <a href="/quiz.html" class="nav-link">Quizzes</a>
+    </div>
+    <div class="nav-right" id="navRight">
+      <button class="btn btn-o" onclick="openModal('login')">Sign In</button>
+      <button class="btn btn-f" onclick="openModal('signup')">Join Free</button>
+    </div>
+  </nav>
+
+  <div class="legal">
+    <a href="/" style="font-family:'DM Mono',monospace;font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;color:var(--textd);text-decoration:none;display:inline-block;margin-bottom:28px">← Back</a>
+    <h1>Terms of Service</h1>
+    <span class="updated">Last updated: March 2026</span>
+
+    <p>By accessing or using Scorpio Zodiac ("the Platform"), you agree to be bound by these Terms of Service. If you do not agree, please do not use the Platform.</p>
+
+    <h2>1. Who Can Use This Platform</h2>
+    <p>Scorpio Zodiac is designed exclusively for individuals born under the Scorpio sun sign (October 23 – November 21). By creating an account, you confirm that you are a Scorpio. You must be at least 13 years old to use this Platform.</p>
+
+    <h2>2. Your Account</h2>
+    <ul>
+      <li>You are responsible for maintaining the confidentiality of your account credentials</li>
+      <li>You must provide accurate information when creating your account</li>
+      <li>You may not share your account with others</li>
+      <li>You may not create multiple accounts</li>
+      <li>We reserve the right to suspend or terminate accounts that violate these terms</li>
+    </ul>
+
+    <h2>3. Content and Horoscopes</h2>
+    <p>All horoscope content on this Platform is generated using artificial intelligence (Anthropic Claude) and is provided for entertainment and self-reflection purposes only. It does not constitute:</p>
+    <ul>
+      <li>Professional psychological or therapeutic advice</li>
+      <li>Medical advice of any kind</li>
+      <li>Financial or legal guidance</li>
+      <li>A guarantee of future events</li>
+    </ul>
+    <p>We make no claims about the accuracy or predictive nature of astrological content. Use your own judgment when applying any reading to your life.</p>
+
+    <h2>4. Acceptable Use</h2>
+    <p>You agree not to:</p>
+    <ul>
+      <li>Attempt to access other users' accounts or data</li>
+      <li>Use automated tools to scrape or copy content</li>
+      <li>Attempt to reverse engineer or disrupt the Platform</li>
+      <li>Use the Platform for any unlawful purpose</li>
+      <li>Share or reproduce our content without attribution</li>
+    </ul>
+
+    <h2>5. Intellectual Property</h2>
+    <p>All content on Scorpio Zodiac — including horoscopes, blog posts, quiz content, and design — is the property of Scorpio Zodiac. You may share readings for personal use with attribution, but may not reproduce content commercially without written permission.</p>
+
+    <h2>6. Privacy</h2>
+    <p>Your use of the Platform is also governed by our <a href="/privacy.html">Privacy Policy</a>, which is incorporated into these Terms by reference.</p>
+
+    <h2>7. Disclaimers and Limitation of Liability</h2>
+    <p>The Platform is provided "as is" without warranties of any kind. We are not liable for any decisions made based on horoscope content, or for any interruptions to service. Our total liability to you shall not exceed the amount you paid us in the preceding 12 months (which is zero, as the Platform is currently free).</p>
+
+    <h2>8. Changes to These Terms</h2>
+    <p>We may update these Terms at any time. Continued use of the Platform after changes constitutes acceptance. We will note the date of the last update at the top of this page.</p>
+
+    <h2>9. Contact</h2>
+    <p>Questions about these terms? Reach us through our <a href="/contact.html">contact page</a>.</p>
+
+    <div class="divider"></div>
+    <p style="font-size:.85rem;color:var(--textd)">These terms are governed by applicable law. If any provision is found unenforceable, the remaining provisions continue in full force.</p>
+  </div>
+
+  <footer>
+    <div class="fl">♏ Scorpio Zodiac</div>
+    <nav class="fn">
+      <a href="/">Horoscope</a>
+      <a href="/blog.html">Blog</a>
+      <a href="/quiz.html">Quizzes</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/terms.html">Terms</a>
+      <a href="/contact.html">Contact</a>
+    </nav>
+    <p>Guided by the stars. Built for the depths. © <span id="ftY"></span> Scorpio Zodiac</p>
+  </footer>
+</div>
+
+<div class="mbg" id="authModal">
+  <div class="modal">
+    <button class="mx" onclick="closeModal()">✕</button>
+    <div class="mg">♏</div><h2>Scorpio Zodiac</h2><p class="msub">Your full cosmic truth awaits</p>
+    <div class="sw"><button class="swb active" id="sw1" onclick="switchTab('login')">Sign In</button><button class="swb" id="sw2" onclick="switchTab('signup')">Join Free</button></div>
+    <div id="fLogin"><div class="fg"><label>Email</label><input type="email" id="lEmail" placeholder="you@cosmos.com"></div><div class="fg"><label>Password</label><input type="password" id="lPass" placeholder="••••••••"></div><div class="err hidden" id="lErr"></div><button class="btn btn-f btn-block" id="btnLogin" onclick="doLogin()">Enter ♏</button></div>
+    <div id="fSignup" class="hidden"><div class="fg"><label>Name</label><input type="text" id="sName"></div><div class="fg"><label>Email</label><input type="email" id="sEmail"></div><div class="fg"><label>Password</label><input type="password" id="sPass"></div><div class="err hidden" id="sErr"></div><button class="btn btn-f btn-block" id="btnSignup" onclick="doSignup()">Begin My Journey</button></div>
+    <div id="fForgot" class="hidden"><button class="bbtn" onclick="switchTab('login')">← Back</button><div class="fg"><label>Email</label><input type="email" id="fEmail"></div><div class="err hidden" id="fErr"></div><div class="okm hidden" id="fOk"></div><button class="btn btn-f btn-block" id="btnForgot" onclick="doForgot()">Send Reset Link</button></div>
+  </div>
+</div>
+<div class="mbg" id="profModal"><div class="modal"><button class="mx" onclick="closeProfileModal()">✕</button><div class="mg">♏</div><h2>My Profile</h2><p class="msub">Update your cosmic details</p><div class="fg"><label>Name</label><input type="text" id="pName"></div><div class="fg"><label>Email</label><input type="email" id="pEmail"></div><div class="fg"><label>Birth Date</label><input type="date" id="pBirth"></div><div class="fg"><label>New Password</label><input type="password" id="pPass"></div><div class="fg"><label>Confirm</label><input type="password" id="pPass2"></div><div class="err hidden" id="pErr"></div><div class="okm hidden" id="pOk"></div><button class="btn btn-f btn-block" id="btnProf" onclick="doSaveProfile()">Save Changes ✦</button><div style="height:1px;background:var(--bdr);margin:14px 0"></div><button class="btn btn-o btn-block" onclick="doLogout()">Log Out</button></div></div>
+<div class="toast" id="toast"></div>
+<script src="/js/api.js"></script>
+<script src="/js/auth.js"></script>
+<script>
+  ;(function(){ const el=document.getElementById('ftY'); if(el) el.textContent=new Date().getFullYear() })()
+  ;(function(){
+    const el=document.getElementById('stars'); if(!el) return
+    for(let i=0;i<80;i++){const s=document.createElement('div');s.className='star';const sz=Math.random()*1.8+0.3;s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--d:${3+Math.random()*5}s;animation-delay:${Math.random()*6}s`;el.appendChild(s)}
+  })()
+</script>
+</body>
+</html>

@@ -22,6 +22,7 @@ app.use('/api/horoscope', require('./routes/horoscope'))
 app.use('/api/personal',  require('./routes/personal'))
 app.use('/api/blog',      require('./routes/blog'))
 app.use('/api/quizzes',   require('./routes/quizzes'))
+app.use('/api/contact',   require('./routes/contact'))
 app.use('/api/admin',     require('./routes/admin'))
 
 // ── Debug ────────────────────────────────────────────────
