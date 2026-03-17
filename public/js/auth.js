@@ -132,6 +132,16 @@ async function doSignup() {
   if (!email)       return err('sErr', 'Please enter your email.')
   if (pass.length < 6) return err('sErr', 'Password needs at least 6 characters.')
 
+  // Scorpio-only gate — check birth date if provided
+  if (birth) {
+    const month = new Date(birth).getUTCMonth() + 1
+    const day   = new Date(birth).getUTCDate()
+    const isScorpio = (month === 10 && day >= 23) || (month === 11 && day <= 21)
+    if (!isScorpio) {
+      return err('sErr', 'This platform is exclusively for Scorpio (Oct 23 – Nov 21).')
+    }
+  }
+
   loading('btnSignup', 'Checking...')
 
   // reCAPTCHA v3 — invisible check

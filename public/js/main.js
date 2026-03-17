@@ -82,8 +82,6 @@ function renderPersonalReading(p) {
   const full = document.getElementById('fullRead')
   if (full) {
     full.classList.remove('hidden')
-    // Show chart badge
-    const chart = window._userChart || { moon: p.moon_sign, venus: p.venus_sign, mars: p.mars_sign }
     const chartBadge = (p.moon_sign || p.venus_sign) ? `
       <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px">
         ${p.moon_sign  ? `<span style="padding:3px 10px;background:var(--bg2);border:1px solid var(--bdr2);border-radius:20px;font-family:'DM Mono',monospace;font-size:.55rem;color:var(--lav)">Moon in ${p.moon_sign}</span>` : ''}
@@ -92,6 +90,12 @@ function renderPersonalReading(p) {
       </div>` : ''
     full.innerHTML = chartBadge + buildPersonal(p)
   }
+
+  // Weekly and monthly come from the generic horoscope
+  const wk = document.getElementById('weeklyC')
+  const mo = document.getElementById('monthlyC')
+  if (wk && HZ)  wk.innerHTML = buildWeekly(HZ)
+  if (mo && HZ)  mo.innerHTML = buildMonthly(HZ)
 }
 
 function renderCW(h) {
@@ -137,9 +141,11 @@ function renderReading(h) {
     const el = document.getElementById('tp-daily')
     if (el) el.querySelector('#rdContent') && (el.querySelector('#rdContent').innerHTML =
       '<p class="reading" style="color:var(--textd);font-style:italic;text-align:center;padding:14px 0">No horoscope published yet. Check back soon.</p>')
-    // Show generate button only for admin (your email)
+    // Show generate button only for admin
     const ADMIN_EMAIL = 'ditidon@gmail.com'
-    if (SZ && SZ.email === ADMIN_EMAIL) document.getElementById('generateBox')?.classList.remove('hidden')
+    if (SZ && SZ.email === ADMIN_EMAIL) {
+      document.getElementById('generateBox')?.classList.remove('hidden')
+    }
     return
   }
   // Hide generate box when horoscope exists
@@ -178,7 +184,15 @@ function renderReading(h) {
   }
 }
 
-document.addEventListener('authReady', () => { if (HZ !== undefined) renderReading(HZ) })
+document.addEventListener('authReady', () => {
+  // Update hero title with user's first name
+  const title = document.getElementById('heroTitle')
+  if (title && SZ) {
+    const first = (SZ.name || '').split(' ')[0]
+    if (first) title.innerHTML = `Your Cosmic Truth<br><em>Awaits</em>, ${first}`
+  }
+  if (HZ !== undefined) renderReading(HZ)
+})
 
 // tab switching
 document.addEventListener('click', e => {
