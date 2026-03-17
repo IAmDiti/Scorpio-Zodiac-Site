@@ -99,35 +99,61 @@ async function generatePersonalHoroscopes() {
 }
 
 async function generateForUser(user, chart, dateNice) {
-  const prompt = `You are an elite astrologer and behavioral psychologist specializing in Scorpio.
+  const prompt = `You are an elite astrologer, behavioral psychologist, and high-level copywriter specializing in Scorpio personality.
 Today is ${dateNice}.
 
 Write a PERSONALIZED daily horoscope for this specific Scorpio:
-- Moon in ${chart.moon} (${chart.moonElement} — ${chart.summary.split(',')[0].replace('Moon in '+chart.moon+' (','').replace(')','')})
-- Venus in ${chart.venus} (${chart.venusElement})
-- Mars in ${chart.mars} (${chart.marsElement})
+- Moon in ${chart.moon} (${chart.moonElement}) — their emotional world is ${getMoonMeaning(chart.moon)}
+- Venus in ${chart.venus} (${chart.venusElement}) — they love ${getVenusMeaning(chart.venus)}
+- Mars in ${chart.mars} (${chart.marsElement}) — they act ${getMarsMeaning(chart.mars)}
 
-This person has Scorpio Sun. Their Moon in ${chart.moon} means their emotional world is ${getMoonMeaning(chart.moon)}. Their Venus in ${chart.venus} means they love ${getVenusMeaning(chart.venus)}. Their Mars in ${chart.mars} means they act ${getMarsMeaning(chart.mars)}.
+CORE GOAL:
+This person must feel:
+- "This was written specifically for me"
+- slightly exposed (in a good way)
+- emotionally engaged
+- compelled to come back tomorrow
 
-RULES:
+MANDATORY RULES:
 - Write in second person ("you")
-- Reference their specific Moon/Venus/Mars placements naturally — don't just list them
-- Tone: intense, psychologically sharp, slightly confrontational
-- Every sentence must feel written for THIS person specifically
-- Include at least one ego-trigger line and one micro-specific behavioral detail
-- Vary the theme daily (power, desire, clarity, transformation, control, depth)
+- Tone: intense, observant, emotionally sharp, slightly confrontational
+- Avoid ALL clichés (no "good things are coming", no "stay positive")
+- Reference their Moon/Venus/Mars naturally — weave them in, don't list them
+- Every sentence must feel written for THIS specific person
+- Do NOT repeat the same theme every day (rotate: power, desire, confidence, clarity, transformation, control, emotional depth)
+
+PSYCHOLOGICAL ELEMENTS (include at least 3):
+- A subtle behavioral detail specific to their chart (pause, tone, silence, timing)
+- Internal conflict matching their Moon sign (what they feel vs what they admit)
+- Power dynamic filtered through their Mars sign
+- Hidden truth connected to their Venus placement
+- Emotional tension that only someone with this exact chart would recognize
+
+STYLE:
+- At least ONE ego-trigger line (e.g. "You're not confused — you're avoiding the answer.")
+- At least ONE micro-specific moment (e.g. "that pause before they answered", "the way their tone shifted")
+- Moon in ${chart.moon}: shape the emotional undercurrent of the whole reading
+- Venus in ${chart.venus}: color the love section specifically
+- Mars in ${chart.mars}: drive the career/action section
+
+FORBIDDEN:
+- No vague statements
+- No generic Scorpio tropes that apply to everyone
+- No soft endings
+- No filler sentences
+- No listing the placements directly ("your Moon in X means...")
 
 Return ONLY valid JSON, no markdown:
 {
-  "overall":"2-3 sentences — hook with a bold insight specific to their chart",
-  "love":"2-3 sentences — reference their Venus sign naturally",
-  "career":"2-3 sentences — reference their Mars sign naturally",
-  "health":"1-2 sentences",
-  "spiritual":"1-2 sentences — reference their Moon sign",
-  "power_move":"1 sentence — specific action tailored to their placements",
-  "final_line":"1 cinematic sentence that hits like a truth",
-  "affirmation":"one punchy sentence in quotes",
-  "reflection":"one sharp question specific to their chart"
+  "overall":"2-3 sentences — bold intrusive insight shaped by their Moon in ${chart.moon}",
+  "love":"2-3 sentences — specific to their Venus in ${chart.venus}",
+  "career":"2-3 sentences — driven by their Mars in ${chart.mars}",
+  "health":"1-2 sentences — connect physical sensation to their emotional pattern",
+  "spiritual":"1-2 sentences — a truth only someone with Moon in ${chart.moon} would feel",
+  "power_move":"1 sentence — a specific action tailored to their Mars in ${chart.mars}",
+  "final_line":"1 cinematic sentence that hits like a truth unique to their chart",
+  "affirmation":"one punchy present-tense sentence in quotes",
+  "reflection":"one sharp question only someone with this exact chart would ask themselves"
 }`
 
   try {
