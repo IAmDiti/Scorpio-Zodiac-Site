@@ -95,7 +95,29 @@ router.delete('/posts/:id', requireAuth, requireAdmin, async (req, res) => {
   }
 })
 
-// ── GET /api/admin/quizzes ───────────────────────────────
+// ── POST /api/admin/generate-personal ───────────────────
+router.post('/generate-personal', requireAuth, requireAdmin, async (req, res) => {
+  try {
+    const { generatePersonalHoroscopes } = require('../personal-cron')
+    // Run async and track result
+    let generated = 0, skipped = 0
+
+    // Patch log to count
+    const origLog = console.log
+    await generatePersonalHoroscopes()
+
+    // Re-read counts from DB for today
+    const today = new Date().toISOString().split('T')[0]
+    const { data: rows } = await getDB()
+      .from('personal_horoscopes')
+      .select('id', { count: 'exact' })
+      .eq('date', today)
+
+    res.json({ ok: true, generated: rows?.length || 0, skipped: 0 })
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
 router.get('/quizzes', requireAuth, requireAdmin, async (req, res) => {
   try {
     const { data, error } = await getDB()

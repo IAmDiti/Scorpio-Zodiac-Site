@@ -281,7 +281,15 @@
         <div class="card" style="margin-bottom:20px">
           <h3 style="font-family:'Playfair Display',serif;color:var(--ivory);margin-bottom:8px">Generate Today's Horoscope</h3>
           <p style="color:var(--textd);font-size:.85rem;margin-bottom:14px">Calls Claude AI and publishes a new horoscope immediately. Takes ~15 seconds.</p>
-          <button class="btn btn-f" id="genBtn" onclick="generateNow()">✦ Generate &amp; Publish Now</button>
+          <button class="btn btn-f" id="genBtn" onclick="generateNow()">Generate &amp; Publish Now</button>
+        </div>
+
+        <!-- Generate personal -->
+        <div class="card" style="margin-bottom:20px">
+          <h3 style="font-family:'Playfair Display',serif;color:var(--ivory);margin-bottom:8px">Generate Personal Horoscopes</h3>
+          <p style="color:var(--textd);font-size:.85rem;margin-bottom:14px">Generates personalized readings for all users who have a birth date. Runs automatically at 6:30 AM — use this to test or regenerate manually.</p>
+          <button class="btn btn-f" id="genPersonalBtn" onclick="generatePersonalNow()" style="background:linear-gradient(135deg,#3d3055,#4a3048)">Generate Personal Readings</button>
+          <div id="personalProgress" style="margin-top:12px;font-family:'DM Mono',monospace;font-size:.62rem;color:var(--textd)"></div>
         </div>
 
         <!-- Recent horoscopes -->
@@ -523,7 +531,26 @@ document.getElementById('postSlug')?.addEventListener('input', function() {
 })
 
 // ── Generate horoscope ────────────────────────────────────
-async function generateNow() {
+async function generatePersonalNow() {
+  const btn  = document.getElementById('genPersonalBtn')
+  const prog = document.getElementById('personalProgress')
+  btn.textContent = 'Generating... (this may take a while)'
+  btn.disabled = true
+  if (prog) prog.textContent = 'Starting...'
+  notice('horoscopeNotice','','')
+
+  const { ok, data, error } = await API.req('POST', '/api/admin/generate-personal')
+  btn.textContent = 'Generate Personal Readings'
+  btn.disabled = false
+
+  if (ok) {
+    if (prog) prog.textContent = `Done — Generated: ${data.generated}, Skipped: ${data.skipped}`
+    notice('horoscopeNotice','ok',`Personal horoscopes generated — ${data.generated} new, ${data.skipped} skipped`)
+  } else {
+    if (prog) prog.textContent = ''
+    notice('horoscopeNotice','err', error || 'Could not generate personal horoscopes.')
+  }
+}
   const btn = document.getElementById('genBtn')
   btn.textContent = '⏳ Generating... (~15 seconds)'
   btn.disabled = true
