@@ -38,48 +38,71 @@ async function generateDailyHoroscope() {
 
     log(`Calling Claude API for ${dateNice}...`)
 
-    const prompt = `You are an elite astrologer and behavioral psychologist specializing in Scorpio personality.Today is ${dateNice}.
+    const prompt = `You are an elite astrologer, behavioral psychologist, and expert copywriter specializing in Scorpio psychology.
 
-Write a DAILY horoscope specifically for Scorpio that feels deeply personal, emotionally intense, and psychologically accurate.
+Your task is to write a DAILY Scorpio horoscope that feels extremely personal, emotionally intense, and impossible to ignore.
 
-Instructions:
+MANDATORY RULES:
 
-- Write in a way that makes the reader feel "this is exactly about me"
-- Use second person ("you")
-- Tone: intense, mysterious, slightly provocative, emotionally deep
-- Avoid generic phrases like "good things are coming"
-- Focus on inner thoughts, hidden emotions, power dynamics, trust, control, transformation
-- Scorpio traits to emphasize: loyalty, secrecy, intuition, emotional depth, possessiveness, resilience
+- Write in second person ("you")
+- Tone must be intense, mysterious, slightly confrontational, and psychologically sharp
+- Avoid ALL generic horoscope phrases (e.g. "good things are coming", "stay positive")
+- Every sentence must feel specific, not broad
+- Create the feeling: "This was written exactly for me"
+- Keep total length between 120–180 words
 
-Structure:
+PSYCHOLOGICAL TRIGGERS TO USE:
 
-1. Opening Hook (1–2 sentences)
-   - Start with a powerful, attention-grabbing emotional insight
-   - Make it feel personal and specific
+- Hidden truth being revealed
+- Power dynamics (who is in control, who is losing it)
+- Emotional tension (trust, betrayal, desire, distance)
+- Intuition vs doubt
+- Subtle behavioral changes in others
+- Unspoken thoughts
 
-2. Core Reading (3–5 sentences)
-   - Describe internal conflict, decisions, or hidden realizations
-   - Include subtle psychological tension (trust issues, control, desire, etc.)
+STRUCTURE:
 
-3. Love & Relationships (2–3 sentences)
-   - Focus on emotional intensity, attraction, distance, or power shifts
-   - Make it slightly dramatic or intriguing
+1. HOOK (1–2 sentences)
+   - Start with a bold, almost intrusive insight
+   - Make the reader pause immediately
+   - Example style: “You already know what they’re not saying.”
 
-4. Career & Money (2–3 sentences)
-   - Talk about control, ambition, strategy, or hidden opportunities
+2. CORE READING (3–4 sentences)
+   - Describe a specific emotional or psychological situation
+   - Include inner conflict and realization
+   - Make it feel like something unfolding today
 
-5. Closing Line (1 sentence)
-   - End with a powerful, almost cinematic statement
+3. LOVE & RELATIONSHIPS (2–3 sentences)
+   - Focus on tension, attraction, or emotional shift
+   - Include subtle observation (tone, behavior, silence, distance)
 
-Rules:
-- DO NOT be generic
-- DO NOT repeat common horoscope clichés
-- Make every sentence feel intentional and sharp
-- Keep total length under 180 words
-- Make it addictive to read daily
+4. CAREER & POWER (2–3 sentences)
+   - Focus on strategy, positioning, or hidden dynamics
+   - Suggest that someone is observing or something is shifting
 
-Goal:
-The reader should feel emotionally understood and want to come back every day.
+5. POWER MOVE (1 sentence)
+   - Give a specific behavioral direction
+   - Make it feel like insider advice
+
+6. FINAL LINE (1 sentence)
+   - Strong, cinematic, memorable closing
+
+FORBIDDEN:
+
+- No clichés
+- No vague advice
+- No repeating phrases
+- No “universe will reward you” type language
+
+GOAL:
+
+The reader should:
+- Feel exposed (in a good way)
+- Feel understood deeply
+- Feel slightly uncomfortable but intrigued
+- Want to come back tomorrow
+
+Write it like you know something about them they haven’t admitted yet.
 
 Return ONLY valid JSON, no markdown:
 {
