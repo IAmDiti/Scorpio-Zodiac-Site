@@ -2,8 +2,12 @@
 // Free tier: 3,000 emails/month
 
 function getResend() {
-  const { Resend } = require('resend')
-  return new Resend(process.env.RESEND_API_KEY)
+  try {
+    const { Resend } = require('resend')
+    return new Resend(process.env.RESEND_API_KEY)
+  } catch (e) {
+    return null
+  }
 }
 
 const FROM = 'Scorpio Zodiac <readings@zodiacsignzone.com>'
@@ -12,8 +16,9 @@ const SITE = process.env.APP_URL || 'https://www.zodiacsignzone.com'
 // ── Daily reading notification ────────────────────────────
 async function sendDailyReadingEmail(user) {
   if (!process.env.RESEND_API_KEY) return
+  const resend = getResend()
+  if (!resend) return
   try {
-    const resend = getResend()
     const firstName = (user.name || 'Scorpio').split(' ')[0]
     const today = new Date().toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric' })
 
@@ -76,8 +81,9 @@ async function sendDailyReadingEmail(user) {
 // ── Welcome email after signup ────────────────────────────
 async function sendWelcomeEmail(user) {
   if (!process.env.RESEND_API_KEY) return
+  const resend = getResend()
+  if (!resend) return
   try {
-    const resend = getResend()
     const firstName = (user.name || 'Scorpio').split(' ')[0]
 
     await resend.emails.send({
