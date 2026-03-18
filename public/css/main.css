@@ -238,3 +238,17 @@ footer{border-top:1px solid var(--bdr);padding:28px 20px;text-align:center;color
   .bg2-{grid-template-columns:1fr}
   .rings{gap:16px;padding:12px 14px}
 }
+
+/* ── Google button ─────────────────────────────────────── */
+.btn-google {
+  width:100%; padding:10px 16px; margin-bottom:4px;
+  background:#fff; border:1px solid #dadce0; border-radius:40px;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'DM Mono',monospace; font-size:.65rem; text-transform:uppercase;
+  letter-spacing:.06em; color:#3c4043; cursor:pointer;
+  transition:all .2s; box-shadow:0 1px 3px #00000015;
+}
+.btn-google:hover { box-shadow:0 2px 8px #00000025; border-color:#c0c4cc; }
+.or-sep { display:flex; align-items:center; gap:10px; margin:10px 0; }
+.or-sep::before,.or-sep::after { content:''; flex:1; height:1px; background:var(--bdr); }
+.or-sep span { font-family:'DM Mono',monospace; font-size:.55rem; color:var(--textd); }

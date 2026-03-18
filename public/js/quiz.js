@@ -224,10 +224,11 @@ function showResult() {
       </div>`
 
     // When user logs in — show result automatically
-    document.addEventListener('authReady', function onAuth() {
-      if (window.SZ || (typeof SZ !== 'undefined' && SZ)) {
+    document.addEventListener('authReady', function onAuth(e) {
+      const user = e.detail || window.SZ || (typeof SZ !== 'undefined' ? SZ : null)
+      if (user) {
         document.removeEventListener('authReady', onAuth)
-        renderResult(window._quizResult)
+        if (window._quizResult) renderResult(window._quizResult)
       }
     })
     return
