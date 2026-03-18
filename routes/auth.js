@@ -8,16 +8,17 @@ const { requireAuth } = require('../middleware/auth')
 const router = express.Router()
 
 // ── helpers ───────────────────────────────────────────────
-function setToken(res, user) {
+function setToken(res, user, req) {
   const token = jwt.sign(
     { id: user.id, name: user.name, email: user.email },
     process.env.JWT_SECRET,
     { expiresIn: '7d' }
   )
+  const isHttps = req && req.headers['x-forwarded-proto'] === 'https'
   res.cookie('sz_token', token, {
     httpOnly: true,
     sameSite: 'lax',
-    secure: process.env.NODE_ENV === 'production',
+    secure: isHttps,
     maxAge: 7 * 24 * 60 * 60 * 1000,
   })
   return token
@@ -49,7 +50,7 @@ router.post('/signup', async (req, res) => {
       .select('id, name, email, birth_date').single()
     if (error) throw error
 
-    setToken(res, user)
+    setToken(res, user, req)
 
     // Send welcome email
     try {
@@ -80,7 +81,7 @@ router.post('/login', async (req, res) => {
     if (!ok)
       return res.status(401).json({ error: 'Wrong password.' })
 
-    setToken(res, user)
+    setToken(res, user, req)
     res.json({ ok: true, user: { id: user.id, name: user.name, email: user.email, birth_date: user.birth_date } })
   } catch (err) {
     console.error('login error:', err.message)
@@ -122,7 +123,7 @@ router.put('/profile', requireAuth, async (req, res) => {
       .from('users').update(updates).eq('id', req.user.id).select('id, name, email, birth_date').single()
     if (error) throw error
 
-    setToken(res, user)
+    setToken(res, user, req)
     res.json({ ok: true, user })
   } catch (err) {
     res.status(500).json({ error: err.message })
@@ -220,7 +221,7 @@ router.get('/callback', async (req, res) => {
     }
 
     // Set our JWT cookie and redirect home
-    setToken(res, existing)
+    setToken(res, existing, req)
     console.log('Google login success:', email)
     res.redirect('/')
 
@@ -259,7 +260,7 @@ router.post('/google-token', async (req, res) => {
       existing = newUser
     }
 
-    setToken(res, existing)
+    setToken(res, existing, req)
     console.log('Google token login success:', email)
     res.json({ ok: true, user: { id: existing.id, name: existing.name, email: existing.email } })
 
