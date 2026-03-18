@@ -181,6 +181,23 @@ Energy scores: integers 45–95, vary daily, never all the same.`
 
     log(`✓ Horoscope for ${today} generated and published successfully`)
 
+    // Send daily reading emails to all users
+    if (process.env.RESEND_API_KEY) {
+      const { sendDailyReadingEmail } = require('./email')
+      const { data: users } = await getDB()
+        .from('users').select('id, name, email')
+      if (users?.length) {
+        log(`Sending daily emails to ${users.length} users...`)
+        let sent = 0
+        for (const user of users) {
+          const ok = await sendDailyReadingEmail(user)
+          if (ok) sent++
+          await new Promise(r => setTimeout(r, 100)) // small delay
+        }
+        log(`✓ Sent ${sent}/${users.length} daily emails`)
+      }
+    }
+
   } catch (err) {
     log(`✗ Error: ${err.message}`)
   }

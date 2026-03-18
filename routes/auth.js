@@ -48,6 +48,13 @@ router.post('/signup', async (req, res) => {
     if (error) throw error
 
     setToken(res, user)
+
+    // Send welcome email
+    try {
+      const { sendWelcomeEmail } = require('../email')
+      sendWelcomeEmail(user) // fire and forget
+    } catch (e) {}
+
     res.status(201).json({ ok: true, user })
   } catch (err) {
     console.error('signup error:', err.message)

@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /api/
+Disallow: /auth/
+
+Sitemap: https://www.zodiacsignzone.com/sitemap.xml
