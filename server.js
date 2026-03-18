@@ -8,9 +8,37 @@ const path         = require('path')
 const app  = express()
 const PORT = process.env.PORT || 3000
 
-app.use(express.json())
+// ── Force HTTPS in production ─────────────────────────────
+app.use((req, res, next) => {
+  if (process.env.NODE_ENV === 'production' &&
+      req.headers['x-forwarded-proto'] !== 'https') {
+    return res.redirect(301, 'https://' + req.headers.host + req.url)
+  }
+  next()
+})
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
+
+// ── Clean URLs (no .html) ─────────────────────────────────
+app.get('/blog',        (req, res) => res.sendFile(path.join(__dirname, 'public', 'blog.html')))
+app.get('/quiz',        (req, res) => res.sendFile(path.join(__dirname, 'public', 'quiz.html')))
+app.get('/post',        (req, res) => res.sendFile(path.join(__dirname, 'public', 'post.html')))
+app.get('/quiz-play',   (req, res) => res.sendFile(path.join(__dirname, 'public', 'quiz-play.html')))
+app.get('/admin',       (req, res) => res.sendFile(path.join(__dirname, 'public', 'admin.html')))
+app.get('/privacy',     (req, res) => res.sendFile(path.join(__dirname, 'public', 'privacy.html')))
+app.get('/terms',       (req, res) => res.sendFile(path.join(__dirname, 'public', 'terms.html')))
+app.get('/contact',     (req, res) => res.sendFile(path.join(__dirname, 'public', 'contact.html')))
+app.get('/auth/callback', (req, res) => res.sendFile(path.join(__dirname, 'public', 'auth', 'callback.html')))
+
+// ── Redirect old .html URLs to clean URLs ─────────────────
+app.get('/blog.html',       (req, res) => res.redirect(301, '/blog'))
+app.get('/quiz.html',       (req, res) => res.redirect(301, '/quiz'))
+app.get('/post.html',       (req, res) => res.redirect(301, '/post' + (req.query.slug ? '?slug=' + req.query.slug : '')))
+app.get('/quiz-play.html',  (req, res) => res.redirect(301, '/quiz-play' + (req.query.q ? '?q=' + req.query.q : '')))
+app.get('/admin.html',      (req, res) => res.redirect(301, '/admin'))
+app.get('/privacy.html',    (req, res) => res.redirect(301, '/privacy'))
+app.get('/terms.html',      (req, res) => res.redirect(301, '/terms'))
+app.get('/contact.html',    (req, res) => res.redirect(301, '/contact'))
 
 // ── Static files ─────────────────────────────────────────
 app.use(express.static(path.join(__dirname, 'public')))

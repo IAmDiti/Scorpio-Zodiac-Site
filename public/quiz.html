@@ -16,8 +16,8 @@
     <a href="/" class="logo"><span class="logo-g">♏</span> Scorpio Zodiac</a>
     <div class="nav-links">
       <a href="/"          class="nav-link">Horoscope</a>
-      <a href="/blog.html" class="nav-link">Blog</a>
-      <a href="/quiz.html" class="nav-link active">Quizzes</a>
+      <a href="/blog" class="nav-link">Blog</a>
+      <a href="/quiz" class="nav-link active">Quizzes</a>
     </div>
     <div class="nav-right" id="navRight">
       <button class="btn btn-o" onclick="openModal('login')">Sign In</button>
@@ -35,7 +35,7 @@
   <div class="wrap" style="padding-bottom:60px">
     <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px">
 
-      <a href="/quiz-play.html?q=archetype" class="bc" style="display:block;text-decoration:none;padding:24px">
+      <a href="/quiz-play?q=archetype" class="bc" style="display:block;text-decoration:none;padding:24px">
         <div style="font-size:2rem;margin-bottom:10px">🦂</div>
         <span class="bc-tag" style="background:linear-gradient(135deg,#3d3055,#4a3048);border-color:#6b5580;color:var(--lav)">Most Popular</span>
         <h2 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--ivory);line-height:1.3;margin:10px 0 8px">What's Your Scorpio Archetype?</h2>
@@ -44,7 +44,7 @@
         <span style="font-family:'DM Mono',monospace;font-size:.6rem;color:var(--lav);text-transform:uppercase;letter-spacing:.08em">Begin Quiz →</span>
       </a>
 
-      <a href="/quiz-play.html?q=score" class="bc" style="display:block;text-decoration:none;padding:24px">
+      <a href="/quiz-play?q=score" class="bc" style="display:block;text-decoration:none;padding:24px">
         <div style="font-size:2rem;margin-bottom:10px">⚡</div>
         <span class="bc-tag" style="background:linear-gradient(135deg,#3d3055,#4a3048);border-color:#6b5580;color:var(--lav)">Most Honest</span>
         <h2 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--ivory);line-height:1.3;margin:10px 0 8px">How Scorpio Are You Really?</h2>
@@ -53,7 +53,7 @@
         <span style="font-family:'DM Mono',monospace;font-size:.6rem;color:var(--lav);text-transform:uppercase;letter-spacing:.08em">Begin Quiz →</span>
       </a>
 
-      <a href="/quiz-play.html?q=love" class="bc" style="display:block;text-decoration:none;padding:24px">
+      <a href="/quiz-play?q=love" class="bc" style="display:block;text-decoration:none;padding:24px">
         <div style="font-size:2rem;margin-bottom:10px">♥</div>
         <span class="bc-tag" style="background:linear-gradient(135deg,#3d3055,#4a3048);border-color:#6b5580;color:var(--lav)">Most Shared</span>
         <h2 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--ivory);line-height:1.3;margin:10px 0 8px">What's Your Scorpio Love Style?</h2>
@@ -62,7 +62,7 @@
         <span style="font-family:'DM Mono',monospace;font-size:.6rem;color:var(--lav);text-transform:uppercase;letter-spacing:.08em">Begin Quiz →</span>
       </a>
 
-      <a href="/quiz-play.html?q=planet" class="bc" style="display:block;text-decoration:none;padding:24px">
+      <a href="/quiz-play?q=planet" class="bc" style="display:block;text-decoration:none;padding:24px">
         <div style="font-size:2rem;margin-bottom:10px">🪐</div>
         <span class="bc-tag" style="background:linear-gradient(135deg,#3d3055,#4a3048);border-color:#6b5580;color:var(--lav)">Most Revealing</span>
         <h2 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--ivory);line-height:1.3;margin:10px 0 8px">Which Planet Rules Your Emotions?</h2>
@@ -80,7 +80,7 @@
 
   <footer>
     <div class="fl">♏ Scorpio Zodiac</div>
-    <nav class="fn"><a href="/">Horoscope</a><a href="/blog.html">Blog</a><a href="/quiz.html">Quizzes</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/contact.html">Contact</a></nav>
+    <nav class="fn"><a href="/">Horoscope</a><a href="/blog">Blog</a><a href="/quiz">Quizzes</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/contact">Contact</a></nav>
     <p>Guided by the stars. Built for the depths. © <span id="ftY"></span> Scorpio Zodiac</p>
   </footer>
 </div>
@@ -154,7 +154,7 @@
       if (!container) return
 
       container.innerHTML = extra.map(q => `
-        <a href="/quiz-play.html?q=${q.quiz_id}" class="bc" style="display:block;text-decoration:none;padding:24px">
+        <a href="/quiz-play?q=${q.quiz_id}" class="bc" style="display:block;text-decoration:none;padding:24px">
           <div style="font-size:2rem;margin-bottom:10px">${q.icon || '🔮'}</div>
           <span class="bc-tag" style="background:linear-gradient(135deg,#3d3055,#4a3048);border-color:#6b5580;color:var(--lav)">New</span>
           <h2 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--ivory);line-height:1.3;margin:10px 0 8px">${q.title}</h2>

@@ -111,7 +111,7 @@ function initQuiz() {
   if (!Q) Q = QUIZZES[param]  // use hardcoded if not loaded from DB
   const root = document.getElementById('quizRoot')
   if (!root) return
-  if (!Q) { root.innerHTML = '<p style="text-align:center;color:var(--textd);padding:60px 0">Quiz not found. <a href="/quiz.html" style="color:var(--lav)">Back to quizzes →</a></p>'; return }
+  if (!Q) { root.innerHTML = '<p style="text-align:center;color:var(--textd);padding:60px 0">Quiz not found. <a href="/quiz" style="color:var(--lav)">Back to quizzes →</a></p>'; return }
   document.title = Q.title + ' | Scorpio Zodiac'
   showIntro()
 }
@@ -281,7 +281,7 @@ function renderResult(result) {
 
       <div style="display:flex;gap:9px;justify-content:center;flex-wrap:wrap">
         <button onclick="startQuiz()" class="btn btn-o">Retake Quiz</button>
-        <a href="/quiz.html" class="btn btn-o" style="text-decoration:none">Try Another Quiz</a>
+        <a href="/quiz" class="btn btn-o" style="text-decoration:none">Try Another Quiz</a>
       </div>
     </div>`
 }

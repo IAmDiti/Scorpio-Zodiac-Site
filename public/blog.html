@@ -18,8 +18,8 @@
     <a href="/" class="logo"><span class="logo-g">♏</span> Scorpio Zodiac</a>
     <div class="nav-links">
       <a href="/"          class="nav-link">Horoscope</a>
-      <a href="/blog.html" class="nav-link active">Blog</a>
-      <a href="/quiz.html" class="nav-link">Quizzes</a>
+      <a href="/blog" class="nav-link active">Blog</a>
+      <a href="/quiz" class="nav-link">Quizzes</a>
     </div>
     <div class="nav-right" id="navRight">
       <button class="btn btn-o" onclick="openModal('login')">Sign In</button>
@@ -59,7 +59,7 @@
 
   <footer>
     <div class="fl">♏ Scorpio Zodiac</div>
-    <nav class="fn"><a href="/">Horoscope</a><a href="/blog.html">Blog</a><a href="/quiz.html">Quizzes</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/contact.html">Contact</a></nav>
+    <nav class="fn"><a href="/">Horoscope</a><a href="/blog">Blog</a><a href="/quiz">Quizzes</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/contact">Contact</a></nav>
     <p>Guided by the stars. Built for the depths. © <span id="ftY"></span> Scorpio Zodiac</p>
   </footer>
 </div>
@@ -157,7 +157,7 @@
     content.innerHTML = `
       <!-- Featured -->
       <div class="sl"><span>Latest</span></div>
-      <a href="/post.html?slug=${featured.slug}" class="bc" style="display:block;margin-bottom:32px;padding:28px">
+      <a href="/post?slug=${featured.slug}" class="bc" style="display:block;margin-bottom:32px;padding:28px">
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
           <span class="bc-tag" style="background:linear-gradient(135deg,#3d3055,#4a3048);border-color:#6b5580;color:var(--lav)">${featured.tag_label||featured.category||'Astrology'}</span>
           <span class="bc-d">${new Date(featured.published_at).toLocaleDateString('en-US',{month:'long',year:'numeric'})}</span>
@@ -171,7 +171,7 @@
         <div class="sl"><span>All Articles</span></div>
         <div class="bg2-">
           ${rest.map(p=>`
-            <a href="/post.html?slug=${p.slug}" class="bc">
+            <a href="/post?slug=${p.slug}" class="bc">
               <div class="bc-tag">${p.tag_label||p.category||'Astrology'}</div>
               <h3 class="bc-t">${p.title}</h3>
               <p class="bc-e">${p.excerpt||''}</p>

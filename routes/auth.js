@@ -156,7 +156,7 @@ router.get('/google-url', async (req, res) => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-      redirectTo: `${process.env.APP_URL || 'http://localhost:3000'}/auth/callback.html`,
+      redirectTo: `${process.env.APP_URL || 'http://localhost:3000'}/auth/callback`,
         queryParams: { access_type: 'offline', prompt: 'consent' },
       },
     })

@@ -16,8 +16,8 @@
     <a href="/" class="logo"><span class="logo-g">♏</span> Scorpio Zodiac</a>
     <div class="nav-links">
       <a href="/"          class="nav-link">Horoscope</a>
-      <a href="/blog.html" class="nav-link active">Blog</a>
-      <a href="/quiz.html" class="nav-link">Quizzes</a>
+      <a href="/blog" class="nav-link active">Blog</a>
+      <a href="/quiz" class="nav-link">Quizzes</a>
     </div>
     <div class="nav-right" id="navRight">
       <button class="btn btn-o" onclick="openModal('login')">Sign In</button>
@@ -31,7 +31,7 @@
 
   <footer>
     <div class="fl">♏ Scorpio Zodiac</div>
-    <nav class="fn"><a href="/">Horoscope</a><a href="/blog.html">Blog</a><a href="/quiz.html">Quizzes</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/contact.html">Contact</a></nav>
+    <nav class="fn"><a href="/">Horoscope</a><a href="/blog">Blog</a><a href="/quiz">Quizzes</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/contact">Contact</a></nav>
     <p>Guided by the stars. Built for the depths. © <span id="ftY"></span> Scorpio Zodiac</p>
   </footer>
 </div>
@@ -90,11 +90,11 @@
   document.addEventListener('authReady', async () => {
     const slug = new URLSearchParams(window.location.search).get('slug')
     const container = document.getElementById('postContainer')
-    if (!slug) { container.innerHTML = '<p style="text-align:center;color:var(--textd);padding:60px 0">No article specified. <a href="/blog.html" style="color:var(--lav)">Back to blog</a></p>'; return }
+    if (!slug) { container.innerHTML = '<p style="text-align:center;color:var(--textd);padding:60px 0">No article specified. <a href="/blog" style="color:var(--lav)">Back to blog</a></p>'; return }
 
     const { ok, data } = await API.post(slug)
     if (!ok || !data.post) {
-      container.innerHTML = '<p style="text-align:center;color:var(--textd);padding:60px 0">Article not found. <a href="/blog.html" style="color:var(--lav)">Back to blog</a></p>'
+      container.innerHTML = '<p style="text-align:center;color:var(--textd);padding:60px 0">Article not found. <a href="/blog" style="color:var(--lav)">Back to blog</a></p>'
       return
     }
 
@@ -102,7 +102,7 @@
     document.title = `${p.title} | Scorpio Zodiac`
 
     container.innerHTML = `
-      <a href="/blog.html" style="font-family:'DM Mono',monospace;font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;color:var(--textd);text-decoration:none;display:inline-block;margin-bottom:20px">← Back to Blog</a>
+      <a href="/blog" style="font-family:'DM Mono',monospace;font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;color:var(--textd);text-decoration:none;display:inline-block;margin-bottom:20px">← Back to Blog</a>
 
       <header style="margin-bottom:28px">
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap">
