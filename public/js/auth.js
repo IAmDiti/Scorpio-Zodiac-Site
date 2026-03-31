@@ -1,14 +1,12 @@
 // auth.js — login state, modal, dropdown, profile
 let SZ = null  // current user — null = guest
 
-// ── reCAPTCHA site key — replace with your real key ─────
 const RECAPTCHA_SITE_KEY = 'YOUR_RECAPTCHA_SITE_KEY'
 
-// ── Get reCAPTCHA token ───────────────────────────────────
 async function getRecaptchaToken(action) {
   return new Promise((resolve) => {
     if (typeof grecaptcha === 'undefined' || !RECAPTCHA_SITE_KEY || RECAPTCHA_SITE_KEY === 'YOUR_RECAPTCHA_SITE_KEY') {
-      resolve(null) // skip if not configured
+      resolve(null)
       return
     }
     grecaptcha.ready(() => {
@@ -19,7 +17,6 @@ async function getRecaptchaToken(action) {
   })
 }
 
-// ── init ────────────────────────────────────────────────
 async function initAuth() {
   const { ok, data } = await API.me()
   SZ = (ok && data.user) ? data.user : null
@@ -27,7 +24,6 @@ async function initAuth() {
   document.dispatchEvent(new CustomEvent('authReady', { detail: SZ }))
 }
 
-// ── nav ─────────────────────────────────────────────────
 function renderGuest() {
   const el = document.getElementById('navRight')
   if (!el) return
@@ -58,7 +54,6 @@ function renderUser(u) {
         <button class="pdi red" onclick="doLogout()">↩ &nbsp;Log Out</button>
       </div>
     </div>`
-  // close on outside click
   setTimeout(() => document.addEventListener('click', outsideClick), 20)
 }
 
@@ -78,7 +73,6 @@ function outsideClick(e) {
   }
 }
 
-// ── modal helpers ────────────────────────────────────────
 function openModal(tab) {
   clearMsgs()
   document.getElementById('authModal')?.classList.add('open')
@@ -96,7 +90,6 @@ function switchTab(t) {
   clearMsgs()
 }
 
-// ── profile modal ────────────────────────────────────────
 function openProfileModal() {
   document.getElementById('pdm')?.classList.remove('open')
   if (SZ) {
@@ -114,56 +107,44 @@ function closeProfileModal() {
   clearMsgs()
 }
 
-// ── actions ──────────────────────────────────────────────
-// ── GOOGLE LOGIN ──────────────────────────────────────────
 async function doGoogleLogin() {
-  const { ok, data, error } = await API.req('GET', '/api/auth/google-url')
+  const { ok, data } = await API.req('GET', '/api/auth/google-url')
   if (ok && data.url) {
     window.location.href = data.url
   } else {
-    toast('Google login not configured yet.')
+    toast('Google login not available.')
   }
 }
 
 async function doSignup() {
   clearMsgs()
-  const name  = g('sName'), email = g('sEmail'), pass = g('sPass'), birth = g('sBirth')
+  // Read values directly from DOM at call time
+  const nameEl  = document.querySelector('#fSignup #sName')  || document.getElementById('sName')
+  const emailEl = document.querySelector('#fSignup #sEmail') || document.getElementById('sEmail')
+  const passEl  = document.querySelector('#fSignup #sPass')  || document.getElementById('sPass')
+  const birthEl = document.querySelector('#fSignup #sBirth') || document.getElementById('sBirth')
+
+  const name  = (nameEl?.value  || '').trim()
+  const email = (emailEl?.value || '').trim()
+  const pass  = (passEl?.value  || '').trim()
+  const birth = (birthEl?.value || '').trim()
+
   if (!name)        return err('sErr', 'Please enter your name.')
   if (!email)       return err('sErr', 'Please enter your email.')
   if (pass.length < 6) return err('sErr', 'Password needs at least 6 characters.')
 
-  // Age gate — must be 16 or older
   if (birth) {
     const birthDate = new Date(birth)
-    const today     = new Date()
+    const today = new Date()
     let age = today.getFullYear() - birthDate.getFullYear()
     const m = today.getMonth() - birthDate.getMonth()
     if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) age--
-    if (age < 16) {
-      return err('sErr', 'You must be at least 16 years old to create an account.')
-    }
-  }
+    if (age < 16) return err('sErr', 'You must be at least 16 years old.')
 
-  // Scorpio-only gate — check birth date if provided
-  if (birth) {
     const month = new Date(birth).getUTCMonth() + 1
     const day   = new Date(birth).getUTCDate()
     const isScorpio = (month === 10 && day >= 23) || (month === 11 && day <= 21)
-    if (!isScorpio) {
-      return err('sErr', 'This platform is exclusively for Scorpio (Oct 23 – Nov 21).')
-    }
-  }
-
-  loading('btnSignup', 'Checking...')
-
-  // reCAPTCHA v3 — invisible check
-  const token = await getRecaptchaToken('signup')
-  if (token) {
-    const { ok, data } = await API.req('POST', '/api/auth/verify-captcha', { token })
-    if (!ok || (data.score !== undefined && data.score < 0.5)) {
-      loading('btnSignup', 'Begin My Journey')
-      return err('sErr', 'Security check failed. Please try again.')
-    }
+    if (!isScorpio) return err('sErr', 'This platform is exclusively for Scorpio (Oct 23 – Nov 21).')
   }
 
   loading('btnSignup', 'Creating account...')
@@ -175,9 +156,17 @@ async function doSignup() {
 
 async function doLogin() {
   clearMsgs()
-  const email = g('lEmail'), pass = g('lPass')
+  // Read values directly — find inputs inside the login form specifically
+  const loginForm = document.getElementById('fLogin')
+  const emailEl = loginForm ? loginForm.querySelector('input[type="email"]') : document.getElementById('lEmail')
+  const passEl  = loginForm ? loginForm.querySelector('input[type="password"]') : document.getElementById('lPass')
+
+  const email = (emailEl?.value || '').trim()
+  const pass  = (passEl?.value  || '').trim()
+
   if (!email) return err('lErr', 'Please enter your email.')
   if (!pass)  return err('lErr', 'Please enter your password.')
+
   loading('btnLogin', 'Signing in...')
   const { ok, data, error } = await API.login(email, pass)
   loading('btnLogin', 'Enter ♏')
@@ -202,7 +191,7 @@ async function doForgot() {
   loading('btnForgot', 'Sending...')
   const { ok, error } = await API.forgotPassword(email)
   loading('btnForgot', 'Send Reset Link')
-  ok ? ok2('fOk', '✦ Check your email! (dev: check server terminal)') : err('fErr', error)
+  ok ? ok2('fOk', '✦ Check your email!') : err('fErr', error)
 }
 
 async function doSaveProfile() {
@@ -220,7 +209,6 @@ async function doSaveProfile() {
   else err('pErr', error)
 }
 
-// ── util ─────────────────────────────────────────────────
 function g(id)          { return (document.getElementById(id)?.value || '').trim() }
 function setVal(id, v)  { const el = document.getElementById(id); if (el) el.value = v }
 function esc(s)         { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') }
@@ -236,13 +224,11 @@ function toast(msg) {
   setTimeout(() => t.classList.remove('show'), 3200)
 }
 
-// close modals on backdrop click
 document.addEventListener('click', e => {
   if (e.target.id === 'authModal')  closeModal()
   if (e.target.id === 'profModal')  closeProfileModal()
 })
 
-// enter key in modal
 document.addEventListener('keydown', e => {
   if (e.key !== 'Enter') return
   if (!document.getElementById('authModal')?.classList.contains('open')) return
