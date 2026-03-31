@@ -1,25 +1,20 @@
 // auth.js — login state, modal, dropdown, profile
-let SZ = null  // current user — null = guest
+let SZ = null
 
 const RECAPTCHA_SITE_KEY = 'YOUR_RECAPTCHA_SITE_KEY'
 
 async function getRecaptchaToken(action) {
   return new Promise((resolve) => {
-    if (typeof grecaptcha === 'undefined' || !RECAPTCHA_SITE_KEY || RECAPTCHA_SITE_KEY === 'YOUR_RECAPTCHA_SITE_KEY') {
-      resolve(null)
-      return
+    if (typeof grecaptcha === 'undefined' || RECAPTCHA_SITE_KEY === 'YOUR_RECAPTCHA_SITE_KEY') {
+      resolve(null); return
     }
-    grecaptcha.ready(() => {
-      grecaptcha.execute(RECAPTCHA_SITE_KEY, { action })
-        .then(token => resolve(token))
-        .catch(() => resolve(null))
-    })
+    grecaptcha.ready(() => grecaptcha.execute(RECAPTCHA_SITE_KEY, { action }).then(resolve).catch(() => resolve(null)))
   })
 }
 
 async function initAuth() {
   const { ok, data } = await API.me()
-  SZ = (ok && data.user) ? data.user : null
+  SZ = (ok && data?.user) ? data.user : null
   SZ ? renderUser(SZ) : renderGuest()
   document.dispatchEvent(new CustomEvent('authReady', { detail: SZ }))
 }
@@ -58,11 +53,10 @@ function renderUser(u) {
 }
 
 function toggleDrop() {
-  const m = document.getElementById('pdm')
-  const c = document.getElementById('pdc')
+  const m = document.getElementById('pdm'), c = document.getElementById('pdc')
   if (!m) return
   const open = m.classList.toggle('open')
-  c && c.classList.toggle('open', open)
+  c?.classList.toggle('open', open)
 }
 
 function outsideClick(e) {
@@ -93,8 +87,8 @@ function switchTab(t) {
 function openProfileModal() {
   document.getElementById('pdm')?.classList.remove('open')
   if (SZ) {
-    setVal('pName',  SZ.name  || '')
-    setVal('pEmail', SZ.email || '')
+    setVal('pName',  SZ.name       || '')
+    setVal('pEmail', SZ.email      || '')
     setVal('pBirth', SZ.birth_date || '')
     setVal('pPass',  '')
     setVal('pPass2', '')
@@ -109,20 +103,17 @@ function closeProfileModal() {
 
 async function doGoogleLogin() {
   const { ok, data } = await API.req('GET', '/api/auth/google-url')
-  if (ok && data.url) {
-    window.location.href = data.url
-  } else {
-    toast('Google login not available.')
-  }
+  if (ok && data?.url) window.location.href = data.url
+  else toast('Google login not available.')
 }
 
 async function doSignup() {
   clearMsgs()
-  // Read values directly from DOM at call time
-  const nameEl  = document.querySelector('#fSignup #sName')  || document.getElementById('sName')
-  const emailEl = document.querySelector('#fSignup #sEmail') || document.getElementById('sEmail')
-  const passEl  = document.querySelector('#fSignup #sPass')  || document.getElementById('sPass')
-  const birthEl = document.querySelector('#fSignup #sBirth') || document.getElementById('sBirth')
+  const form    = document.getElementById('fSignup')
+  const nameEl  = form?.querySelector('#sName')  || document.getElementById('sName')
+  const emailEl = form?.querySelector('#sEmail') || document.getElementById('sEmail')
+  const passEl  = form?.querySelector('#sPass')  || document.getElementById('sPass')
+  const birthEl = form?.querySelector('#sBirth') || document.getElementById('sBirth')
 
   const name  = (nameEl?.value  || '').trim()
   const email = (emailEl?.value || '').trim()
@@ -134,17 +125,17 @@ async function doSignup() {
   if (pass.length < 6) return err('sErr', 'Password needs at least 6 characters.')
 
   if (birth) {
-    const birthDate = new Date(birth)
-    const today = new Date()
-    let age = today.getFullYear() - birthDate.getFullYear()
-    const m = today.getMonth() - birthDate.getMonth()
-    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) age--
+    const bd  = new Date(birth)
+    const now = new Date()
+    let age   = now.getFullYear() - bd.getFullYear()
+    const m   = now.getMonth() - bd.getMonth()
+    if (m < 0 || (m === 0 && now.getDate() < bd.getDate())) age--
     if (age < 16) return err('sErr', 'You must be at least 16 years old.')
 
-    const month = new Date(birth).getUTCMonth() + 1
-    const day   = new Date(birth).getUTCDate()
-    const isScorpio = (month === 10 && day >= 23) || (month === 11 && day <= 21)
-    if (!isScorpio) return err('sErr', 'This platform is exclusively for Scorpio (Oct 23 – Nov 21).')
+    const mo = bd.getUTCMonth() + 1
+    const dy = bd.getUTCDate()
+    if (!((mo === 10 && dy >= 23) || (mo === 11 && dy <= 21)))
+      return err('sErr', 'This platform is exclusively for Scorpio (Oct 23 – Nov 21).')
   }
 
   loading('btnSignup', 'Creating account...')
@@ -156,10 +147,10 @@ async function doSignup() {
 
 async function doLogin() {
   clearMsgs()
-  // Read values directly — find inputs inside the login form specifically
-  const loginForm = document.getElementById('fLogin')
-  const emailEl = loginForm ? loginForm.querySelector('input[type="email"]') : document.getElementById('lEmail')
-  const passEl  = loginForm ? loginForm.querySelector('input[type="password"]') : document.getElementById('lPass')
+  // Always read from the login form directly to avoid duplicate ID issues
+  const form    = document.getElementById('fLogin')
+  const emailEl = form?.querySelector('input[type="email"]')    || document.getElementById('lEmail')
+  const passEl  = form?.querySelector('input[type="password"]') || document.getElementById('lPass')
 
   const email = (emailEl?.value || '').trim()
   const pass  = (passEl?.value  || '').trim()

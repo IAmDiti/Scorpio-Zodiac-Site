@@ -2,12 +2,12 @@ const express  = require('express')
 const bcrypt   = require('bcryptjs')
 const jwt      = require('jsonwebtoken')
 const crypto   = require('crypto')
+const router   = express.Router()
+
 const { getDB }       = require('../db')
 const { requireAuth } = require('../middleware/auth')
 
-const router = express.Router()
-
-// ── helpers ───────────────────────────────────────────────
+// ── Set JWT cookie ────────────────────────────────────────
 function setToken(res, user, req) {
   const token = jwt.sign(
     { id: user.id, name: user.name, email: user.email },
@@ -18,15 +18,18 @@ function setToken(res, user, req) {
   res.cookie('sz_token', token, {
     httpOnly: true,
     sameSite: 'lax',
-    secure: isHttps,
-    maxAge: 7 * 24 * 60 * 60 * 1000,
+    secure:   isHttps,
+    maxAge:   7 * 24 * 60 * 60 * 1000,
   })
   return token
 }
 
 function getSupabase() {
   const { createClient } = require('@supabase/supabase-js')
-  return createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY || process.env.SUPABASE_SERVICE_KEY)
+  return createClient(
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_ANON_KEY || process.env.SUPABASE_SERVICE_KEY
+  )
 }
 
 // ── POST /api/auth/signup ─────────────────────────────────
@@ -41,7 +44,7 @@ router.post('/signup', async (req, res) => {
     const { data: existing } = await getDB()
       .from('users').select('id').eq('email', email.toLowerCase()).maybeSingle()
     if (existing)
-      return res.status(409).json({ error: 'This email is already registered. Please sign in.' })
+      return res.status(409).json({ error: 'This email is already registered.' })
 
     const hash = await bcrypt.hash(password, 10)
     const { data: user, error } = await getDB()
@@ -52,11 +55,8 @@ router.post('/signup', async (req, res) => {
 
     setToken(res, user, req)
 
-    // Send welcome email
-    try {
-      const { sendWelcomeEmail } = require('../email')
-      sendWelcomeEmail(user) // fire and forget
-    } catch (e) {}
+    // Welcome email — fire and forget
+    try { const { sendWelcomeEmail } = require('../email'); sendWelcomeEmail(user) } catch (e) {}
 
     res.status(201).json({ ok: true, user })
   } catch (err) {
@@ -73,7 +73,7 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ error: 'Email and password are required.' })
 
     const { data: user } = await getDB()
-      .from('users').select('*').eq('email', email.toLowerCase()).maybeSingle()
+      .from('users').select('*').eq('email', email.toLowerCase().trim()).maybeSingle()
     if (!user)
       return res.status(401).json({ error: 'No account found with that email.' })
 
@@ -138,15 +138,17 @@ router.post('/forgot-password', async (req, res) => {
 
     const { data: user } = await getDB()
       .from('users').select('id, name, email').eq('email', email.toLowerCase()).maybeSingle()
+    if (!user) return res.json({ ok: true }) // don't reveal if email exists
 
-    if (user) {
-      const token  = crypto.randomBytes(32).toString('hex')
-      const expiry = new Date(Date.now() + 3600000).toISOString()
-      await getDB().from('users').update({ reset_token: token, reset_expiry: expiry }).eq('id', user.id)
-      console.log(`\n🔑 Reset link for ${email}:\n${process.env.APP_URL || 'http://localhost:3000'}/reset.html?token=${token}\n`)
-    }
+    const token  = crypto.randomBytes(32).toString('hex')
+    const expiry = new Date(Date.now() + 3600000).toISOString()
 
-    res.json({ ok: true, message: 'If that email exists, a reset link has been sent.' })
+    await getDB().from('users').update({ reset_token: token, reset_expiry: expiry }).eq('id', user.id)
+
+    const resetUrl = `${process.env.APP_URL || 'http://localhost:3000'}/?reset_token=${token}`
+    console.log(`\n🔑 Password reset for ${email}:\n${resetUrl}\n`)
+
+    res.json({ ok: true })
   } catch (err) {
     res.status(500).json({ error: err.message })
   }
@@ -155,13 +157,11 @@ router.post('/forgot-password', async (req, res) => {
 // ── GET /api/auth/google-url ──────────────────────────────
 router.get('/google-url', async (req, res) => {
   try {
-    const supabase = getSupabase()
+    const supabase   = getSupabase()
+    const redirectTo = `${process.env.APP_URL || 'http://localhost:3000'}/auth/callback`
     const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-      redirectTo: `${process.env.APP_URL || 'http://localhost:3000'}/auth/callback`,
-        queryParams: { access_type: 'offline', prompt: 'consent' },
-      },
+      provider:  'google',
+      options: { redirectTo, queryParams: { access_type: 'offline', prompt: 'consent' } }
     })
     if (error) throw error
     res.json({ ok: true, url: data.url })
@@ -170,128 +170,76 @@ router.get('/google-url', async (req, res) => {
   }
 })
 
-// ── GET /auth/callback ────────────────────────────────────
-router.get('/callback', async (req, res) => {
-  try {
-    const code  = req.query.code
-    const error = req.query.error
-
-    if (error) return res.redirect('/?error=' + error)
-    if (!code) return res.redirect('/?error=no_code')
-
-    const supabase = getSupabase()
-    const { data, error: exchError } = await supabase.auth.exchangeCodeForSession(code)
-
-    if (exchError || !data?.user) {
-      console.error('Exchange error:', exchError?.message)
-      return res.redirect('/?error=auth_failed')
-    }
-
-    const googleUser = data.user
-    const email      = googleUser.email?.toLowerCase()
-    const name       = googleUser.user_metadata?.full_name ||
-                       googleUser.user_metadata?.name ||
-                       email?.split('@')[0] || 'Scorpio User'
-
-    if (!email) return res.redirect('/?error=no_email')
-
-    // Find or create user in our users table
-    let { data: existing } = await getDB()
-      .from('users')
-      .select('*')
-      .eq('email', email)
-      .maybeSingle()
-
-    if (!existing) {
-      const { data: newUser, error: insertError } = await getDB()
-        .from('users')
-        .insert({
-          name,
-          email,
-          password_hash: 'google-' + crypto.randomBytes(16).toString('hex'),
-        })
-        .select('*')
-        .single()
-
-      if (insertError) {
-        console.error('Insert error:', insertError.message)
-        return res.redirect('/?error=db_error')
-      }
-      existing = newUser
-    }
-
-    // Set our JWT cookie and redirect home
-    setToken(res, existing, req)
-    console.log('Google login success:', email)
-    res.redirect('/')
-
-  } catch (err) {
-    console.error('Google callback error:', err.message)
-    res.redirect('/?error=server_error')
-  }
-})
-
 // ── POST /api/auth/google-token ───────────────────────────
-// Exchanges Supabase access token for our JWT cookie
 router.post('/google-token', async (req, res) => {
   try {
     const { access_token } = req.body
-    if (!access_token) return res.status(400).json({ error: 'No token provided' })
-
     const supabase = getSupabase()
-    const { data: { user }, error } = await supabase.auth.getUser(access_token)
+    const { data: { user: supaUser }, error } = await supabase.auth.getUser(access_token)
+    if (error || !supaUser) return res.status(401).json({ error: 'Invalid token.' })
 
-    if (error || !user) return res.status(401).json({ error: 'Invalid token' })
+    const email = supaUser.email?.toLowerCase()
+    const name  = supaUser.user_metadata?.full_name || supaUser.user_metadata?.name || email
 
-    const email = user.email?.toLowerCase()
-    const name  = user.user_metadata?.full_name || user.user_metadata?.name || email?.split('@')[0] || 'Scorpio User'
-
-    if (!email) return res.status(400).json({ error: 'No email' })
-
-    let { data: existing } = await getDB()
-      .from('users').select('*').eq('email', email).maybeSingle()
-
+    let { data: existing } = await getDB().from('users').select('*').eq('email', email).maybeSingle()
     if (!existing) {
       const { data: newUser, error: insertError } = await getDB()
         .from('users')
-        .insert({ name, email, password_hash: 'google-' + crypto.randomBytes(16).toString('hex') })
-        .select('*').single()
+        .insert({ name, email, password_hash: 'google-oauth', birth_date: null })
+        .select('id, name, email, birth_date').single()
       if (insertError) throw insertError
       existing = newUser
     }
 
     setToken(res, existing, req)
-    console.log('Google token login success:', email)
-    res.json({ ok: true, user: { id: existing.id, name: existing.name, email: existing.email } })
-
+    res.json({ ok: true, user: { id: existing.id, name: existing.name, email: existing.email, birth_date: existing.birth_date } })
   } catch (err) {
-    console.error('Google token error:', err.message)
     res.status(500).json({ error: err.message })
   }
 })
 
-// ── GET /api/auth/callback (alias) ───────────────────────
+// ── GET /auth/callback ────────────────────────────────────
 router.get('/callback', async (req, res) => {
-  // redirect to /auth/callback which is registered in server.js
-  const code = req.query.code
-  if (code) {
-    return res.redirect('/auth/callback?code=' + code)
+  try {
+    const { code } = req.query
+    if (!code) return res.redirect('/?error=no_code')
+
+    const supabase = getSupabase()
+    const { data: { user: supaUser }, error } = await supabase.auth.exchangeCodeForSession(code)
+    if (error || !supaUser) return res.redirect('/?error=auth_failed')
+
+    const email = supaUser.email?.toLowerCase()
+    const name  = supaUser.user_metadata?.full_name || supaUser.user_metadata?.name || email
+
+    let { data: existing } = await getDB().from('users').select('*').eq('email', email).maybeSingle()
+    if (!existing) {
+      const { data: newUser } = await getDB()
+        .from('users')
+        .insert({ name, email, password_hash: 'google-oauth', birth_date: null })
+        .select('id, name, email, birth_date').single()
+      existing = newUser
+    }
+
+    setToken(res, existing, req)
+    res.redirect('/')
+  } catch (err) {
+    console.error('callback error:', err.message)
+    res.redirect('/?error=callback_failed')
   }
-  res.redirect('/')
 })
+
+// ── POST /api/auth/verify-captcha ─────────────────────────
 router.post('/verify-captcha', async (req, res) => {
   try {
     const { token } = req.body
-    if (!token || !process.env.RECAPTCHA_SECRET_KEY) {
-      return res.json({ ok: true, score: 1 })
-    }
-    const fetch = require('node-fetch')
-    const response = await fetch(
-      `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${token}`,
-      { method: 'POST' }
-    )
-    const data = await response.json()
-    res.json({ ok: data.success, score: data.score || 0 })
+    if (!token) return res.json({ ok: false, score: 0 })
+
+    const secret = process.env.RECAPTCHA_SECRET_KEY
+    if (!secret) return res.json({ ok: true, score: 1 })
+
+    const r = await fetch(`https://www.google.com/recaptcha/api/siteverify?secret=${secret}&response=${token}`, { method: 'POST' })
+    const d = await r.json()
+    res.json({ ok: d.success, score: d.score || 0 })
   } catch (err) {
     res.json({ ok: true, score: 1 })
   }
