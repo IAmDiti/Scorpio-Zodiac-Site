@@ -157,14 +157,22 @@ router.post('/forgot-password', async (req, res) => {
 // ── GET /api/auth/google-url ──────────────────────────────
 router.get('/google-url', async (req, res) => {
   try {
-    const supabase   = getSupabase()
+    const clientId   = process.env.GOOGLE_CLIENT_ID
     const redirectTo = `${process.env.APP_URL || 'http://localhost:3000'}/auth/callback`
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider:  'google',
-      options: { redirectTo, queryParams: { access_type: 'offline', prompt: 'consent' } }
+    
+    if (!clientId) return res.status(500).json({ error: 'Google OAuth not configured.' })
+
+    const params = new URLSearchParams({
+      client_id:     clientId,
+      redirect_uri:  redirectTo,
+      response_type: 'code',
+      scope:         'openid email profile',
+      access_type:   'offline',
+      prompt:        'consent'
     })
-    if (error) throw error
-    res.json({ ok: true, url: data.url })
+
+    const url = `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`
+    res.json({ ok: true, url })
   } catch (err) {
     res.status(500).json({ error: err.message })
   }
@@ -201,22 +209,46 @@ router.post('/google-token', async (req, res) => {
 // ── GET /auth/callback ────────────────────────────────────
 router.get('/callback', async (req, res) => {
   try {
-    const { code } = req.query
-    if (!code) return res.redirect('/?error=no_code')
+    const { code, error } = req.query
+    if (error) return res.redirect('/?error=' + encodeURIComponent(error))
+    if (!code)  return res.redirect('/?error=no_code')
 
-    const supabase = getSupabase()
-    const { data: { user: supaUser }, error } = await supabase.auth.exchangeCodeForSession(code)
-    if (error || !supaUser) return res.redirect('/?error=auth_failed')
+    const clientId     = process.env.GOOGLE_CLIENT_ID
+    const clientSecret = process.env.GOOGLE_CLIENT_SECRET
+    const redirectUri  = `${process.env.APP_URL || 'http://localhost:3000'}/auth/callback`
 
-    const email = supaUser.email?.toLowerCase()
-    const name  = supaUser.user_metadata?.full_name || supaUser.user_metadata?.name || email
+    // Exchange code for tokens
+    const tokenRes = await fetch('https://oauth2.googleapis.com/token', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        code, client_id: clientId, client_secret: clientSecret,
+        redirect_uri: redirectUri, grant_type: 'authorization_code'
+      })
+    })
+    const tokens = await tokenRes.json()
+    if (!tokens.access_token) return res.redirect('/?error=token_failed')
 
-    let { data: existing } = await getDB().from('users').select('*').eq('email', email).maybeSingle()
+    // Get user info from Google
+    const userRes  = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
+      headers: { Authorization: `Bearer ${tokens.access_token}` }
+    })
+    const googleUser = await userRes.json()
+    if (!googleUser.email) return res.redirect('/?error=no_email')
+
+    const email = googleUser.email.toLowerCase()
+    const name  = googleUser.name || googleUser.email
+
+    // Find or create user in DB
+    let { data: existing } = await getDB()
+      .from('users').select('*').eq('email', email).maybeSingle()
+
     if (!existing) {
-      const { data: newUser } = await getDB()
+      const { data: newUser, error: insertError } = await getDB()
         .from('users')
         .insert({ name, email, password_hash: 'google-oauth', birth_date: null })
         .select('id, name, email, birth_date').single()
+      if (insertError) return res.redirect('/?error=db_error')
       existing = newUser
     }
 
