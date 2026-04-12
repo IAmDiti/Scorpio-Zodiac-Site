@@ -223,14 +223,16 @@ function showResult() {
         <button onclick="startQuiz()" style="margin-top:18px;background:none;border:none;cursor:pointer;font-family:'DM Mono',monospace;font-size:.58rem;color:var(--textd);text-decoration:underline">Retake Quiz</button>
       </div>`
 
-    // When user logs in — show result automatically
-    document.addEventListener('authReady', function onAuth(e) {
-      const user = e.detail || window.SZ || (typeof SZ !== 'undefined' ? SZ : null)
+    // Poll for login — show result automatically after sign in
+    const _quizAuthCheck = setInterval(() => {
+      const user = window.SZ || (typeof SZ !== 'undefined' ? SZ : null)
       if (user) {
-        document.removeEventListener('authReady', onAuth)
+        clearInterval(_quizAuthCheck)
+        closeModal()
         if (window._quizResult) renderResult(window._quizResult)
       }
-    })
+    }, 500)
+
     return
   }
 
