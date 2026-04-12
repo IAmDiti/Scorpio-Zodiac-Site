@@ -22,13 +22,15 @@ async function handleCallback() {
   const code = queryParams.get('code')
   const error = queryParams.get('error')
 
+  // Where to go after login — quiz page or home
+  const returnUrl = sessionStorage.getItem('_quizReturnUrl') || '/'
+
   if (error) {
     window.location.href = '/?error=' + encodeURIComponent(error)
     return
   }
 
   if (accessToken) {
-    // Exchange access token with our server
     try {
       const res  = await fetch('/api/auth/google-token', {
         method:  'POST',
@@ -38,7 +40,9 @@ async function handleCallback() {
       })
       const data = await res.json()
       if (data.ok) {
-        window.location.href = '/'
+        // Don't remove _quizResult from sessionStorage — quiz.js will read it on load
+        sessionStorage.removeItem('_quizReturnUrl')
+        window.location.href = returnUrl
       } else {
         window.location.href = '/?error=login_failed'
       }
@@ -49,8 +53,11 @@ async function handleCallback() {
   }
 
   if (code) {
-    // Server handles code exchange — redirect to server callback
-    window.location.href = '/auth/callback?code=' + code
+    // Server handles code exchange — pass returnUrl as query param
+    const url = '/auth/callback?code=' + code +
+      (returnUrl !== '/' ? '&returnUrl=' + encodeURIComponent(returnUrl) : '')
+    sessionStorage.removeItem('_quizReturnUrl')
+    window.location.href = url
     return
   }
 

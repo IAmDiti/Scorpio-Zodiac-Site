@@ -108,11 +108,26 @@ let pts  = 0      // points total (for score quiz)
 
 function initQuiz() {
   const param = new URLSearchParams(window.location.search).get('q')
-  if (!Q) Q = QUIZZES[param]  // use hardcoded if not loaded from DB
+  if (!Q) Q = QUIZZES[param]
   const root = document.getElementById('quizRoot')
   if (!root) return
   if (!Q) { root.innerHTML = '<p style="text-align:center;color:var(--textd);padding:60px 0">Quiz not found. <a href="/quiz" style="color:var(--lav)">Back to quizzes →</a></p>'; return }
   document.title = Q.title + ' | Scorpio Zodiac'
+
+  // If returning from Google OAuth with a saved result, show it immediately
+  const saved = sessionStorage.getItem('_quizResult')
+  const returnUrl = sessionStorage.getItem('_quizReturnUrl')
+  if (saved && returnUrl && returnUrl.includes(window.location.pathname + window.location.search)) {
+    sessionStorage.removeItem('_quizResult')
+    sessionStorage.removeItem('_quizReturnUrl')
+    try {
+      const result = JSON.parse(saved)
+      window._quizResult = result
+      renderResult(result)
+      return
+    } catch(e) {}
+  }
+
   showIntro()
 }
 
@@ -172,7 +187,6 @@ function pick(i) {
   if (Q.type === 'score') pts += o.p || 0
   else keys[o.k] = (keys[o.k]||0) + 1
 
-  // Highlight selected
   const btns = document.querySelectorAll('#quizRoot button')
   if (btns[i]) { btns[i].style.borderColor='var(--lav)'; btns[i].style.background='linear-gradient(135deg,#2d2742,#2a2035)' }
 
@@ -184,7 +198,6 @@ function pick(i) {
 }
 
 function showResult() {
-  // Compute result first (so it's ready after login)
   let result
   if (Q.type === 'score') {
     const pct = Math.round((pts / (Q.questions.length*10)) * 100)
@@ -195,10 +208,8 @@ function showResult() {
     result = { ...Q.results[top] }
   }
 
-  // Store result so we can show it after login
   window._quizResult = result
 
-  // ── GATE — must be logged in to see results ─────────────
   const isLoggedIn = !!(window.SZ || (typeof SZ !== 'undefined' && SZ))
   if (!isLoggedIn) {
     const root = document.getElementById('quizRoot')
@@ -216,14 +227,14 @@ function showResult() {
             Free forever. No credit card. Just your cosmic truth.
           </p>
           <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
-            <button onclick="openModal('signup')" class="btn btn-f" style="padding:11px 24px">Join Free — See My Result</button>
-            <button onclick="openModal('login')"  class="btn btn-o" style="padding:11px 24px">Sign In</button>
+            <button onclick="openModalWithQuizSave('signup')" class="btn btn-f" style="padding:11px 24px">Join Free — See My Result</button>
+            <button onclick="openModalWithQuizSave('login')"  class="btn btn-o" style="padding:11px 24px">Sign In</button>
           </div>
         </div>
         <button onclick="startQuiz()" style="margin-top:18px;background:none;border:none;cursor:pointer;font-family:'DM Mono',monospace;font-size:.58rem;color:var(--textd);text-decoration:underline">Retake Quiz</button>
       </div>`
 
-    // Poll for login — show result automatically after sign in
+    // Poll for email/password login — show result immediately without redirect
     const _quizAuthCheck = setInterval(() => {
       const user = window.SZ || (typeof SZ !== 'undefined' ? SZ : null)
       if (user) {
@@ -237,6 +248,15 @@ function showResult() {
   }
 
   renderResult(result)
+}
+
+// Save quiz state before Google OAuth redirect
+function openModalWithQuizSave(type) {
+  if (window._quizResult) {
+    sessionStorage.setItem('_quizReturnUrl', window.location.href)
+    sessionStorage.setItem('_quizResult', JSON.stringify(window._quizResult))
+  }
+  openModal(type)
 }
 
 function renderResult(result) {
@@ -294,7 +314,6 @@ document.addEventListener('authReady', async () => {
   const param = new URLSearchParams(window.location.search).get('q')
   if (!param) return
 
-  // Try to load from database first
   try {
     const res  = await fetch(`/api/quizzes/${param}`, { credentials: 'include' })
     const data = await res.json()
@@ -308,6 +327,5 @@ document.addEventListener('authReady', async () => {
     }
   } catch (e) {}
 
-  // Fallback to hardcoded quizzes
   initQuiz()
 }, { once: true })
