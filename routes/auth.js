@@ -159,7 +159,7 @@ router.get('/google-url', async (req, res) => {
   try {
     const clientId   = process.env.GOOGLE_CLIENT_ID
     const redirectTo = `${process.env.APP_URL || 'http://localhost:3000'}/auth/callback`
-    
+
     if (!clientId) return res.status(500).json({ error: 'Google OAuth not configured.' })
 
     const params = new URLSearchParams({
@@ -209,7 +209,7 @@ router.post('/google-token', async (req, res) => {
 // ── GET /auth/callback ────────────────────────────────────
 router.get('/callback', async (req, res) => {
   try {
-    const { code, error } = req.query
+    const { code, error, returnUrl } = req.query
     if (error) return res.redirect('/?error=' + encodeURIComponent(error))
     if (!code)  return res.redirect('/?error=no_code')
 
@@ -253,7 +253,10 @@ router.get('/callback', async (req, res) => {
     }
 
     setToken(res, existing, req)
-    res.redirect('/')
+
+    // Redirect back to quiz page if returnUrl provided, otherwise home
+    const destination = (returnUrl && returnUrl.startsWith('/')) ? returnUrl : '/'
+    res.redirect(destination)
   } catch (err) {
     console.error('callback error:', err.message)
     res.redirect('/?error=callback_failed')

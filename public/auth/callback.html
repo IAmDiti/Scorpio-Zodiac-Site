@@ -12,20 +12,19 @@
 <p>Signing you in...</p>
 <script>
 async function handleCallback() {
-  // Handle hash-based token (implicit flow from Supabase)
   const hash = window.location.hash.substring(1)
   const params = new URLSearchParams(hash)
   const accessToken = params.get('access_token')
 
-  // Also check query params (code flow)
   const queryParams = new URLSearchParams(window.location.search)
   const code = queryParams.get('code')
   const error = queryParams.get('error')
 
-  // Where to go after login — quiz page or home
+  // Get saved quiz return URL from sessionStorage
   const returnUrl = sessionStorage.getItem('_quizReturnUrl') || '/'
 
   if (error) {
+    sessionStorage.removeItem('_quizReturnUrl')
     window.location.href = '/?error=' + encodeURIComponent(error)
     return
   }
@@ -40,7 +39,7 @@ async function handleCallback() {
       })
       const data = await res.json()
       if (data.ok) {
-        // Don't remove _quizResult from sessionStorage — quiz.js will read it on load
+        // Keep _quizResult in sessionStorage — quiz.js will read it on load
         sessionStorage.removeItem('_quizReturnUrl')
         window.location.href = returnUrl
       } else {
@@ -53,15 +52,15 @@ async function handleCallback() {
   }
 
   if (code) {
-    // Server handles code exchange — pass returnUrl as query param
-    const url = '/auth/callback?code=' + code +
+    // Pass returnUrl as query param to server so it can redirect back after login
+    const redirectPath = '/auth/callback?code=' + encodeURIComponent(code) +
       (returnUrl !== '/' ? '&returnUrl=' + encodeURIComponent(returnUrl) : '')
+    // Keep _quizResult in sessionStorage for quiz.js to read after redirect
     sessionStorage.removeItem('_quizReturnUrl')
-    window.location.href = url
+    window.location.href = redirectPath
     return
   }
 
-  // No token or code — go home
   window.location.href = '/'
 }
 
