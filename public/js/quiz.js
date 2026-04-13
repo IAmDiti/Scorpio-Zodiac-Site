@@ -101,10 +101,10 @@ const QUIZZES = {
 }
 
 // ── QUIZ ENGINE ───────────────────────────────────────────
-let Q    = null   // current quiz config
-let cur  = 0      // current question index
-let keys = {}     // key → count (for archetype quizzes)
-let pts  = 0      // points total (for score quiz)
+let Q    = null
+let cur  = 0
+let keys = {}
+let pts  = 0
 
 function initQuiz() {
   const param = new URLSearchParams(window.location.search).get('q')
@@ -116,8 +116,7 @@ function initQuiz() {
 
   // If returning from Google OAuth with a saved result, show it immediately
   const saved = sessionStorage.getItem('_quizResult')
-  const returnUrl = sessionStorage.getItem('_quizReturnUrl')
-  if (saved && returnUrl && returnUrl.includes(window.location.pathname + window.location.search)) {
+  if (saved) {
     sessionStorage.removeItem('_quizResult')
     sessionStorage.removeItem('_quizReturnUrl')
     try {
