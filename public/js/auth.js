@@ -102,7 +102,10 @@ function closeProfileModal() {
 }
 
 async function doGoogleLogin() {
-  const { ok, data } = await API.req('GET', '/api/auth/google-url')
+  // Pass the saved quiz return URL to the server so it survives the OAuth redirect
+  const returnUrl = sessionStorage.getItem('_quizReturnUrl') || ''
+  const endpoint = '/api/auth/google-url' + (returnUrl ? '?returnUrl=' + encodeURIComponent(returnUrl) : '')
+  const { ok, data } = await API.req('GET', endpoint)
   if (ok && data?.url) window.location.href = data.url
   else toast('Google login not available.')
 }
@@ -147,7 +150,6 @@ async function doSignup() {
 
 async function doLogin() {
   clearMsgs()
-  // Always read from the login form directly to avoid duplicate ID issues
   const form    = document.getElementById('fLogin')
   const emailEl = form?.querySelector('input[type="email"]')    || document.getElementById('lEmail')
   const passEl  = form?.querySelector('input[type="password"]') || document.getElementById('lPass')
