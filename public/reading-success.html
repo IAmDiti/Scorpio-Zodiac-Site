@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Reading is on its Way | Astranoxis</title>
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/funnel.css">
+</head>
+<body class="funnel-body">
+<div id="stars"></div>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+
+<main class="f-success-page">
+  <div class="f-success-inner">
+    <div class="f-success-icon">✨</div>
+    <h1 class="f-success-h1"><span id="successName"></span><em>Your reading is on its way</em></h1>
+    <p class="f-success-p">We've received everything we need. Your personalized Scorpio Love Reading is being written and will arrive in your inbox within 24 hours.</p>
+
+    <div class="f-success-steps">
+      <div class="f-success-step">
+        <div class="f-success-num">1</div>
+        <div>Check your email — your reading will arrive within 24 hours at <strong id="successEmail"></strong>.</div>
+      </div>
+      <div class="f-success-step">
+        <div class="f-success-num">2</div>
+        <div>Check your spam folder if you don't see it — sometimes cosmic messages end up there.</div>
+      </div>
+      <div class="f-success-step">
+        <div class="f-success-num">3</div>
+        <div>Read it somewhere quiet. This is personal. Take your time with it.</div>
+      </div>
+    </div>
+
+    <a href="/" class="f-btn-cta" style="display:inline-flex;text-decoration:none;margin-top:8px">← Back to Astranoxis</a>
+  </div>
+</main>
+
+<script src="/js/main.js"></script>
+<script>
+  const p = new URLSearchParams(window.location.search);
+  const name = p.get('name');
+  const email = p.get('email');
+  if (name) document.getElementById('successName').textContent = name + ', ';
+  if (email) document.getElementById('successEmail').textContent = email;
+</script>
+</body>
+</html>

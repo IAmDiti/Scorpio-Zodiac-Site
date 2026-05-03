@@ -40,6 +40,10 @@ app.post('/api/test-login', (req, res) => {
   res.json({ ok: true, received: req.body })
 })
 
+// ── Reading funnel + streak routes ───────────────────────
+app.use('/',             require('./routes/reading'))
+app.use('/api/streak',   require('./routes/streak'))
+
 // ── API routes ────────────────────────────────────────────
 app.use('/api/auth',     require('./routes/auth'))
 app.use('/auth',         require('./routes/auth'))
@@ -52,15 +56,16 @@ app.use('/api/admin',    require('./routes/admin'))
 
 // ── Clean URL routes ──────────────────────────────────────
 const send = (f) => (_req, res) => res.sendFile(path.join(__dirname, 'public', f))
-app.get('/blog',       send('blog.html'))
-app.get('/quiz',       send('quiz.html'))
-app.get('/post',       send('post.html'))
-app.get('/quiz-play',  send('quiz-play.html'))
-app.get('/admin',      send('admin.html'))
-app.get('/privacy',    send('privacy.html'))
-app.get('/terms',      send('terms.html'))
-app.get('/contact',    send('contact.html'))
-app.get('/auth/callback', send('auth/callback.html'))
+app.get('/blog',            send('blog.html'))
+app.get('/quiz',            send('quiz.html'))
+app.get('/post',            send('post.html'))
+app.get('/quiz-play',       send('quiz-play.html'))
+app.get('/admin',           send('admin.html'))
+app.get('/privacy',         send('privacy.html'))
+app.get('/terms',           send('terms.html'))
+app.get('/contact',         send('contact.html'))
+app.get('/horoscope',       send('horoscope.html'))
+app.get('/auth/callback',   send('auth/callback.html'))
 
 // ── Redirect .html to clean URLs ─────────────────────────
 app.get('/blog.html',      (_req, res) => res.redirect(301, '/blog'))

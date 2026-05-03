@@ -1,0 +1,294 @@
+<%- /* views/index.ejs — REPLACE your existing index.ejs with this file */ -%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scorpio isn't just a sign. It's a power. | Astranoxis</title>
+  <meta name="description" content="Discover your hidden love patterns, emotional depth, and why relationships feel so intense. Your personalized Scorpio love reading — €9.">
+  <meta property="og:title" content="Scorpio isn't just a sign. It's a power.">
+  <meta property="og:description" content="Get your personalized Scorpio Love Reading and understand why love feels so intense for you.">
+  <meta property="og:image" content="/images/og-image.jpg">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Your existing CSS -->
+  <link rel="stylesheet" href="/css/style.css">
+  <!-- Funnel CSS (new) -->
+  <link rel="stylesheet" href="/css/funnel.css">
+</head>
+<body class="funnel-page">
+
+  <!-- Animated star background -->
+  <div class="star-bg" aria-hidden="true"></div>
+
+  <!-- ── NAVIGATION ── -->
+  <nav class="f-nav" role="navigation" aria-label="Main navigation">
+    <a href="/" class="f-nav-logo">
+      <!-- SVG Logo Mark -->
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#7c3aed"/>
+            <stop offset="100%" stop-color="#e879a0"/>
+          </linearGradient>
+        </defs>
+        <rect width="36" height="36" rx="9" fill="url(#logo-grad)"/>
+        <path d="M 7 23 L 7 13 Q 7 10 10 10 Q 13 10 13 13 L 13 17 Q 13 20 16.5 20 Q 20 20 20 17 L 20 13 Q 20 10 23 10 Q 26 10 26 13 L 26 21 Q 26 24 29 24 L 30.5 24 L 28.5 27 L 26.5 25"
+              stroke="white" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+      <div>
+        <div class="f-nav-logo-name">Astranoxis</div>
+        <div class="f-nav-logo-sub">For Scorpios. By the Stars.</div>
+      </div>
+    </a>
+    <a href="/reading" class="f-nav-cta">
+      ✦ Get My Reading
+    </a>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section class="f-hero" aria-labelledby="hero-headline">
+
+    <!-- SVG Scorpio symbol -->
+    <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0;opacity:0.06">
+      <svg width="700" height="700" viewBox="0 0 700 700" fill="none">
+        <text x="350" y="520" font-family="Georgia,serif" font-size="600" font-weight="700" fill="white" text-anchor="middle">♏</text>
+      </svg>
+    </div>
+
+    <div class="f-hero-inner" style="position:relative;z-index:1">
+
+      <!-- Floating scorpio SVG above headline -->
+      <div class="f-hero-symbol" aria-hidden="true">
+        <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+          <defs>
+            <radialGradient id="orb-bg" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#4c1d95" stop-opacity="0.7"/>
+              <stop offset="100%" stop-color="#e879a0" stop-opacity="0"/>
+            </radialGradient>
+            <linearGradient id="sym-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#e9d5ff"/>
+              <stop offset="50%" stop-color="#c084fc"/>
+              <stop offset="100%" stop-color="#e879a0"/>
+            </linearGradient>
+          </defs>
+          <!-- Glow -->
+          <circle cx="60" cy="60" r="58" fill="url(#orb-bg)"/>
+          <!-- Outer ring -->
+          <circle cx="60" cy="60" r="55" stroke="#a855f7" stroke-width="0.6" stroke-opacity="0.3" fill="none" stroke-dasharray="3 6"/>
+          <!-- Inner ring -->
+          <circle cx="60" cy="60" r="45" stroke="#e879a0" stroke-width="0.5" stroke-opacity="0.2" fill="none"/>
+          <!-- Scorpio M symbol -->
+          <text x="60" y="75" font-family="Georgia,serif" font-size="52" font-weight="700" fill="url(#sym-grad)" text-anchor="middle" filter="url(#sym-shadow)">♏</text>
+          <!-- Small stars -->
+          <circle cx="18" cy="22" r="1.5" fill="#e879a0" opacity="0.7"/>
+          <circle cx="100" cy="28" r="1.2" fill="#c084fc" opacity="0.6"/>
+          <circle cx="12" cy="90" r="1" fill="#fff" opacity="0.5"/>
+          <circle cx="108" cy="85" r="1.5" fill="#e879a0" opacity="0.6"/>
+        </svg>
+      </div>
+
+      <div class="f-hero-eyebrow">Personalized Scorpio Love Reading</div>
+
+      <h1 class="f-hero-h1" id="hero-headline">
+        Scorpio isn't just a sign.<br>
+        <span class="accent">It's a power.</span>
+      </h1>
+
+      <p class="f-hero-sub">
+        Discover your hidden love patterns, emotional depth, and why relationships feel so intense — with a reading written specifically for you.
+      </p>
+
+      <a href="/reading" class="btn-cta-main">
+        ✦ Get My Personal Reading
+        <span class="arrow">→</span>
+      </a>
+
+      <div class="f-hero-trust">
+        <span>€9 one-time</span>
+        <span>Delivered to your email</span>
+        <span>100% private</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── SOCIAL PROOF BAND ── -->
+  <div class="f-proof-band" aria-label="Social proof">
+    <div class="f-proof-band-inner">
+      <div class="f-proof-item">
+        <div class="f-proof-icon">⭐</div>
+        <div><strong>4.9/5</strong> from Scorpio readers</div>
+      </div>
+      <div class="f-proof-item">
+        <div class="f-proof-icon">❤️</div>
+        <div><strong>Thousands</strong> of readings delivered</div>
+      </div>
+      <div class="f-proof-item">
+        <div class="f-proof-icon">🔒</div>
+        <div><strong>Private</strong> & secure — always</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PRODUCT SECTION ── -->
+  <section class="f-product" aria-labelledby="product-title">
+    <div class="f-product-inner">
+
+      <div class="f-section-tag">What You Get</div>
+      <h2 class="f-product-title" id="product-title">
+        Your Personalized<br>
+        <span class="accent">Scorpio Love Analysis</span>
+      </h2>
+      <p class="f-product-desc">
+        This isn't a generic horoscope. It's a deep, personalized look at <em>your</em> love life — based on your birth date, your patterns, and the Scorpio energy that shapes everything you feel.
+      </p>
+
+      <!-- 4 insight cards -->
+      <div class="f-insights-grid">
+
+        <div class="f-insight-card">
+          <div class="f-insight-icon fi-intensity">🔥</div>
+          <div class="f-insight-body">
+            <h3>Why Love Feels So Intense</h3>
+            <p>Understand the cosmic roots of your all-or-nothing approach to love — and why you can't do anything halfway.</p>
+          </div>
+        </div>
+
+        <div class="f-insight-card">
+          <div class="f-insight-icon fi-patterns">🔄</div>
+          <div class="f-insight-body">
+            <h3>Your Repeating Patterns</h3>
+            <p>Spot the emotional cycles that keep showing up in your relationships — and finally understand why they happen.</p>
+          </div>
+        </div>
+
+        <div class="f-insight-card">
+          <div class="f-insight-icon fi-magnetism">✨</div>
+          <div class="f-insight-body">
+            <h3>What Draws & Repels People</h3>
+            <p>Discover what makes you magnetically attractive — and what unconsciously pushes the right people away.</p>
+          </div>
+        </div>
+
+        <div class="f-insight-card">
+          <div class="f-insight-icon fi-clarity">💎</div>
+          <div class="f-insight-body">
+            <h3>How to Get Clarity in Love</h3>
+            <p>A practical guide — written for your specific situation — on how to move forward with confidence and intention.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Price + CTA block -->
+      <div class="f-product-cta-block">
+        <div class="f-section-tag text-center">One-Time Reading</div>
+        <div class="f-price-badge">
+          <span class="f-price-currency">€</span>
+          <span class="f-price-amount">9</span>
+        </div>
+        <p class="f-price-label">Personalized to your birth date & love situation</p>
+
+        <a href="/reading" class="btn-cta-main">
+          ✦ Get Yours Now — €9
+          <span class="arrow">→</span>
+        </a>
+
+        <div class="f-product-guarantee">
+          🛡️ 100% private · Your data is never shared
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── TESTIMONIALS ── -->
+  <section class="f-testimonials" aria-label="Customer testimonials">
+    <div class="f-testimonials-inner">
+      <h2 class="f-testimonials-title">What Scorpios Are Saying</h2>
+      <div class="f-testi-grid">
+
+        <div class="f-testi-card">
+          <div class="f-testi-stars">★★★★★</div>
+          <p class="f-testi-text">"I've always known I was intense in relationships but never understood why. This reading gave me words for feelings I've had my whole life. Completely worth it."</p>
+          <div class="f-testi-author">
+            <div class="f-testi-avatar av-1">S</div>
+            <div>
+              <div class="f-testi-name">Sofia M.</div>
+              <div class="f-testi-detail">Scorpio, Nov 4</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="f-testi-card">
+          <div class="f-testi-stars">★★★★★</div>
+          <p class="f-testi-text">"The part about repeating patterns hit me so hard I had to put my phone down. Eerily accurate. Ordered another one for my sister."</p>
+          <div class="f-testi-author">
+            <div class="f-testi-avatar av-2">A</div>
+            <div>
+              <div class="f-testi-name">Alara K.</div>
+              <div class="f-testi-detail">Scorpio, Oct 28</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="f-testi-card">
+          <div class="f-testi-stars">★★★★★</div>
+          <p class="f-testi-text">"I was skeptical but €9 felt like nothing to try. It understood me better than people I've known for years. The clarity section alone changed how I think about love."</p>
+          <div class="f-testi-author">
+            <div class="f-testi-avatar av-3">M</div>
+            <div>
+              <div class="f-testi-name">Mira D.</div>
+              <div class="f-testi-detail">Scorpio, Nov 14</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FINAL CTA ── -->
+  <section class="f-final-cta" aria-label="Final call to action">
+    <h2>
+      The stars already wrote your story.<br>
+      <span class="accent">It's time to read it.</span>
+    </h2>
+    <p>Your personalized Scorpio love reading is waiting. One form, five minutes, €9.</p>
+    <a href="/reading" class="btn-cta-main">
+      ✦ Get My Personal Reading
+      <span class="arrow">→</span>
+    </a>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer class="f-footer">
+    <a href="/" class="f-footer-logo">
+      <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
+        <rect width="36" height="36" rx="9" fill="url(#logo-grad)"/>
+        <path d="M 7 23 L 7 13 Q 7 10 10 10 Q 13 10 13 13 L 13 17 Q 13 20 16.5 20 Q 20 20 20 17 L 20 13 Q 20 10 23 10 Q 26 10 26 13 L 26 21 Q 26 24 29 24 L 30.5 24 L 28.5 27 L 26.5 25"
+              stroke="white" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+      <span style="font-size:16px;font-weight:700;color:#f2eeff">Astranoxis</span>
+    </a>
+    <p class="f-footer-tagline">
+      Personalized Scorpio readings · For the intensely human.<br>
+      Built for Scorpios. Guided by the stars.
+    </p>
+    <nav class="f-footer-links" aria-label="Footer navigation">
+      <a href="/">Home</a>
+      <a href="/reading">Get a Reading</a>
+      <a href="/privacy">Privacy Policy</a>
+      <a href="/terms">Terms of Service</a>
+      <a href="/contact">Contact</a>
+    </nav>
+    <p class="f-footer-copy">© <%= new Date().getFullYear() %> Astranoxis · All rights reserved.</p>
+  </footer>
+
+</body>
+</html>

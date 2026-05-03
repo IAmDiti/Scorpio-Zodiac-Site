@@ -3,229 +3,253 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!--google tag-->
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-MK7C2CQ3Q2"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-MK7C2CQ3Q2');
-</script>
-
-  <!-- Primary SEO -->
-  <title>Scorpio Daily Horoscope 2026 — Personalized Readings | Scorpio Zodiac</title>
-  <meta name="description" content="Your daily Scorpio horoscope — personalized to your Moon, Venus and Mars signs. Love, career, health and spiritual guidance written specifically for you.">
-  <meta name="keywords" content="Scorpio horoscope, Scorpio daily horoscope, Scorpio 2026, Scorpio reading, personalized horoscope, Scorpio astrology">
-  <meta name="author" content="Scorpio Zodiac">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MK7C2CQ3Q2"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-MK7C2CQ3Q2');</script>
+  <title>Scorpio Love Reading — Personalized for You | Astranoxis</title>
+  <meta name="description" content="Discover your hidden love patterns and why relationships feel so intense. A personalized Scorpio love reading — €9.">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://www.zodiacsignzone.com/">
-
-  <!-- Open Graph (Facebook, WhatsApp, LinkedIn) -->
-  <meta property="og:type"        content="website">
-  <meta property="og:url"         content="https://www.zodiacsignzone.com/">
-  <meta property="og:title"       content="Scorpio Daily Horoscope — Personalized for Your Chart">
-  <meta property="og:description" content="Daily horoscope written specifically for your Scorpio chart. Based on your Moon, Venus and Mars signs. Free forever.">
-  <meta property="og:image"       content="https://www.zodiacsignzone.com/og-image.jpg">
-  <meta property="og:site_name"   content="Scorpio Zodiac">
-  <meta property="og:locale"      content="en_US">
-
-  <!-- Twitter / X -->
-  <meta name="twitter:card"        content="summary_large_image">
-  <meta name="twitter:title"       content="Scorpio Daily Horoscope — Personalized for Your Chart">
-  <meta name="twitter:description" content="Daily horoscope written specifically for your Scorpio chart. Based on your Moon, Venus and Mars signs.">
-  <meta name="twitter:image"       content="https://www.zodiacsignzone.com/og-image.jpg">
-
+  <link rel="canonical" href="https://www.astranoxis.com/">
+  <meta property="og:title" content="Scorpio isn't just a sign. It's a power.">
+  <meta property="og:description" content="Get your personalized Scorpio Love Reading — €9.">
+  <meta property="og:url" content="https://www.astranoxis.com/">
   <link rel="stylesheet" href="/css/main.css">
-  <!-- reCAPTCHA v3 -->
-  <script src="https://www.google.com/recaptcha/api.js?render=YOUR_RECAPTCHA_SITE_KEY" async defer></script>
-  <style>
-    .btn-google {
-      width:100%; padding:10px 16px; margin-bottom:4px;
-      background:#fff; border:1px solid #dadce0; border-radius:40px;
-      display:flex; align-items:center; justify-content:center;
-      font-family:'DM Mono',monospace; font-size:.65rem; text-transform:uppercase;
-      letter-spacing:.06em; color:#3c4043; cursor:pointer;
-      transition:all .2s; box-shadow:0 1px 3px #00000015;
-    }
-    .btn-google:hover { box-shadow:0 2px 8px #00000025; border-color:#c0c4cc; }
-    .or-div { display:flex; align-items:center; gap:10px; margin:14px 0 10px; }
-    .or-div::before, .or-div::after { content:''; flex:1; height:1px; background:var(--bdr); }
-    .or-div span { font-family:'DM Mono',monospace; font-size:.55rem; color:var(--textd); }
-    .grecaptcha-badge { visibility:hidden; }
-  </style>
+  <link rel="stylesheet" href="/css/funnel.css">
 </head>
-<body>
+<body class="funnel-body">
+
 <div id="stars"></div>
 <div class="orb orb1"></div>
 <div class="orb orb2"></div>
-<div id="app">
 
-  <!-- NAV -->
-  <nav>
-    <a href="/" class="logo"><span class="logo-g">♏</span> Scorpio Zodiac</a>
-    <div class="nav-links">
-      <a href="/"          class="nav-link active">Horoscope</a>
-      <a href="/blog"  class="nav-link">Blog</a>
-      <a href="/quiz"  class="nav-link">Quizzes</a>
+<!-- NAV -->
+<nav>
+  <a href="/" class="logo">
+    <div class="logo-icon">♏</div>
+    <div>
+      <span>Astranoxis</span>
+      <span class="logo-sub">For Scorpios. By the Stars.</span>
     </div>
-    <div class="nav-right" id="navRight">
-      <button class="btn btn-o" onclick="openModal('login')">Sign In</button>
-      <button class="btn btn-f" onclick="openModal('signup')">Join Free</button>
-    </div>
-  </nav>
-
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hg">♏</div>
-    <div class="hdate" id="hdate"></div>
-    <h1 id="heroTitle">Your Cosmic Truth<br><em>Awaits</em>, Scorpio</h1>
-    <p class="hsub">Guided by the stars. Rooted in your depths. A daily reading shaped by who you truly are.</p>
-    <div class="cw" id="cw"></div>
-    <!-- Energy rings -->
-    <div class="rings">
-      <div class="ri"><div class="rl-">Love</div><div class="rw"><svg viewBox="0 0 44 44" width="44" height="44"><circle cx="22" cy="22" r="17" fill="none" stroke="#2e2a42" stroke-width="3"/><circle id="rc-love" cx="22" cy="22" r="17" fill="none" stroke="#9b7090" stroke-width="3" stroke-linecap="round" stroke-dasharray="107" stroke-dashoffset="107"/></svg><span class="rn" id="rn-love">—</span></div><div class="rp" id="rp-love">—</div></div>
-      <div class="ri"><div class="rl-">Career</div><div class="rw"><svg viewBox="0 0 44 44" width="44" height="44"><circle cx="22" cy="22" r="17" fill="none" stroke="#2e2a42" stroke-width="3"/><circle id="rc-career" cx="22" cy="22" r="17" fill="none" stroke="#6a7ea8" stroke-width="3" stroke-linecap="round" stroke-dasharray="107" stroke-dashoffset="107"/></svg><span class="rn" id="rn-career">—</span></div><div class="rp" id="rp-career">—</div></div>
-      <div class="ri"><div class="rl-">Health</div><div class="rw"><svg viewBox="0 0 44 44" width="44" height="44"><circle cx="22" cy="22" r="17" fill="none" stroke="#2e2a42" stroke-width="3"/><circle id="rc-health" cx="22" cy="22" r="17" fill="none" stroke="#7a8a6a" stroke-width="3" stroke-linecap="round" stroke-dasharray="107" stroke-dashoffset="107"/></svg><span class="rn" id="rn-health">—</span></div><div class="rp" id="rp-health">—</div></div>
-      <div class="ri"><div class="rl-">Spirit</div><div class="rw"><svg viewBox="0 0 44 44" width="44" height="44"><circle cx="22" cy="22" r="17" fill="none" stroke="#2e2a42" stroke-width="3"/><circle id="rc-spirit" cx="22" cy="22" r="17" fill="none" stroke="#8a7040" stroke-width="3" stroke-linecap="round" stroke-dasharray="107" stroke-dashoffset="107"/></svg><span class="rn" id="rn-spirit">—</span></div><div class="rp" id="rp-spirit">—</div></div>
-    </div>
-  </section>
-
-  <div class="wrap">
-
-    <!-- READING CARD -->
-    <section class="section">
-      <div class="sl"><span>Your Reading</span></div>
-      <div class="card">
-        <div class="tabs" id="tabs">
-          <button class="tab active" data-tab="daily">Daily</button>
-          <button class="tab"        data-tab="weekly">Weekly</button>
-          <button class="tab"        data-tab="monthly">Monthly</button>
-        </div>
-
-        <!-- DAILY -->
-        <div class="tp active" id="tp-daily">
-          <div class="ch"><span class="ci"></span><span class="ct">Today's Reading</span><span class="pill" id="rdPill">Guest</span></div>
-          <div id="rdLoading"><p class="reading" style="color:var(--textd);font-style:italic">Loading your reading...</p></div>
-          <div id="guestPrev"></div>
-          <div class="bg- hidden" id="blurGate">
-            <p class="bt" id="blurTxt"></p>
-            <div class="bv">
-              <p class="bm">Unlock your <em>full reading</em> — it's free</p>
-              <button class="btn btn-f" onclick="openModal('signup')">Reveal Full Reading</button>
-            </div>
-          </div>
-          <div class="hidden" id="fullRead"></div>
-        </div>
-
-        <!-- WEEKLY -->
-        <div class="tp" id="tp-weekly">
-          <div class="ch"><span class="ct">This Week</span><span class="pill m">Member</span></div>
-          <div id="weeklyC"></div>
-        </div>
-
-        <!-- MONTHLY -->
-        <div class="tp" id="tp-monthly">
-          <div class="ch"><span class="ct">This Month</span><span class="pill m">Member</span></div>
-          <div id="monthlyC"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- COMPATIBILITY -->
-    <section class="section">
-      <div class="sl"><span>Compatibility Oracle</span></div>
-      <div class="card">
-        <p class="ci2">Choose a sign to reveal your cosmic alignment with Scorpio</p>
-        <div class="sg" id="signsGrid"></div>
-        <div class="cr" id="compatResult">
-          <div class="cr-h">
-            <div class="cr-ring">
-              <svg viewBox="0 0 80 80" width="80" height="80">
-                <circle cx="40" cy="40" r="33" fill="none" stroke="#2e2a42" stroke-width="5"/>
-                <circle id="cc" cx="40" cy="40" r="33" fill="none" stroke="#9b7090" stroke-width="5" stroke-linecap="round" stroke-dasharray="207" stroke-dashoffset="207"/>
-              </svg>
-              <span class="cr-p" id="cpct">—</span>
-            </div>
-            <div><div class="cr-t" id="ctit"></div><div class="cr-s" id="csub"></div></div>
-          </div>
-          <div class="ms">
-            <div class="mr"><span class="mlb">Passion</span><div class="mt2"><div class="mf m1" id="m1"></div></div></div>
-            <div class="mr"><span class="mlb">Trust</span><div class="mt2"><div class="mf m2" id="m2"></div></div></div>
-            <div class="mr"><span class="mlb">Intellect</span><div class="mt2"><div class="mf m3" id="m3"></div></div></div>
-            <div class="mr"><span class="mlb">Growth</span><div class="mt2"><div class="mf m4" id="m4"></div></div></div>
-          </div>
-          <p class="reading" id="cdesc"></p>
-        </div>
-      </div>
-    </section>
-
-    <!-- SHARE CARD -->
-    <section class="section">
-      <div class="sl"><span>Share Your Reading</span></div>
-      <div class="card">
-        <canvas id="shareCanvas" width="1080" height="1080"></canvas>
-        <div class="sr">
-          <button class="btn btn-f" onclick="downloadCard()">Download Card</button>
-          <button class="btn btn-o" onclick="copyCaption()">Copy Caption</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- BLOG -->
-    <section class="section" id="blogSection" style="display:none">
-      <div class="sl"><span>From the Blog</span></div>
-      <div class="bg2-" id="blogGrid"></div>
-      <div style="text-align:center;margin-top:14px">
-        <a href="/blog" class="btn btn-o">View All Articles →</a>
-      </div>
-    </section>
-
+  </a>
+  <div class="nav-links">
+    <a href="/" class="nav-link active">Home</a>
+    <a href="/horoscope" class="nav-link">Horoscope</a>
+    <a href="/blog" class="nav-link">Blog</a>
+    <a href="/quiz" class="nav-link">Quizzes</a>
   </div>
+  <div id="homeNavRight">
+    <a href="/reading" class="btn btn-f" style="font-size:.62rem">✦ Get My Reading</a>
+  </div>
+</nav>
 
-  <footer>
-    <div class="fl">♏ Scorpio Zodiac</div>
-    <nav class="fn">
-      <a href="/">Horoscope</a>
-      <a href="/blog">Blog</a>
-      <a href="/quiz">Quizzes</a>
-      <a href="/privacy">Privacy</a>
-      <a href="/terms">Terms</a>
-      <a href="/contact">Contact</a>
-    </nav>
-    <p>Guided by the stars. Built for the depths. © <span id="ftY"></span> Scorpio Zodiac</p>
-  </footer>
+<!-- HERO -->
+<section class="f-hero">
+  <div class="f-hero-wm" aria-hidden="true">♏</div>
+  <div class="f-hero-inner">
+    <div class="f-hero-orb" aria-hidden="true">
+      <svg width="110" height="110" viewBox="0 0 110 110" fill="none">
+        <defs>
+          <radialGradient id="orb-g" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#4c1d95" stop-opacity="0.8"/><stop offset="100%" stop-color="#e879a0" stop-opacity="0"/></radialGradient>
+          <linearGradient id="sym-g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e9d5ff"/><stop offset="50%" stop-color="#c084fc"/><stop offset="100%" stop-color="#e879a0"/></linearGradient>
+        </defs>
+        <circle cx="55" cy="55" r="53" fill="url(#orb-g)"/>
+        <circle cx="55" cy="55" r="51" stroke="#a855f7" stroke-width="0.6" stroke-opacity="0.35" fill="none" stroke-dasharray="3 6"/>
+        <circle cx="55" cy="55" r="42" stroke="#e879a0" stroke-width="0.4" stroke-opacity="0.2" fill="none"/>
+        <text x="55" y="72" font-family="Georgia,serif" font-size="52" font-weight="700" fill="url(#sym-g)" text-anchor="middle">♏</text>
+        <circle cx="18" cy="20" r="1.5" fill="#e879a0" opacity="0.7"/>
+        <circle cx="92" cy="25" r="1.2" fill="#c084fc" opacity="0.6"/>
+        <circle cx="14" cy="85" r="1" fill="white" opacity="0.5"/>
+        <circle cx="96" cy="82" r="1.5" fill="#e879a0" opacity="0.5"/>
+      </svg>
+    </div>
+    <div class="f-eyebrow">✦ Personalized Scorpio Love Reading ✦</div>
+    <h1 class="f-h1">Scorpio isn't just a sign.<br><em>It's a power.</em></h1>
+    <p class="f-sub">Discover your hidden love patterns, emotional depth, and why relationships feel so intense — in a reading written specifically for you.</p>
+    <a href="/reading" class="f-btn-cta">✦ Get My Personal Reading <span class="f-arrow">→</span></a>
+    <div class="f-trust">
+      <span>€9 one-time</span>
+      <span>Delivered to your email</span>
+      <span>100% private</span>
+    </div>
+  </div>
+</section>
 
+<!-- PROOF BAND -->
+<div class="f-proof-band">
+  <div class="f-proof-item"><span class="f-proof-icon">⭐</span><span><strong>4.9/5</strong> from Scorpio readers</span></div>
+  <div class="f-proof-sep"></div>
+  <div class="f-proof-item"><span class="f-proof-icon">❤️</span><span><strong>Thousands</strong> of readings delivered</span></div>
+  <div class="f-proof-sep"></div>
+  <div class="f-proof-item"><span class="f-proof-icon">🔒</span><span><strong>Private</strong> &amp; secure — always</span></div>
 </div>
+
+<!-- PRODUCT -->
+<section class="f-product">
+  <div class="f-product-inner">
+    <div class="f-section-tag">What You Get</div>
+    <h2 class="f-product-h2">Your Personalized<br><em>Scorpio Love Analysis</em></h2>
+    <p class="f-product-desc">This isn't a generic horoscope. It's a deep, personal look at <em>your</em> love life — based on your birth date, your patterns, and the Scorpio energy that shapes everything you feel.</p>
+
+    <div class="f-insights">
+      <div class="f-insight-card">
+        <div class="f-insight-icon" style="background:rgba(232,121,160,0.14)">🔥</div>
+        <div><h3>Why Love Feels So Intense</h3><p>Understand the cosmic roots of your all-or-nothing approach — and why you can't love anyone halfway.</p></div>
+      </div>
+      <div class="f-insight-card">
+        <div class="f-insight-icon" style="background:rgba(124,58,237,0.14)">🔄</div>
+        <div><h3>Your Repeating Patterns</h3><p>Spot the emotional cycles that keep showing up in your relationships — and why they keep happening.</p></div>
+      </div>
+      <div class="f-insight-card">
+        <div class="f-insight-icon" style="background:rgba(201,148,58,0.14)">✨</div>
+        <div><h3>What Draws &amp; Repels People</h3><p>Discover your magnetic pull — and the unconscious patterns that push the right people away.</p></div>
+      </div>
+      <div class="f-insight-card">
+        <div class="f-insight-icon" style="background:rgba(34,197,94,0.12)">💎</div>
+        <div><h3>How to Get Clarity in Love</h3><p>A practical guide written for your specific situation on how to move forward with confidence.</p></div>
+      </div>
+    </div>
+
+    <div class="f-cta-block">
+      <div class="f-section-tag" style="justify-content:center">One-Time Reading</div>
+      <div class="f-price"><span class="f-price-cur">€</span><span class="f-price-amt">9</span></div>
+      <p class="f-price-label">Personalized to your birth date &amp; love situation</p>
+      <a href="/reading" class="f-btn-cta">✦ Get Yours Now — €9 <span class="f-arrow">→</span></a>
+      <p class="f-guarantee">🛡️ 100% private · Your data is never shared</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="f-testi-section">
+  <h2 class="f-testi-title">What Scorpios Are Saying</h2>
+  <div class="f-testi-grid">
+    <div class="f-testi-card">
+      <div class="f-stars">★★★★★</div>
+      <p>"I've always known I was intense in relationships but never understood why. This reading gave me words for feelings I've had my whole life. Completely worth it."</p>
+      <div class="f-testi-author"><div class="f-testi-av" style="background:linear-gradient(135deg,#7c3aed,#e879a0)">S</div><div><div class="f-testi-name">Sofia M.</div><div class="f-testi-detail">Scorpio, Nov 4</div></div></div>
+    </div>
+    <div class="f-testi-card">
+      <div class="f-stars">★★★★★</div>
+      <p>"The part about repeating patterns hit me so hard I had to put my phone down. Eerily accurate. Ordered another for my sister."</p>
+      <div class="f-testi-author"><div class="f-testi-av" style="background:linear-gradient(135deg,#e879a0,#a855f7)">A</div><div><div class="f-testi-name">Alara K.</div><div class="f-testi-detail">Scorpio, Oct 28</div></div></div>
+    </div>
+    <div class="f-testi-card">
+      <div class="f-stars">★★★★★</div>
+      <p>"I was skeptical but €9 felt like nothing to try. It understood me better than people I've known for years. The clarity section alone changed how I think about love."</p>
+      <div class="f-testi-author"><div class="f-testi-av" style="background:linear-gradient(135deg,#d946ef,#7c3aed)">M</div><div><div class="f-testi-name">Mira D.</div><div class="f-testi-detail">Scorpio, Nov 14</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ALSO EXPLORE -->
+<section class="f-product" style="padding-top:0">
+  <div class="f-product-inner">
+    <div class="f-section-tag">Also on Astranoxis</div>
+    <h2 class="f-product-h2" style="font-size:clamp(1.4rem,3vw,2rem);margin-bottom:24px">Explore the Cosmos</h2>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+      <a href="/horoscope" style="text-decoration:none">
+        <div class="card" style="text-align:center;padding:28px 16px;cursor:pointer;transition:.25s" onmouseover="this.style.borderColor='rgba(232,121,160,.4)'" onmouseout="this.style.borderColor=''">
+          <div style="font-size:1.8rem;margin-bottom:10px">🌙</div>
+          <div style="font-family:'Playfair Display',serif;font-size:.95rem;color:var(--ivory);margin-bottom:6px">Daily Horoscope</div>
+          <div style="font-size:.82rem;color:var(--texts);font-style:italic">Your personalized daily reading</div>
+        </div>
+      </a>
+      <a href="/quiz" style="text-decoration:none">
+        <div class="card" style="text-align:center;padding:28px 16px;cursor:pointer;transition:.25s" onmouseover="this.style.borderColor='rgba(232,121,160,.4)'" onmouseout="this.style.borderColor=''">
+          <div style="font-size:1.8rem;margin-bottom:10px">✦</div>
+          <div style="font-family:'Playfair Display',serif;font-size:.95rem;color:var(--ivory);margin-bottom:6px">Scorpio Quizzes</div>
+          <div style="font-size:.82rem;color:var(--texts);font-style:italic">Test your cosmic knowledge</div>
+        </div>
+      </a>
+      <a href="/blog" style="text-decoration:none">
+        <div class="card" style="text-align:center;padding:28px 16px;cursor:pointer;transition:.25s" onmouseover="this.style.borderColor='rgba(232,121,160,.4)'" onmouseout="this.style.borderColor=''">
+          <div style="font-size:1.8rem;margin-bottom:10px">📖</div>
+          <div style="font-family:'Playfair Display',serif;font-size:.95rem;color:var(--ivory);margin-bottom:6px">Astrology Blog</div>
+          <div style="font-size:.82rem;color:var(--texts);font-style:italic">Deep Scorpio insights</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="f-final">
+  <h2>The stars already wrote your story.<br><em>It's time to read it.</em></h2>
+  <p>One form, five minutes, €9. Your reading arrives in your inbox within 24 hours.</p>
+  <a href="/reading" class="f-btn-cta">✦ Get My Personal Reading <span class="f-arrow">→</span></a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="fl">♏ Astranoxis</div>
+  <nav class="fn">
+    <a href="/">Home</a>
+    <a href="/horoscope">Horoscope</a>
+    <a href="/blog">Blog</a>
+    <a href="/quiz">Quizzes</a>
+    <a href="/reading">Get a Reading</a>
+    <a href="/privacy">Privacy</a>
+    <a href="/terms">Terms</a>
+    <a href="/contact">Contact</a>
+  </nav>
+  <p>Guided by the stars. Built for the depths. © <span id="ftY"></span> Astranoxis</p>
+</footer>
+
+<script src="/js/api.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/main.js"></script>
+<script>
+document.addEventListener('authReady', (e) => {
+  const user = e.detail
+  const navRight = document.getElementById('homeNavRight')
+  if (!navRight) return
+  if (user) {
+    const first = (user.name || '').split(' ')[0]
+    navRight.innerHTML = `
+      <div class="pdw">
+        <button class="pdp" onclick="toggleDrop()">
+          <div class="pda">♏</div>
+          <span class="pdn">${first || user.email}</span>
+          <span class="pdc" id="pdc">▾</span>
+        </button>
+        <div class="pdm" id="pdm">
+          <div class="pdh">
+            <div class="pdha">♏</div>
+            <div><div class="pdhn">${user.name||''}</div><div class="pdhe">${user.email||''}</div></div>
+          </div>
+          <div class="pdd"></div>
+          <a href="/horoscope" class="pdi">🌑 &nbsp;My Horoscope</a>
+          <a href="/reading" class="pdi">✦ &nbsp;Get a Reading</a>
+          <button class="pdi" onclick="openProfileModal()">⚙ &nbsp;Edit Profile</button>
+          <div class="pdd"></div>
+          <button class="pdi red" onclick="doLogout()">↩ &nbsp;Log Out</button>
+        </div>
+      </div>`
+    setTimeout(() => document.addEventListener('click', (ev) => {
+      if (!ev.target.closest('.pdw')) {
+        document.getElementById('pdm')?.classList.remove('open')
+        document.getElementById('pdc')?.classList.remove('open')
+      }
+    }), 20)
+  }
+})
+</script>
 
 <!-- AUTH MODAL -->
 <div class="mbg" id="authModal">
   <div class="modal">
     <button class="mx" onclick="closeModal()">✕</button>
     <div class="mg">♏</div>
-    <h2>Scorpio Zodiac</h2>
+    <h2>Astranoxis</h2>
     <p class="msub">Your full cosmic truth awaits</p>
-
-    <!-- Google button — shown on both tabs -->
     <button class="btn-google" onclick="doGoogleLogin()">
-      <svg width="18" height="18" viewBox="0 0 18 18" style="margin-right:8px;vertical-align:middle">
-        <path fill="#4285F4" d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 0 0 2.38-5.88c0-.57-.05-.66-.15-1.18z"/>
-        <path fill="#34A853" d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.6-2.01c-.72.48-1.63.76-2.7.76-2.08 0-3.84-1.4-4.47-3.29H1.83v2.07A8 8 0 0 0 8.98 17z"/>
-        <path fill="#FBBC05" d="M4.51 10.52A4.8 4.8 0 0 1 4.26 9c0-.53.09-1.04.25-1.52V5.41H1.83a8 8 0 0 0 0 7.18l2.68-2.07z"/>
-        <path fill="#EA4335" d="M8.98 3.58c1.17 0 2.23.4 3.06 1.2l2.3-2.3A8 8 0 0 0 1.83 5.4L4.5 7.48C5.14 5.59 6.9 3.58 8.98 3.58z"/>
-      </svg>
+      <svg width="18" height="18" viewBox="0 0 18 18" style="margin-right:8px"><path fill="#4285F4" d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 0 0 2.38-5.88c0-.57-.05-.66-.15-1.18z"/><path fill="#34A853" d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.6-2.01c-.72.48-1.63.76-2.7.76-2.08 0-3.84-1.4-4.47-3.29H1.83v2.07A8 8 0 0 0 8.98 17z"/><path fill="#FBBC05" d="M4.51 10.52A4.8 4.8 0 0 1 4.26 9c0-.53.09-1.04.25-1.52V5.41H1.83a8 8 0 0 0 0 7.18l2.68-2.07z"/><path fill="#EA4335" d="M8.98 3.58c1.17 0 2.23.4 3.06 1.2l2.3-2.3A8 8 0 0 0 1.83 5.4L4.5 7.48C5.14 5.59 6.9 3.58 8.98 3.58z"/></svg>
       Continue with Google
     </button>
-
     <div class="or-div"><span>or</span></div>
-
     <div class="sw">
       <button class="swb active" id="sw1" onclick="switchTab('login')">Sign In</button>
-      <button class="swb"        id="sw2" onclick="switchTab('signup')">Join Free</button>
+      <button class="swb" id="sw2" onclick="switchTab('signup')">Join Free</button>
     </div>
-    <!-- Login -->
     <div id="fLogin">
       <div class="fg"><label>Email</label><input type="email" id="lEmail" placeholder="you@cosmos.com"></div>
       <div class="fg"><label>Password</label><input type="password" id="lPass" placeholder="••••••••"></div>
@@ -233,17 +257,14 @@
       <button class="btn btn-f btn-block" id="btnLogin" onclick="doLogin()">Enter ♏</button>
       <button class="lbtn" onclick="switchTab('forgot')">Forgot password?</button>
     </div>
-    <!-- Signup -->
     <div id="fSignup" class="hidden">
-      <div class="fg"><label>Your Name</label><input type="text"      id="sName"  placeholder="Scorpio Seeker"></div>
-      <div class="fg"><label>Email</label>     <input type="email"    id="sEmail" placeholder="you@cosmos.com"></div>
+      <div class="fg"><label>Your Name</label><input type="text" id="sName" placeholder="Scorpio Seeker"></div>
+      <div class="fg"><label>Email</label><input type="email" id="sEmail" placeholder="you@cosmos.com"></div>
       <div class="fg"><label>Birth Date <span style="color:var(--textd);font-size:.5rem">(Scorpio only · Must be 16+)</span></label><input type="date" id="sBirth"></div>
-      <div class="fg"><label>Password</label>  <input type="password" id="sPass"  placeholder="Min. 6 characters"></div>
+      <div class="fg"><label>Password</label><input type="password" id="sPass" placeholder="Min. 6 characters"></div>
       <div class="err hidden" id="sErr"></div>
-      <div id="recaptcha-signup"></div>
       <button class="btn btn-f btn-block" id="btnSignup" onclick="doSignup()">Begin My Journey</button>
     </div>
-    <!-- Forgot -->
     <div id="fForgot" class="hidden">
       <button class="bbtn" onclick="switchTab('login')">← Back to Sign In</button>
       <p style="color:var(--texts);font-style:italic;font-size:.88rem;margin-bottom:12px">Enter your email and we'll send a reset link.</p>
@@ -254,54 +275,21 @@
     </div>
   </div>
 </div>
-
-<!-- PROFILE MODAL -->
 <div class="mbg" id="profModal">
   <div class="modal">
     <button class="mx" onclick="closeProfileModal()">✕</button>
-    <div class="mg">♏</div>
-    <h2>My Profile</h2>
-    <p class="msub">Update your cosmic details</p>
-    <div class="fg"><label>Name</label>         <input type="text"      id="pName"  placeholder="Your name"></div>
-    <div class="fg"><label>Email</label>         <input type="email"     id="pEmail" placeholder="your@email.com"></div>
-    <div class="fg"><label>Birth Date</label>    <input type="date"      id="pBirth"></div>
-    <div class="fg"><label>New Password <small style="color:var(--textd)">(leave blank to keep)</small></label>
-                                                 <input type="password"  id="pPass"  placeholder="New password"></div>
+    <div class="mg">♏</div><h2>My Profile</h2><p class="msub">Update your cosmic details</p>
+    <div class="fg"><label>Name</label><input type="text" id="pName" placeholder="Your name"></div>
+    <div class="fg"><label>Email</label><input type="email" id="pEmail" placeholder="your@email.com"></div>
+    <div class="fg"><label>Birth Date</label><input type="date" id="pBirth"></div>
+    <div class="fg"><label>New Password <small style="color:var(--textd)">(leave blank to keep)</small></label><input type="password" id="pPass" placeholder="New password"></div>
     <div class="fg"><label>Confirm Password</label><input type="password" id="pPass2" placeholder="Confirm"></div>
-    <div class="err hidden" id="pErr"></div>
-    <div class="okm hidden" id="pOk"></div>
+    <div class="err hidden" id="pErr"></div><div class="okm hidden" id="pOk"></div>
     <button class="btn btn-f btn-block" id="btnProf" onclick="doSaveProfile()">Save Changes ✦</button>
     <div style="height:1px;background:var(--bdr);margin:14px 0"></div>
     <button class="btn btn-o btn-block" onclick="doLogout()">Log Out</button>
   </div>
 </div>
-
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
-
-<script src="/js/api.js"></script>
-<script src="/js/auth.js"></script>
-<script src="/js/main.js"></script>
-<script>
-// Load blog posts after auth
-document.addEventListener('authReady', async () => {
-  const { ok, data } = await API.posts(3)
-  if (!ok || !data.posts?.length) return
-  const grid = document.getElementById('blogGrid')
-  const sec  = document.getElementById('blogSection')
-  if (!grid || !sec) return
-  grid.innerHTML = data.posts.map(p => `
-    <a href="/post?slug=${p.slug}" class="bc">
-      <div class="bc-tag">${p.tag_label||p.category||'Astrology'}</div>
-      <h3 class="bc-t">${p.title}</h3>
-      <p class="bc-e">${p.excerpt||''}</p>
-      <div class="bc-f">
-        <span class="bc-d">${new Date(p.published_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</span>
-        <span class="bc-r">${p.read_time}</span>
-      </div>
-    </a>`).join('')
-  sec.style.display = 'block'
-}, { once: true })
-</script>
 </body>
 </html>

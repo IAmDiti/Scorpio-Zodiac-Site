@@ -43,8 +43,9 @@ function renderUser(u) {
           <div><div class="pdhn">${esc(u.name||'')}</div><div class="pdhe">${esc(u.email||'')}</div></div>
         </div>
         <div class="pdd"></div>
-        <a href="/" class="pdi">🌑 &nbsp;My Horoscope</a>
-        <button class="pdi" onclick="openProfileModal()">✦ &nbsp;Edit Profile</button>
+        <a href="/horoscope" class="pdi">🌑 &nbsp;My Horoscope</a>
+        <a href="/reading"   class="pdi">✦ &nbsp;Get a Reading</a>
+        <button class="pdi" onclick="openProfileModal()">⚙ &nbsp;Edit Profile</button>
         <div class="pdd"></div>
         <button class="pdi red" onclick="doLogout()">↩ &nbsp;Log Out</button>
       </div>

@@ -25,4 +25,9 @@ const API = {
   personalChart()                          { return this.req('GET',  '/api/personal/chart') },
   posts(limit)                             { return this.req('GET',  `/api/blog/posts?limit=${limit||10}`) },
   post(slug)                               { return this.req('GET',  `/api/blog/posts/${slug}`) },
+  // ── Streak ──
+  streakCheckin()                          { return this.req('POST', '/api/streak/checkin') },
+  streakGet()                              { return this.req('GET',  '/api/streak') },
+  streakHistory()                          { return this.req('GET',  '/api/streak/history') },
+  streakClaimReading()                     { return this.req('POST', '/api/streak/claim-reading') },
 }

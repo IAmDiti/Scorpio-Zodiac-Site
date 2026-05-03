@@ -1,0 +1,54 @@
+<%- /* views/reading-success.ejs — NEW FILE: shown after form submission & payment */ -%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Reading is on its Way | Astranoxis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/funnel.css">
+</head>
+<body class="funnel-page">
+  <div class="star-bg" aria-hidden="true"></div>
+
+  <main class="f-success">
+    <div class="f-success-inner">
+
+      <div class="f-success-icon" aria-hidden="true">✨</div>
+
+      <h1 class="f-success-h1">
+        <% if (locals.name) { %><%= name %>, your<% } else { %>Your<% } %>
+        <span class="accent">reading is on its way</span>
+      </h1>
+
+      <p class="f-success-p">
+        We've received everything we need. Your personalized Scorpio Love Reading is being crafted and will arrive in your inbox within 24 hours.
+      </p>
+
+      <div class="f-success-steps">
+        <div class="f-success-step">
+          <div class="f-success-step-num">1</div>
+          <div>Check your email — your reading will arrive within 24 hours at <strong><%= locals.email ? email : 'your email address' %></strong>.</div>
+        </div>
+        <div class="f-success-step">
+          <div class="f-success-step-num">2</div>
+          <div>Check your spam folder if you don't see it — sometimes cosmic messages end up there.</div>
+        </div>
+        <div class="f-success-step">
+          <div class="f-success-step-num">3</div>
+          <div>Read it somewhere quiet. This is personal. Take your time with it.</div>
+        </div>
+      </div>
+
+      <a href="/" class="btn-cta-main" style="display:inline-flex;text-decoration:none">
+        ← Back to Astranoxis
+      </a>
+
+    </div>
+  </main>
+
+</body>
+</html>

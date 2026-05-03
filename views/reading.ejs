@@ -1,0 +1,231 @@
+<%- /* views/reading.ejs — NEW FILE: the 5-field reading form */ -%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Scorpio Love Reading | Astranoxis</title>
+  <meta name="description" content="Tell us about yourself so we can write your personalized Scorpio love reading.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/funnel.css">
+</head>
+<body class="funnel-page">
+
+  <div class="star-bg" aria-hidden="true"></div>
+
+  <!-- Minimal nav on form page -->
+  <nav class="f-nav" role="navigation">
+    <a href="/" class="f-nav-logo">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+        <defs>
+          <linearGradient id="logo-grad-f" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#7c3aed"/>
+            <stop offset="100%" stop-color="#e879a0"/>
+          </linearGradient>
+        </defs>
+        <rect width="36" height="36" rx="9" fill="url(#logo-grad-f)"/>
+        <path d="M 7 23 L 7 13 Q 7 10 10 10 Q 13 10 13 13 L 13 17 Q 13 20 16.5 20 Q 20 20 20 17 L 20 13 Q 20 10 23 10 Q 26 10 26 13 L 26 21 Q 26 24 29 24 L 30.5 24 L 28.5 27 L 26.5 25"
+              stroke="white" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+      <div>
+        <div class="f-nav-logo-name">Astranoxis</div>
+        <div class="f-nav-logo-sub">For Scorpios. By the Stars.</div>
+      </div>
+    </a>
+    <div style="font-size:13px;color:#7a6a9a">🔒 Secure & Private</div>
+  </nav>
+
+  <!-- ── FORM PAGE ── -->
+  <main class="f-form-page">
+    <div class="f-form-wrap">
+
+      <!-- Header -->
+      <div class="f-form-header">
+        <div class="f-form-icon" aria-hidden="true">
+          <svg width="72" height="72" viewBox="0 0 72 72" fill="none">
+            <defs>
+              <radialGradient id="form-orb" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#4c1d95" stop-opacity="0.8"/>
+                <stop offset="100%" stop-color="#e879a0" stop-opacity="0"/>
+              </radialGradient>
+              <linearGradient id="form-sym" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#e9d5ff"/>
+                <stop offset="100%" stop-color="#e879a0"/>
+              </linearGradient>
+            </defs>
+            <circle cx="36" cy="36" r="35" fill="url(#form-orb)"/>
+            <circle cx="36" cy="36" r="33" stroke="#a855f7" stroke-width="0.6" stroke-opacity="0.4" fill="none" stroke-dasharray="3 5"/>
+            <text x="36" y="47" font-family="Georgia,serif" font-size="34" font-weight="700" fill="url(#form-sym)" text-anchor="middle">♏</text>
+          </svg>
+        </div>
+        <h1 class="f-form-title">
+          Your <span class="accent">Scorpio Love</span> Reading
+        </h1>
+        <p class="f-form-subtitle">
+          Tell us about yourself. Your reading will be written personally for you and sent to your email within 24 hours.
+        </p>
+      </div>
+
+      <!-- Progress indicator -->
+      <div class="f-form-progress" aria-label="Form progress">
+        <div class="f-form-progress-step active"></div>
+        <div class="f-form-progress-step active"></div>
+        <div class="f-form-progress-step active"></div>
+        <div class="f-form-progress-step active"></div>
+        <div class="f-form-progress-step active"></div>
+        <span class="f-form-progress-label">5 quick questions</span>
+      </div>
+
+      <!-- The form -->
+      <div class="f-form-card">
+
+        <% if (locals.error) { %>
+          <div style="background:rgba(232,81,80,0.1);border:1px solid rgba(232,81,80,0.3);border-radius:10px;padding:14px 18px;margin-bottom:22px;font-size:14px;color:#fca5a5;">
+            <%= error %>
+          </div>
+        <% } %>
+
+        <form action="/reading" method="POST" id="reading-form" novalidate>
+
+          <!-- 1. Name -->
+          <div class="f-field">
+            <label for="name">Your name <span class="req">*</span></label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              placeholder="e.g. Sofia"
+              value="<%= locals.formData ? formData.name : '' %>"
+              required
+              autocomplete="given-name"
+            >
+          </div>
+
+          <!-- 2. Birth date -->
+          <div class="f-field">
+            <label for="birthdate">Your birth date <span class="req">*</span></label>
+            <input
+              type="date"
+              id="birthdate"
+              name="birthdate"
+              value="<%= locals.formData ? formData.birthdate : '' %>"
+              required
+              max="<%= new Date(new Date().setFullYear(new Date().getFullYear() - 18)).toISOString().split('T')[0] %>"
+            >
+            <div class="f-field-hint">Must be a Scorpio (Oct 23 – Nov 21). You must be 18 or older.</div>
+          </div>
+
+          <!-- 3. Relationship status -->
+          <div class="f-field">
+            <label for="status">Current relationship status <span class="req">*</span></label>
+            <select id="status" name="status" required>
+              <option value="" disabled <%= !locals.formData || !formData.status ? 'selected' : '' %>>Choose one…</option>
+              <option value="single"       <%= locals.formData && formData.status === 'single'       ? 'selected' : '' %>>Single</option>
+              <option value="dating"       <%= locals.formData && formData.status === 'dating'       ? 'selected' : '' %>>Dating / seeing someone</option>
+              <option value="relationship" <%= locals.formData && formData.status === 'relationship' ? 'selected' : '' %>>In a relationship</option>
+              <option value="complicated"  <%= locals.formData && formData.status === 'complicated'  ? 'selected' : '' %>>It's complicated</option>
+              <option value="separated"    <%= locals.formData && formData.status === 'separated'    ? 'selected' : '' %>>Separated / divorced</option>
+            </select>
+          </div>
+
+          <!-- 4. Biggest love problem -->
+          <div class="f-field">
+            <label for="problem">Your biggest love challenge right now <span class="req">*</span></label>
+            <textarea
+              id="problem"
+              name="problem"
+              placeholder="e.g. I keep attracting emotionally unavailable people, or I push people away when things get serious…"
+              required
+              maxlength="600"
+            ><%= locals.formData ? formData.problem : '' %></textarea>
+            <div class="f-field-hint">Be as honest as you want — the more specific, the more personal your reading will be.</div>
+          </div>
+
+          <!-- 5. Email -->
+          <div class="f-field">
+            <label for="email">Your email address <span class="req">*</span></label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="you@example.com"
+              value="<%= locals.formData ? formData.email : '' %>"
+              required
+              autocomplete="email"
+            >
+            <div class="f-field-hint">Your reading will be sent here. We never share or sell your email.</div>
+          </div>
+
+          <!-- Privacy note -->
+          <div class="f-form-privacy">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-top:1px;flex-shrink:0">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            <span>Your information is used only to create your personal reading. It is never sold, shared, or used for advertising. You can request deletion at any time.</span>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" class="btn-submit" id="submit-btn">
+            <span id="submit-text">✦ Get My Reading — €9</span>
+            <span id="submit-loading" style="display:none">Sending…</span>
+          </button>
+
+          <div class="f-form-below">
+            🔒 Secure payment · Powered by Stripe via Lemon Squeezy
+          </div>
+
+        </form>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="f-footer" style="padding-top:20px;padding-bottom:20px">
+    <nav class="f-footer-links" aria-label="Footer navigation">
+      <a href="/">← Back to Home</a>
+      <a href="/privacy">Privacy Policy</a>
+      <a href="/terms">Terms of Service</a>
+      <a href="/contact">Contact</a>
+    </nav>
+    <p class="f-footer-copy">© <%= new Date().getFullYear() %> Astranoxis · All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Scorpio date gate — warn if birth date is not Oct 23 – Nov 21
+    const bd = document.getElementById('birthdate');
+    const hint = bd.nextElementSibling;
+    bd.addEventListener('change', function() {
+      if (!this.value) return;
+      const d = new Date(this.value);
+      const m = d.getMonth() + 1; // 1-based
+      const day = d.getDate();
+      const isScorpio = (m === 10 && day >= 23) || (m === 11 && day <= 21);
+      if (!isScorpio) {
+        hint.style.color = '#f472b6';
+        hint.textContent = '⚠️ This reading is crafted for Scorpio (Oct 23 – Nov 21). Make sure your date is correct.';
+      } else {
+        hint.style.color = '';
+        hint.textContent = 'Must be a Scorpio (Oct 23 – Nov 21). You must be 18 or older.';
+      }
+    });
+
+    // Loading state on submit
+    document.getElementById('reading-form').addEventListener('submit', function() {
+      const btn = document.getElementById('submit-btn');
+      const txt = document.getElementById('submit-text');
+      const loading = document.getElementById('submit-loading');
+      btn.disabled = true;
+      btn.style.opacity = '0.75';
+      txt.style.display = 'none';
+      loading.style.display = 'inline';
+    });
+  </script>
+
+</body>
+</html>

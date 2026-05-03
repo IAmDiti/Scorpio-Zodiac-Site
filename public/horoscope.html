@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MK7C2CQ3Q2"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-MK7C2CQ3Q2');</script>
+  <title>Scorpio Daily Horoscope 2026 — Personalized Readings | Astranoxis</title>
+  <meta name="description" content="Your daily Scorpio horoscope — personalized to your Moon, Venus and Mars signs. Love, career, health and spiritual guidance written specifically for you.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.astranoxis.com/horoscope">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/funnel.css">
+  <script src="https://www.google.com/recaptcha/api.js?render=YOUR_RECAPTCHA_SITE_KEY" async defer></script>
+  <style>
+    /* ── LOGIN GATE ── */
+    .login-gate {
+      max-width: 420px; margin: 0 auto;
+      background: var(--surf); border: 1px solid var(--bdr);
+      border-radius: var(--rl); padding: 36px 28px; text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .login-gate::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(232,121,160,0.5), transparent);
+    }
+    .login-gate .gate-sym {
+      font-size: 2.2rem; color: var(--lav); margin-bottom: 14px;
+      filter: drop-shadow(0 0 12px rgba(168,85,247,0.5));
+    }
+    .login-gate h2 {
+      font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--ivory);
+      margin-bottom: 8px; line-height: 1.3;
+    }
+    .login-gate p { font-size: .88rem; color: var(--texts); line-height: 1.7; margin-bottom: 22px; font-style: italic; }
+    .gate-btns { display: flex; flex-direction: column; gap: 10px; }
+    .gate-preview {
+      margin-top: 20px; padding: 14px; background: var(--bg2);
+      border: 1px solid var(--bdr); border-radius: var(--r);
+      filter: blur(4px); user-select: none; pointer-events: none;
+      font-size: .9rem; color: var(--texts); line-height: 1.7; font-style: italic;
+    }
+    .gate-label {
+      font-family: 'DM Mono', monospace; font-size: .52rem;
+      text-transform: uppercase; letter-spacing: .1em; color: var(--textd);
+      margin-bottom: 8px; text-align: left;
+    }
+
+    /* ── STREAK WIDGET ── */
+    .streak-widget {
+      background: var(--surf); border: 1px solid var(--bdr);
+      border-radius: var(--rl); padding: 20px 22px; margin-bottom: 20px;
+      position: relative; overflow: hidden;
+    }
+    .streak-widget::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(232,121,160,0.4), transparent);
+    }
+    .streak-top {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 14px; gap: 12px; flex-wrap: wrap;
+    }
+    .streak-left { display: flex; align-items: center; gap: 12px; }
+    .streak-flame { font-size: 1.5rem; animation: flame-pulse 2s ease-in-out infinite; }
+    @keyframes flame-pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.15)} }
+    .streak-count {
+      font-family: 'Playfair Display', serif; font-size: 2.2rem;
+      font-weight: 600; color: var(--ivory); line-height: 1;
+    }
+    .streak-label {
+      font-family: 'DM Mono', monospace; font-size: .55rem;
+      text-transform: uppercase; letter-spacing: .1em; color: var(--textd);
+    }
+    .streak-badge {
+      padding: 4px 12px; border-radius: 20px;
+      font-family: 'DM Mono', monospace; font-size: .55rem;
+      text-transform: uppercase; letter-spacing: .08em;
+    }
+    .streak-badge.active { background: rgba(232,121,160,0.12); border: 1px solid rgba(232,121,160,0.35); color: var(--f-pink2, #f472b6); }
+    .streak-badge.done   { background: rgba(34,197,94,0.1);   border: 1px solid rgba(34,197,94,0.3);   color: #86efac; }
+
+    /* progress bar to 30 */
+    .streak-progress-wrap { margin-bottom: 12px; }
+    .streak-progress-label {
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: 'DM Mono', monospace; font-size: .52rem;
+      color: var(--textd); margin-bottom: 5px;
+    }
+    .streak-bar { height: 5px; background: var(--bdr); border-radius: 99px; overflow: hidden; }
+    .streak-fill {
+      height: 100%; border-radius: 99px;
+      background: linear-gradient(90deg, #7c3aed, #e879a0);
+      transition: width 1s ease;
+    }
+
+    /* dot calendar — last 7 days */
+    .streak-dots { display: flex; gap: 6px; align-items: center; }
+    .streak-dot {
+      width: 26px; height: 26px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .6rem; font-family: 'DM Mono', monospace;
+      flex-shrink: 0;
+    }
+    .streak-dot.checked { background: linear-gradient(135deg,#7c3aed,#e879a0); color: #fff; }
+    .streak-dot.today-unchecked { background: rgba(232,121,160,0.1); border: 1.5px dashed rgba(232,121,160,0.4); color: var(--textd); }
+    .streak-dot.missed { background: var(--bg2); border: 1px solid var(--bdr); color: var(--textd); opacity: .5; }
+    .streak-dot-label { font-family: 'DM Mono', monospace; font-size: .48rem; color: var(--textd); text-align: center; }
+    .streak-dots-wrap { display: flex; flex-direction: column; gap: 4px; align-items: center; }
+
+    /* milestone reward banner */
+    .streak-reward {
+      display: none; margin-top: 14px; padding: 14px 16px;
+      background: linear-gradient(135deg, rgba(80,20,140,0.3), rgba(180,50,140,0.15));
+      border: 1px solid rgba(232,121,160,0.35); border-radius: var(--r);
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .streak-reward.show { display: flex; }
+    .reward-text { flex: 1; min-width: 180px; }
+    .reward-text strong { display: block; font-family: 'Playfair Display', serif; font-size: .92rem; color: var(--ivory); margin-bottom: 3px; }
+    .reward-text span { font-size: .8rem; color: var(--texts); font-style: italic; }
+
+    /* Google auth button */
+    .btn-google {
+      width:100%; padding:10px 16px; margin-bottom:4px;
+      background:#fff; border:1px solid #dadce0; border-radius:40px;
+      display:flex; align-items:center; justify-content:center;
+      font-family:'DM Mono',monospace; font-size:.65rem; text-transform:uppercase;
+      letter-spacing:.06em; color:#3c4043; cursor:pointer;
+      transition:all .2s; box-shadow:0 1px 3px #00000015;
+    }
+    .btn-google:hover { box-shadow:0 2px 8px #00000025; border-color:#c0c4cc; }
+    .or-div { display:flex; align-items:center; gap:10px; margin:14px 0 10px; }
+    .or-div::before,.or-div::after { content:''; flex:1; height:1px; background:var(--bdr); }
+    .or-div span { font-family:'DM Mono',monospace; font-size:.55rem; color:var(--textd); }
+    .grecaptcha-badge { visibility:hidden; }
+  </style>
+</head>
+<body>
+<div id="stars"></div>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div id="app">
+
+  <!-- NAV -->
+  <nav>
+    <a href="/" class="logo"><div class="logo-icon">♏</div><div><span>Astranoxis</span><span class="logo-sub">For Scorpios. By the Stars.</span></div></a>
+    <div class="nav-links">
+      <a href="/" class="nav-link">Home</a>
+      <a href="/horoscope" class="nav-link active">Horoscope</a>
+      <a href="/blog" class="nav-link">Blog</a>
+      <a href="/quiz" class="nav-link">Quizzes</a>
+    </div>
+    <div class="nav-right" id="navRight">
+      <button class="btn btn-o" onclick="openModal('login')">Sign In</button>
+      <button class="btn btn-f" onclick="openModal('signup')">Join Free</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hg">♏</div>
+    <div class="hdate" id="hdate"></div>
+    <h1 id="heroTitle">Your Cosmic Truth<br><em>Awaits</em>, Scorpio</h1>
+    <p class="hsub">Guided by the stars. Rooted in your depths. A daily reading shaped by who you truly are.</p>
+    <div class="cw" id="cw"></div>
+    <div class="rings">
+      <div class="ri"><div class="rl-">Love</div><div class="rw"><svg viewBox="0 0 44 44" width="44" height="44"><circle cx="22" cy="22" r="17" fill="none" stroke="#2e2a42" stroke-width="3"/><circle id="rc-love" cx="22" cy="22" r="17" fill="none" stroke="#9b7090" stroke-width="3" stroke-linecap="round" stroke-dasharray="107" stroke-dashoffset="107"/></svg><span class="rn" id="rn-love">—</span></div><div class="rp" id="rp-love">—</div></div>
+      <div class="ri"><div class="rl-">Career</div><div class="rw"><svg viewBox="0 0 44 44" width="44" height="44"><circle cx="22" cy="22" r="17" fill="none" stroke="#2e2a42" stroke-width="3"/><circle id="rc-career" cx="22" cy="22" r="17" fill="none" stroke="#6a7ea8" stroke-width="3" stroke-linecap="round" stroke-dasharray="107" stroke-dashoffset="107"/></svg><span class="rn" id="rn-career">—</span></div><div class="rp" id="rp-career">—</div></div>
+      <div class="ri"><div class="rl-">Health</div><div class="rw"><svg viewBox="0 0 44 44" width="44" height="44"><circle cx="22" cy="22" r="17" fill="none" stroke="#2e2a42" stroke-width="3"/><circle id="rc-health" cx="22" cy="22" r="17" fill="none" stroke="#7a8a6a" stroke-width="3" stroke-linecap="round" stroke-dasharray="107" stroke-dashoffset="107"/></svg><span class="rn" id="rn-health">—</span></div><div class="rp" id="rp-health">—</div></div>
+      <div class="ri"><div class="rl-">Spirit</div><div class="rw"><svg viewBox="0 0 44 44" width="44" height="44"><circle cx="22" cy="22" r="17" fill="none" stroke="#2e2a42" stroke-width="3"/><circle id="rc-spirit" cx="22" cy="22" r="17" fill="none" stroke="#8a7040" stroke-width="3" stroke-linecap="round" stroke-dasharray="107" stroke-dashoffset="107"/></svg><span class="rn" id="rn-spirit">—</span></div><div class="rp" id="rp-spirit">—</div></div>
+    </div>
+  </section>
+
+  <div class="wrap">
+
+    <!-- ── STREAK WIDGET (logged in only) ── -->
+    <div id="streakWidget" class="streak-widget" style="display:none">
+      <div class="streak-top">
+        <div class="streak-left">
+          <div class="streak-flame">🔥</div>
+          <div>
+            <div class="streak-count" id="streakCount">0</div>
+            <div class="streak-label">Day Streak</div>
+          </div>
+        </div>
+        <div id="streakBadge" class="streak-badge active">Reading today</div>
+      </div>
+
+      <!-- Progress to 30 -->
+      <div class="streak-progress-wrap">
+        <div class="streak-progress-label">
+          <span>Progress to free reading</span>
+          <span id="streakNext">30 days away</span>
+        </div>
+        <div class="streak-bar"><div class="streak-fill" id="streakFill" style="width:0%"></div></div>
+      </div>
+
+      <!-- Last 7 days dots -->
+      <div style="display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap" id="streakDots"></div>
+
+      <!-- Free reading reward banner -->
+      <div class="streak-reward" id="streakReward">
+        <div style="font-size:1.6rem">🎁</div>
+        <div class="reward-text">
+          <strong>You've earned a free reading!</strong>
+          <span>30-day milestone reached. Your personalized Love Reading is waiting.</span>
+        </div>
+        <button class="btn btn-f" onclick="claimFreeReading()" style="white-space:nowrap;font-size:.6rem">Claim Now →</button>
+      </div>
+    </div>
+
+    <!-- ── READING SECTION ── -->
+    <section class="section">
+      <div class="sl"><span>Your Reading</span></div>
+
+      <!-- LOGIN GATE (shown to guests) -->
+      <div id="loginGate" style="display:none">
+        <div class="login-gate">
+          <div class="gate-sym">♏</div>
+          <h2>Your Daily Reading Awaits</h2>
+          <p>Sign in to unlock your full Scorpio horoscope — and build a streak for a free personalized love reading.</p>
+          <div class="gate-btns">
+            <button class="btn btn-f btn-block" onclick="openModal('signup')" style="font-size:.7rem;padding:11px">Begin My Journey — It's Free</button>
+            <button class="btn btn-o btn-block" onclick="openModal('login')" style="font-size:.65rem">Already a member? Sign In</button>
+          </div>
+          <div style="margin-top:18px">
+            <div class="gate-label">Today's reading preview</div>
+            <div class="gate-preview" id="gatePreview">The Moon activates your deepest desires today. Something you've been pushing down is ready to surface. Pay attention to who makes you feel seen — and who just wants to watch you burn.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FULL READING (logged in) -->
+      <div id="readingCard" class="card" style="display:none">
+        <div class="tabs" id="tabs">
+          <button class="tab active" data-tab="daily">Daily</button>
+          <button class="tab" data-tab="weekly">Weekly</button>
+          <button class="tab" data-tab="monthly">Monthly</button>
+        </div>
+        <div class="tp active" id="tp-daily">
+          <div class="ch"><span class="ci"></span><span class="ct">Today's Reading</span><span class="pill" id="rdPill">Member</span></div>
+          <div id="rdLoading"><p class="reading" style="color:var(--textd);font-style:italic">Loading your reading...</p></div>
+          <div id="fullRead" class="hidden"></div>
+        </div>
+        <div class="tp" id="tp-weekly">
+          <div class="ch"><span class="ct">This Week</span><span class="pill m">Member</span></div>
+          <div id="weeklyC"></div>
+        </div>
+        <div class="tp" id="tp-monthly">
+          <div class="ch"><span class="ct">This Month</span><span class="pill m">Member</span></div>
+          <div id="monthlyC"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPATIBILITY -->
+    <section class="section">
+      <div class="sl"><span>Compatibility Oracle</span></div>
+      <div class="card">
+        <p class="ci2">Choose a sign to reveal your cosmic alignment with Scorpio</p>
+        <div class="sg" id="signsGrid"></div>
+        <div class="cr" id="compatResult">
+          <div class="cr-h">
+            <div class="cr-ring"><svg viewBox="0 0 80 80" width="80" height="80"><circle cx="40" cy="40" r="33" fill="none" stroke="#2e2a42" stroke-width="5"/><circle id="cc" cx="40" cy="40" r="33" fill="none" stroke="#9b7090" stroke-width="5" stroke-linecap="round" stroke-dasharray="207" stroke-dashoffset="207"/></svg><span class="cr-p" id="cpct">—</span></div>
+            <div><div class="cr-t" id="ctit"></div><div class="cr-s" id="csub"></div></div>
+          </div>
+          <div class="ms">
+            <div class="mr"><span class="mlb">Passion</span><div class="mt2"><div class="mf m1" id="m1"></div></div></div>
+            <div class="mr"><span class="mlb">Trust</span><div class="mt2"><div class="mf m2" id="m2"></div></div></div>
+            <div class="mr"><span class="mlb">Intellect</span><div class="mt2"><div class="mf m3" id="m3"></div></div></div>
+            <div class="mr"><span class="mlb">Growth</span><div class="mt2"><div class="mf m4" id="m4"></div></div></div>
+          </div>
+          <p class="reading" id="cdesc"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SHARE CARD -->
+    <section class="section" id="shareSection" style="display:none">
+      <div class="sl"><span>Share Your Reading</span></div>
+      <div class="card">
+        <canvas id="shareCanvas" width="1080" height="1080"></canvas>
+        <div class="sr">
+          <button class="btn btn-f" onclick="downloadCard()">Download Card</button>
+          <button class="btn btn-o" onclick="copyCaption()">Copy Caption</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOG -->
+    <section class="section" id="blogSection" style="display:none">
+      <div class="sl"><span>From the Blog</span></div>
+      <div class="bg2-" id="blogGrid"></div>
+      <div style="text-align:center;margin-top:14px"><a href="/blog" class="btn btn-o">View All Articles →</a></div>
+    </section>
+
+    <!-- CTA for guests — link to funnel -->
+    <section class="section" id="guestCTA" style="display:none">
+      <div class="card" style="text-align:center;padding:36px 24px;background:linear-gradient(135deg,rgba(80,20,140,0.2),rgba(20,12,40,0.6));border-color:rgba(232,121,160,0.2)">
+        <div style="font-size:1.8rem;margin-bottom:12px">♏</div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--ivory);margin-bottom:8px">Want a Deeper Reading?</h3>
+        <p style="font-size:.88rem;color:var(--texts);font-style:italic;margin-bottom:20px;line-height:1.7">Get a full personalized Scorpio Love Analysis — your patterns, your intensity, your path to clarity in love.</p>
+        <a href="/reading" class="btn btn-f" style="font-size:.68rem;padding:10px 24px">✦ Get My Love Reading — €9</a>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>
+    <div class="fl">♏ Astranoxis</div>
+    <nav class="fn">
+      <a href="/">Home</a>
+      <a href="/horoscope">Horoscope</a>
+      <a href="/blog">Blog</a>
+      <a href="/quiz">Quizzes</a>
+      <a href="/reading">Get a Reading</a>
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+      <a href="/contact">Contact</a>
+    </nav>
+    <p>Guided by the stars. Built for the depths. © <span id="ftY"></span> Astranoxis</p>
+  </footer>
+</div>
+
+<!-- AUTH MODAL -->
+<div class="mbg" id="authModal">
+  <div class="modal">
+    <button class="mx" onclick="closeModal()">✕</button>
+    <div class="mg">♏</div>
+    <h2>Astranoxis</h2>
+    <p class="msub">Your full cosmic truth awaits</p>
+    <button class="btn-google" onclick="doGoogleLogin()">
+      <svg width="18" height="18" viewBox="0 0 18 18" style="margin-right:8px;vertical-align:middle"><path fill="#4285F4" d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 0 0 2.38-5.88c0-.57-.05-.66-.15-1.18z"/><path fill="#34A853" d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.6-2.01c-.72.48-1.63.76-2.7.76-2.08 0-3.84-1.4-4.47-3.29H1.83v2.07A8 8 0 0 0 8.98 17z"/><path fill="#FBBC05" d="M4.51 10.52A4.8 4.8 0 0 1 4.26 9c0-.53.09-1.04.25-1.52V5.41H1.83a8 8 0 0 0 0 7.18l2.68-2.07z"/><path fill="#EA4335" d="M8.98 3.58c1.17 0 2.23.4 3.06 1.2l2.3-2.3A8 8 0 0 0 1.83 5.4L4.5 7.48C5.14 5.59 6.9 3.58 8.98 3.58z"/></svg>
+      Continue with Google
+    </button>
+    <div class="or-div"><span>or</span></div>
+    <div class="sw">
+      <button class="swb active" id="sw1" onclick="switchTab('login')">Sign In</button>
+      <button class="swb" id="sw2" onclick="switchTab('signup')">Join Free</button>
+    </div>
+    <div id="fLogin">
+      <div class="fg"><label>Email</label><input type="email" id="lEmail" placeholder="you@cosmos.com"></div>
+      <div class="fg"><label>Password</label><input type="password" id="lPass" placeholder="••••••••"></div>
+      <div class="err hidden" id="lErr"></div>
+      <button class="btn btn-f btn-block" id="btnLogin" onclick="doLogin()">Enter ♏</button>
+      <button class="lbtn" onclick="switchTab('forgot')">Forgot password?</button>
+    </div>
+    <div id="fSignup" class="hidden">
+      <div class="fg"><label>Your Name</label><input type="text" id="sName" placeholder="Scorpio Seeker"></div>
+      <div class="fg"><label>Email</label><input type="email" id="sEmail" placeholder="you@cosmos.com"></div>
+      <div class="fg"><label>Birth Date <span style="color:var(--textd);font-size:.5rem">(Scorpio only · Must be 16+)</span></label><input type="date" id="sBirth"></div>
+      <div class="fg"><label>Password</label><input type="password" id="sPass" placeholder="Min. 6 characters"></div>
+      <div class="err hidden" id="sErr"></div>
+      <div id="recaptcha-signup"></div>
+      <button class="btn btn-f btn-block" id="btnSignup" onclick="doSignup()">Begin My Journey</button>
+    </div>
+    <div id="fForgot" class="hidden">
+      <button class="bbtn" onclick="switchTab('login')">← Back to Sign In</button>
+      <p style="color:var(--texts);font-style:italic;font-size:.88rem;margin-bottom:12px">Enter your email and we'll send a reset link.</p>
+      <div class="fg"><label>Email</label><input type="email" id="fEmail" placeholder="you@cosmos.com"></div>
+      <div class="err hidden" id="fErr"></div>
+      <div class="okm hidden" id="fOk"></div>
+      <button class="btn btn-f btn-block" id="btnForgot" onclick="doForgot()">Send Reset Link</button>
+    </div>
+  </div>
+</div>
+
+<!-- PROFILE MODAL -->
+<div class="mbg" id="profModal">
+  <div class="modal">
+    <button class="mx" onclick="closeProfileModal()">✕</button>
+    <div class="mg">♏</div>
+    <h2>My Profile</h2>
+    <p class="msub">Update your cosmic details</p>
+    <div class="fg"><label>Name</label><input type="text" id="pName" placeholder="Your name"></div>
+    <div class="fg"><label>Email</label><input type="email" id="pEmail" placeholder="your@email.com"></div>
+    <div class="fg"><label>Birth Date</label><input type="date" id="pBirth"></div>
+    <div class="fg"><label>New Password <small style="color:var(--textd)">(leave blank to keep)</small></label><input type="password" id="pPass" placeholder="New password"></div>
+    <div class="fg"><label>Confirm Password</label><input type="password" id="pPass2" placeholder="Confirm"></div>
+    <div class="err hidden" id="pErr"></div>
+    <div class="okm hidden" id="pOk"></div>
+    <button class="btn btn-f btn-block" id="btnProf" onclick="doSaveProfile()">Save Changes ✦</button>
+    <div style="height:1px;background:var(--bdr);margin:14px 0"></div>
+    <button class="btn btn-o btn-block" onclick="doLogout()">Log Out</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="/js/api.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/main.js"></script>
+<script>
+// ── STREAK LOGIC ──────────────────────────────────────────
+let _streakData = null
+
+async function initStreak() {
+  // Checkin (fires once per day server-side)
+  const { ok, data } = await API.streakCheckin()
+  if (!ok) return
+
+  _streakData = data
+  renderStreak(data)
+
+  // Show milestone modal if triggered
+  if (data.milestone) {
+    showMilestoneToast(data.streak)
+  }
+}
+
+async function renderStreak(data) {
+  if (!data) return
+  const widget = document.getElementById('streakWidget')
+  if (!widget) return
+  widget.style.display = 'block'
+
+  const { streak = 0, freeReadingPending, nextMilestone } = data
+
+  // Count
+  document.getElementById('streakCount').textContent = streak
+
+  // Badge
+  const badge = document.getElementById('streakBadge')
+  badge.textContent = data.alreadyDone ? '✓ Checked in' : '🔥 Active today'
+  badge.className = 'streak-badge ' + (data.alreadyDone ? 'done' : 'active')
+
+  // Progress bar (cycles every 30)
+  const pct = Math.round(((streak % 30) / 30) * 100)
+  document.getElementById('streakFill').style.width = pct + '%'
+  const next = streak % 30 === 0 && streak > 0 ? 30 : (30 - (streak % 30))
+  document.getElementById('streakNext').textContent = next === 30 ? '🎁 Milestone reached!' : `${next} days to free reading`
+
+  // Dots — last 7 days
+  const { data: histData } = await API.streakHistory()
+  const checkedDates = new Set(histData?.dates || [])
+  const dotsEl = document.getElementById('streakDots')
+  dotsEl.innerHTML = ''
+  const days = ['Su','Mo','Tu','We','Th','Fr','Sa']
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date()
+    d.setDate(d.getDate() - i)
+    const ds = d.toISOString().split('T')[0]
+    const isToday = i === 0
+    const checked = checkedDates.has(ds)
+    const wrap = document.createElement('div')
+    wrap.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:4px'
+    const dot = document.createElement('div')
+    dot.className = 'streak-dot ' + (checked ? 'checked' : isToday ? 'today-unchecked' : 'missed')
+    dot.textContent = checked ? '✓' : (isToday ? '○' : '·')
+    const lbl = document.createElement('div')
+    lbl.className = 'streak-dot-label'
+    lbl.textContent = days[d.getDay()]
+    wrap.appendChild(dot)
+    wrap.appendChild(lbl)
+    dotsEl.appendChild(wrap)
+  }
+
+  // Free reading banner
+  const rewardEl = document.getElementById('streakReward')
+  if (freeReadingPending) {
+    rewardEl.classList.add('show')
+  } else {
+    rewardEl.classList.remove('show')
+  }
+}
+
+function showMilestoneToast(streak) {
+  showToast(`🎁 ${streak}-day streak! You've earned a free reading — check your email!`, 6000)
+}
+
+async function claimFreeReading() {
+  const { ok, data } = await API.streakClaimReading()
+  if (ok) {
+    window.location.href = `/reading?free=1&email=${encodeURIComponent(data.email)}&name=${encodeURIComponent(data.name)}`
+  } else {
+    showToast('Something went wrong. Please try again.')
+  }
+}
+
+// ── GATE & READING DISPLAY ────────────────────────────────
+document.addEventListener('authReady', async (e) => {
+  const user = e.detail
+  const gate  = document.getElementById('loginGate')
+  const card  = document.getElementById('readingCard')
+  const share = document.getElementById('shareSection')
+  const gCTA  = document.getElementById('guestCTA')
+
+  if (user) {
+    // Logged in — show horoscope card
+    gate.style.display  = 'none'
+    card.style.display  = 'block'
+    share.style.display = 'block'
+    gCTA.style.display  = 'none'
+
+    // Update hero name
+    const title = document.getElementById('heroTitle')
+    const first = (user.name || '').split(' ')[0]
+    if (title && first) title.innerHTML = `Your Cosmic Truth<br><em>Awaits</em>, ${first}`
+
+    // Streak checkin
+    await initStreak()
+  } else {
+    // Guest — show gate
+    gate.style.display  = 'block'
+    card.style.display  = 'none'
+    share.style.display = 'none'
+    gCTA.style.display  = 'block'
+
+    // Show blurred preview from today's horoscope
+    const { ok, data } = await API.todayHoroscope()
+    if (ok && data?.horoscope?.daily_overall) {
+      const preview = document.getElementById('gatePreview')
+      if (preview) preview.textContent = data.horoscope.daily_overall
+      // Still render rings for guests (teaser)
+      renderRings(data.horoscope)
+      renderCW(data.horoscope)
+    }
+  }
+
+  // Blog section
+  const { ok: bOk, data: bData } = await API.posts(3)
+  if (bOk && bData.posts?.length) {
+    const grid = document.getElementById('blogGrid')
+    const sec  = document.getElementById('blogSection')
+    if (grid && sec) {
+      grid.innerHTML = bData.posts.map(p => `
+        <a href="/post?slug=${p.slug}" class="bc">
+          <div class="bc-tag">${p.tag_label||p.category||'Astrology'}</div>
+          <h3 class="bc-t">${p.title}</h3>
+          <p class="bc-e">${p.excerpt||''}</p>
+          <div class="bc-f">
+            <span class="bc-d">${new Date(p.published_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</span>
+            <span class="bc-r">${p.read_time}</span>
+          </div>
+        </a>`).join('')
+      sec.style.display = 'block'
+    }
+  }
+}, { once: true })
+
+// helper — showToast used in streak
+function showToast(msg, dur = 3500) {
+  const t = document.getElementById('toast')
+  if (!t) return
+  t.textContent = msg
+  t.classList.add('show')
+  setTimeout(() => t.classList.remove('show'), dur)
+}
+</script>
+</body>
+</html>
