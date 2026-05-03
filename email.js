@@ -10,8 +10,8 @@ function getResend() {
   }
 }
 
-const FROM = 'Scorpio Zodiac <readings@zodiacsignzone.com>'
-const SITE = process.env.APP_URL || 'https://www.zodiacsignzone.com'
+const FROM = 'Scorpio Zodiac <readings@astranoxis.com>'
+const SITE = process.env.APP_URL || 'https://www.astranoxis.com'
 
 // ── Daily reading notification ────────────────────────────
 async function sendDailyReadingEmail(user) {
