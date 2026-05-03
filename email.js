@@ -129,4 +129,71 @@ async function sendWelcomeEmail(user) {
   }
 }
 
-module.exports = { sendDailyReadingEmail, sendWelcomeEmail }
+// ── Love reading confirmation ────────────────────────────
+async function sendReadingConfirmationEmail({ name, email }) {
+  if (!process.env.RESEND_API_KEY) return
+  const resend = getResend()
+  if (!resend) return
+  try {
+    const firstName = (name || 'Scorpio').split(' ')[0]
+
+    await resend.emails.send({
+      from:    FROM,
+      to:      email,
+      subject: `Your Scorpio Love Reading is on its way, ${firstName}`,
+      html: `
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head>
+<body style="margin:0;padding:0;background:#12101a;font-family:Georgia,serif;">
+  <div style="max-width:520px;margin:0 auto;padding:40px 20px;">
+
+    <!-- Header -->
+    <div style="text-align:center;margin-bottom:32px;">
+      <div style="font-size:2.5rem;color:#a897c8;margin-bottom:8px;">♏</div>
+      <h1 style="font-size:1.4rem;color:#e8e0d5;margin:0 0 4px;font-weight:600;">Scorpio Zodiac</h1>
+      <p style="font-family:'Courier New',monospace;font-size:.7rem;color:#6b6384;text-transform:uppercase;letter-spacing:.12em;margin:0;">Personal Love Reading</p>
+    </div>
+
+    <!-- Main card -->
+    <div style="background:#1e1b2e;border:1px solid #2e2a42;border-radius:16px;padding:28px;margin-bottom:20px;">
+      <p style="color:#9d94b4;font-size:1rem;line-height:1.8;margin:0 0 16px;">
+        ${firstName}, we've received your request.
+      </p>
+      <p style="color:#9d94b4;font-size:.95rem;line-height:1.8;margin:0 0 16px;">
+        Your personalized Scorpio Love Reading is being written and will arrive in this inbox within 24 hours.
+      </p>
+      <p style="color:#9d94b4;font-size:.95rem;line-height:1.8;margin:0 0 24px;font-style:italic;">
+        Read it somewhere quiet. This is personal. Take your time with it.
+      </p>
+      <div style="text-align:center;">
+        <a href="${SITE}" style="display:inline-block;background:linear-gradient(135deg,#5c4a82,#7d5c70);color:#e8e0d5;text-decoration:none;padding:12px 32px;border-radius:40px;font-family:'Courier New',monospace;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;">
+          Back to Astranoxis
+        </a>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div style="text-align:center;padding-top:20px;border-top:1px solid #2e2a42;">
+      <p style="font-family:'Courier New',monospace;font-size:.6rem;color:#3a354a;text-transform:uppercase;letter-spacing:.1em;margin:0 0 8px;">
+        Scorpio Zodiac · For Scorpios Only
+      </p>
+      <p style="font-family:'Courier New',monospace;font-size:.58rem;color:#3a354a;margin:0;">
+        <a href="${SITE}/contact.html" style="color:#5c4a82;text-decoration:none;">Contact</a>
+        &nbsp;·&nbsp;
+        <a href="${SITE}/privacy.html" style="color:#5c4a82;text-decoration:none;">Privacy</a>
+      </p>
+    </div>
+
+  </div>
+</body>
+</html>`
+    })
+    return true
+  } catch (err) {
+    console.error(`[EMAIL] Reading confirmation failed for ${email}:`, err.message)
+    return false
+  }
+}
+
+module.exports = { sendDailyReadingEmail, sendWelcomeEmail, sendReadingConfirmationEmail }

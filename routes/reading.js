@@ -49,6 +49,14 @@ router.post('/api/reading', async (req, res) => {
     // Don't block checkout if DB fails — still send them to pay
   }
 
+  // ── Send confirmation email ──
+  try {
+    const { sendReadingConfirmationEmail } = require('../email')
+    await sendReadingConfirmationEmail({ name: name.trim(), email: email.toLowerCase().trim() })
+  } catch (err) {
+    console.error('[EMAIL] Reading confirmation error:', err.message)
+  }
+
   // ── Build Lemon Squeezy checkout URL ──
   const baseUrl = process.env.LEMONSQUEEZY_CHECKOUT_URL
   if (!baseUrl) {
