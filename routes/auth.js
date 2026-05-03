@@ -55,8 +55,13 @@ router.post('/signup', async (req, res) => {
 
     setToken(res, user, req)
 
-    // Welcome email — fire and forget
-    try { const { sendWelcomeEmail } = require('../email'); sendWelcomeEmail(user) } catch (e) {}
+    // Welcome email
+    try {
+      const { sendWelcomeEmail } = require('../email')
+      await sendWelcomeEmail(user)
+    } catch (e) {
+      console.error('[EMAIL] Welcome email error:', e.message)
+    }
 
     res.status(201).json({ ok: true, user })
   } catch (err) {
