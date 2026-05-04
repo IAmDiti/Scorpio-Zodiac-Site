@@ -67,7 +67,15 @@ STRICT RULES:
 
   const data = await response.json()
   if (!data.content || !data.content[0]) throw new Error('Claude API returned no content')
+  // Clean up special characters that don't render well in PDF
   return data.content[0].text
+    .replace(/\u2014/g, '-')   // em dash —
+    .replace(/\u2013/g, '-')   // en dash –
+    .replace(/\u2018/g, "'")   // left single quote
+    .replace(/\u2019/g, "'")   // right single quote
+    .replace(/\u201C/g, '"')   // left double quote
+    .replace(/\u201D/g, '"')   // right double quote
+    .replace(/\u2026/g, '...')
 }
 
 // ── Parse Claude output into sections ───────────────────
