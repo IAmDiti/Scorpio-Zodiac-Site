@@ -1,29 +1,20 @@
 // routes/webhook.js
-// Handles Lemon Squeezy payment webhooks
-// On successful payment: generate PDF reading → email to customer
+// Handles Gumroad ping (webhook) on successful purchase
+// Flow: payment confirmed → generate PDF reading → email to customer
 
 const express = require('express')
-const crypto  = require('crypto')
 const path    = require('path')
 const fs      = require('fs')
 const router  = express.Router()
 
 const { getDB } = require('../db')
 
-// ── Verify Lemon Squeezy webhook signature ───────────────
-function verifySignature(payload, signature) {
-  const secret = process.env.LEMONSQUEEZY_WEBHOOK_SECRET
-  if (!secret) return true // skip verification in dev
-  const hash = crypto.createHmac('sha256', secret).update(payload).digest('hex')
-  return hash === signature
-}
-
 // ── Send reading email with PDF attachment ───────────────
 async function sendReadingDeliveryEmail({ name, email, pdfPath }) {
   const { Resend } = require('resend')
-  const resend = new Resend(process.env.RESEND_API_KEY)
+  const resend    = new Resend(process.env.RESEND_API_KEY)
   const firstName = name.split(' ')[0]
-  const SITE = process.env.APP_URL || 'https://www.astranoxis.com'
+  const SITE      = process.env.APP_URL || 'https://www.astranoxis.com'
 
   const pdfBuffer = fs.readFileSync(pdfPath)
   const pdfBase64 = pdfBuffer.toString('base64')
@@ -43,7 +34,7 @@ async function sendReadingDeliveryEmail({ name, email, pdfPath }) {
 <body style="margin:0;padding:0;background:#12101a;font-family:Georgia,serif;">
   <div style="max-width:520px;margin:0 auto;padding:40px 20px;">
     <div style="text-align:center;margin-bottom:32px;">
-      <div style="font-size:2.5rem;color:#a897c8;margin-bottom:8px;">♏</div>
+      <div style="font-size:2.5rem;color:#a897c8;margin-bottom:8px;">&#9890;</div>
       <h1 style="font-size:1.4rem;color:#e8e0d5;margin:0 0 4px;font-weight:600;">Your Reading Has Arrived</h1>
       <p style="font-family:'Courier New',monospace;font-size:.7rem;color:#6b6384;text-transform:uppercase;letter-spacing:.12em;margin:0;">Personal Love Reading</p>
     </div>
@@ -62,7 +53,7 @@ async function sendReadingDeliveryEmail({ name, email, pdfPath }) {
     </div>
     <div style="text-align:center;padding-top:20px;border-top:1px solid #2e2a42;">
       <p style="font-family:'Courier New',monospace;font-size:.6rem;color:#3a354a;text-transform:uppercase;letter-spacing:.1em;margin:0;">
-        Scorpio Zodiac · For Scorpios Only
+        Scorpio Zodiac &middot; For Scorpios Only
       </p>
     </div>
   </div>
@@ -71,82 +62,71 @@ async function sendReadingDeliveryEmail({ name, email, pdfPath }) {
   })
 }
 
-// ── POST /api/webhook/lemonsqueezy ───────────────────────
-router.post('/lemonsqueezy', express.raw({ type: 'application/json' }), async (req, res) => {
+// ── POST /api/webhook/gumroad ────────────────────────────
+// Gumroad sends a POST with form-urlencoded data (ping)
+router.post('/gumroad', express.urlencoded({ extended: true }), async (req, res) => {
   try {
-    const signature = req.headers['x-signature']
-    const payload   = req.body
+    const ping = req.body
 
-    // Verify signature
-    if (!verifySignature(payload, signature)) {
-      console.error('[WEBHOOK] Invalid signature')
-      return res.status(401).json({ error: 'Invalid signature' })
+    console.log('[GUMROAD] Ping received:', JSON.stringify(ping, null, 2))
+
+    // Verify it's a real sale
+    if (ping.test !== 'true' && ping.sale_id === undefined) {
+      return res.status(400).json({ error: 'Invalid ping' })
     }
 
-    const event = JSON.parse(payload.toString())
-    const eventName = event.meta?.event_name
-
-    console.log(`[WEBHOOK] Received event: ${eventName}`)
-
-    // Only handle successful orders
-    if (eventName !== 'order_created') {
-      return res.json({ ok: true, skipped: true })
-    }
-
-    const order = event.data?.attributes
-    if (!order) return res.status(400).json({ error: 'No order data' })
-
-    // Extract customer info
-    const customerEmail = order.user_email || event.meta?.custom_data?.email
-    const customerName  = order.user_name  || event.meta?.custom_data?.name || 'Scorpio'
+    // Extract customer info from Gumroad ping
+    const customerEmail = ping.email
+    const customerName  = ping.full_name || ping.email?.split('@')[0] || 'Scorpio'
 
     if (!customerEmail) {
-      console.error('[WEBHOOK] No customer email in order')
-      return res.status(400).json({ error: 'No customer email' })
+      console.error('[GUMROAD] No email in ping')
+      return res.status(400).json({ error: 'No email' })
     }
 
-    // Find their reading request in DB
-    const db = getDB()
-    const { data: readingRequest } = await db
-      .from('reading_requests')
-      .select('*')
-      .eq('email', customerEmail.toLowerCase())
-      .eq('paid', false)
-      .order('created_at', { ascending: false })
-      .limit(1)
-      .maybeSingle()
+    console.log(`[GUMROAD] Sale for: ${customerEmail}`)
 
-    if (!readingRequest) {
-      console.error(`[WEBHOOK] No reading request found for ${customerEmail}`)
-      // Still return 200 so Lemon Squeezy doesn't retry
-      return res.json({ ok: true, warning: 'No reading request found' })
-    }
-
-    // Mark as paid immediately
-    await db.from('reading_requests').update({ paid: true }).eq('id', readingRequest.id)
-
-    // Respond to webhook immediately (Lemon Squeezy has a 10s timeout)
+    // Respond immediately — Gumroad expects fast response
     res.json({ ok: true })
 
-    // Generate PDF and send email in background
+    // Find their reading request in DB
     setImmediate(async () => {
-      const tmpDir  = path.join(__dirname, '..', 'tmp')
-      if (!fs.existsSync(tmpDir)) fs.mkdirSync(tmpDir, { recursive: true })
-
-      const fileName = `reading-${readingRequest.id}-${Date.now()}.pdf`
-      const pdfPath  = path.join(tmpDir, fileName)
-
       try {
+        const db = getDB()
+        const { data: readingRequest } = await db
+          .from('reading_requests')
+          .select('*')
+          .eq('email', customerEmail.toLowerCase())
+          .eq('paid', false)
+          .order('created_at', { ascending: false })
+          .limit(1)
+          .maybeSingle()
+
+        if (!readingRequest) {
+          console.error(`[GUMROAD] No reading request found for ${customerEmail}`)
+          return
+        }
+
+        // Mark as paid
+        await db.from('reading_requests').update({ paid: true }).eq('id', readingRequest.id)
+
+        // Generate PDF
+        const tmpDir  = path.join(__dirname, '..', 'tmp')
+        if (!fs.existsSync(tmpDir)) fs.mkdirSync(tmpDir, { recursive: true })
+
+        const fileName = `reading-${readingRequest.id}-${Date.now()}.pdf`
+        const pdfPath  = path.join(tmpDir, fileName)
+
         const { generateLoveReadingPDF } = require('../generate-reading')
         await generateLoveReadingPDF({
-          name:      readingRequest.name,
-          birthDate: readingRequest.birthdate,
-          status:    readingRequest.status,
-          problem:   readingRequest.problem,
+          name:       readingRequest.name,
+          birthDate:  readingRequest.birthdate,
+          status:     readingRequest.status,
+          problem:    readingRequest.problem,
           outputPath: pdfPath
         })
 
-        // Send email with PDF
+        // Email PDF to customer
         await sendReadingDeliveryEmail({
           name:    readingRequest.name,
           email:   customerEmail,
@@ -158,17 +138,22 @@ router.post('/lemonsqueezy', express.raw({ type: 'application/json' }), async (r
           .update({ delivered: true, delivered_at: new Date().toISOString() })
           .eq('id', readingRequest.id)
 
-        console.log(`[WEBHOOK] Reading delivered to ${customerEmail}`)
+        console.log(`[GUMROAD] Reading delivered to ${customerEmail}`)
+
       } catch (err) {
-        console.error(`[WEBHOOK] Failed to generate/send reading for ${customerEmail}:`, err.message)
+        console.error('[GUMROAD] Background error:', err.message)
       } finally {
         // Clean up temp PDF
-        try { fs.unlinkSync(pdfPath) } catch {}
+        try {
+          const tmpDir  = path.join(__dirname, '..', 'tmp')
+          const fileName = `reading-${Date.now()}.pdf`
+          fs.unlinkSync(path.join(tmpDir, fileName))
+        } catch {}
       }
     })
 
   } catch (err) {
-    console.error('[WEBHOOK] Error:', err.message)
+    console.error('[GUMROAD] Webhook error:', err.message)
     res.status(500).json({ error: err.message })
   }
 })
