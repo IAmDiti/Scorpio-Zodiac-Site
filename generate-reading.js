@@ -1,5 +1,6 @@
 // generate-reading.js
-// Generates a styled PDF love reading using Claude API + html-pdf-node
+// Generates a styled PDF love reading using Claude API + PDFKit
+// PDFKit is pure Node.js — no browser or Chrome required
 
 // ── Call Claude API to generate reading content ──────────
 async function generateReadingContent({ name, birthDate, status, problem }) {
@@ -44,7 +45,7 @@ CLOSING MESSAGE
 [End with calm confidence, sense of control over their future, emotional clarity.]
 
 STRICT RULES:
-- Do NOT use generic astrology clichés
+- Do NOT use generic astrology cliches
 - Do NOT repeat the same ideas
 - Do NOT sound robotic
 - Every sentence must feel purposeful
@@ -67,14 +68,15 @@ STRICT RULES:
 
   const data = await response.json()
   if (!data.content || !data.content[0]) throw new Error('Claude API returned no content')
-  // Clean up special characters that don't render well in PDF
+
+  // Clean up special characters
   return data.content[0].text
-    .replace(/\u2014/g, '-')   // em dash —
-    .replace(/\u2013/g, '-')   // en dash –
-    .replace(/\u2018/g, "'")   // left single quote
-    .replace(/\u2019/g, "'")   // right single quote
-    .replace(/\u201C/g, '"')   // left double quote
-    .replace(/\u201D/g, '"')   // right double quote
+    .replace(/\u2014/g, '-')
+    .replace(/\u2013/g, '-')
+    .replace(/\u2018/g, "'")
+    .replace(/\u2019/g, "'")
+    .replace(/\u201C/g, '"')
+    .replace(/\u201D/g, '"')
     .replace(/\u2026/g, '...')
 }
 
@@ -103,221 +105,161 @@ function parseSections(text) {
   return sections
 }
 
-// ── Build HTML for the PDF ───────────────────────────────
-function buildHTML({ name, birthDate, status, sections }) {
-  const dob = new Date(birthDate)
-  const formattedDate = dob.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
-  const generatedDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
-  const firstName = name.split(' ')[0]
+// ── Generate PDF using PDFKit ────────────────────────────
+async function generatePDF({ name, birthDate, status, sections, outputPath }) {
+  const PDFDocument = require('pdfkit')
+  const fs          = require('fs')
 
-  function renderParagraphs(content) {
-    return content.split('\n').filter(p => p.trim()).map(p =>
-      `<p>${p.trim()}</p>`
-    ).join('')
-  }
+  return new Promise((resolve, reject) => {
+    const doc = new PDFDocument({
+      size:    'A4',
+      margins: { top: 60, bottom: 60, left: 70, right: 70 },
+      info: {
+        Title:   `${name} - Scorpio Love Reading`,
+        Author:  'Astranoxis',
+        Subject: 'Personal Astrology Reading'
+      }
+    })
 
-  function section(title, content, accent = false) {
-    return `
-      <div class="section ${accent ? 'accent' : ''}">
-        <div class="section-label">${title}</div>
-        <div class="section-content">${renderParagraphs(content)}</div>
-      </div>
-    `
-  }
+    const stream = fs.createWriteStream(outputPath)
+    doc.pipe(stream)
 
-  return `<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+    // Colors
+    const bg       = '#0e0c17'
+    const lavender = '#a897c8'
+    const ivory    = '#e8e0f5'
+    const muted    = '#9d94b4'
+    const dimmed   = '#6b5f8a'
 
-  body {
-    background: #0e0c17;
-    color: #d8d0e8;
-    font-family: Georgia, 'Times New Roman', serif;
-    font-size: 12pt;
-    line-height: 1.85;
-  }
+    const dob = new Date(birthDate)
+    const formattedDate = dob.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+    const generatedDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+    const firstName = name.split(' ')[0]
+    const pageW = doc.page.width
+    const pageH = doc.page.height
+    const marginL = 70
 
-  .page {
-    width: 100%;
-    padding: 60px 70px;
-  }
+    // ── COVER PAGE ──────────────────────────────────────
+    // Background
+    doc.rect(0, 0, pageW, pageH).fill(bg)
 
-  .cover {
-    min-height: 900px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    border-bottom: 1px solid #2e2a42;
-    padding-bottom: 60px;
-    margin-bottom: 60px;
-    page-break-after: always;
-  }
+    // Scorpio symbol
+    doc.fontSize(72).fillColor(lavender).font('Helvetica')
+       .text('M', 0, pageH * 0.28, { align: 'center', width: pageW })
 
-  .scorpio-symbol {
-    font-size: 64pt;
-    color: #a897c8;
-    margin-bottom: 24px;
-    line-height: 1;
-  }
+    // Divider line top
+    const lineY = pageH * 0.52
+    doc.moveTo(marginL + 80, lineY).lineTo(pageW - marginL - 80, lineY)
+       .strokeColor(dimmed).lineWidth(0.5).stroke()
 
-  .cover-label {
-    font-family: 'Courier New', monospace;
-    font-size: 7pt;
-    letter-spacing: 0.3em;
-    color: #6b6384;
-    text-transform: uppercase;
-    margin-bottom: 20px;
-  }
+    // Title
+    doc.fontSize(28).fillColor(ivory).font('Helvetica-Bold')
+       .text(firstName, 0, lineY + 20, { align: 'center', width: pageW })
 
-  .cover-title {
-    font-size: 32pt;
-    font-weight: bold;
-    color: #e8e0f5;
-    margin-bottom: 8px;
-  }
+    doc.fontSize(14).fillColor(muted).font('Helvetica-Oblique')
+       .text('Your Scorpio Love Reading', 0, lineY + 60, { align: 'center', width: pageW })
 
-  .cover-subtitle {
-    font-size: 14pt;
-    font-style: italic;
-    color: #9d94b4;
-    margin-bottom: 48px;
-  }
+    // Divider line bottom
+    const line2Y = lineY + 96
+    doc.moveTo(marginL + 80, line2Y).lineTo(pageW - marginL - 80, line2Y)
+       .strokeColor(dimmed).lineWidth(0.5).stroke()
 
-  .cover-divider {
-    width: 120px;
-    height: 1px;
-    background: #5c4a82;
-    margin: 32px auto;
-  }
+    // Meta info
+    doc.fontSize(8).fillColor(dimmed).font('Helvetica')
+       .text(`BIRTH DATE: ${formattedDate.toUpperCase()}`, 0, line2Y + 24, { align: 'center', width: pageW })
+       .text(`RELATIONSHIP: ${status.toUpperCase()}`, 0, line2Y + 40, { align: 'center', width: pageW })
+       .text(`PREPARED: ${generatedDate.toUpperCase()}`, 0, line2Y + 56, { align: 'center', width: pageW })
 
-  .cover-meta {
-    font-family: 'Courier New', monospace;
-    font-size: 7.5pt;
-    letter-spacing: 0.2em;
-    color: #4a4460;
-    text-transform: uppercase;
-    line-height: 2.4;
-  }
+    // Footer
+    doc.fontSize(7).fillColor('#2e2a42').font('Helvetica')
+       .text('ASTRANOXIS.COM  |  PERSONAL & CONFIDENTIAL', 0, pageH - 50, { align: 'center', width: pageW })
 
-  .cover-meta span { color: #7d6fa0; }
+    // ── CONTENT PAGES ───────────────────────────────────
+    const sectionTitles = {
+      'OPENING':               'Opening',
+      'YOUR EMOTIONAL NATURE': 'Your Emotional Nature',
+      'YOUR LOVE PATTERN':     'Your Love Pattern',
+      'YOUR CURRENT SITUATION':'Your Current Situation',
+      "WHAT'S COMING NEXT":    "What's Coming Next",
+      'GUIDANCE':              'Guidance',
+      'CLOSING MESSAGE':       'Closing Message'
+    }
 
-  .section {
-    margin-bottom: 44px;
-    padding-bottom: 44px;
-    border-bottom: 1px solid #1e1b2e;
-  }
+    const sectionKeys = Object.keys(sectionTitles)
 
-  .section:last-child { border-bottom: none; }
+    for (let i = 0; i < sectionKeys.length; i++) {
+      const key     = sectionKeys[i]
+      const title   = sectionTitles[key]
+      const content = sections[key] || ''
 
-  .section.accent {
-    background: #13101f;
-    border: 1px solid #2e2a42;
-    border-radius: 8px;
-    padding: 28px 32px;
-    margin-bottom: 44px;
-  }
+      doc.addPage()
+      doc.rect(0, 0, pageW, pageH).fill(bg)
 
-  .section-label {
-    font-family: 'Courier New', monospace;
-    font-size: 7pt;
-    letter-spacing: 0.35em;
-    color: #6b5f8a;
-    text-transform: uppercase;
-    margin-bottom: 16px;
-  }
+      // Section label
+      doc.fontSize(7).fillColor(dimmed).font('Helvetica')
+         .text(title.toUpperCase(), marginL, 70, { characterSpacing: 2 })
 
-  .section-content p {
-    margin-bottom: 12px;
-    color: #c8c0d8;
-    font-size: 11.5pt;
-  }
+      // Divider
+      doc.moveTo(marginL, 88).lineTo(pageW - marginL, 88)
+         .strokeColor(dimmed).lineWidth(0.4).stroke()
 
-  .section-content p:last-child { margin-bottom: 0; }
+      // Content
+      const isOpening = key === 'OPENING'
+      const paragraphs = content.split('\n').filter(p => p.trim())
 
-  .opening-text p {
-    font-size: 13pt;
-    font-style: italic;
-    color: #d8d0e8;
-    line-height: 2;
-  }
+      let y = 108
+      for (const para of paragraphs) {
+        const fontSize  = isOpening ? 13 : 11.5
+        const lineColor = isOpening ? ivory : muted
+        const fontName  = isOpening ? 'Helvetica-Oblique' : 'Helvetica'
 
-  .footer {
-    margin-top: 60px;
-    padding-top: 24px;
-    border-top: 1px solid #1e1b2e;
-    text-align: center;
-    font-family: 'Courier New', monospace;
-    font-size: 6.5pt;
-    letter-spacing: 0.25em;
-    color: #2e2a42;
-    text-transform: uppercase;
-  }
-</style>
-</head>
-<body>
-<div class="page">
+        doc.fontSize(fontSize).fillColor(lineColor).font(fontName)
 
-  <div class="cover">
-    <div class="scorpio-symbol">&#9890;</div>
-    <div class="cover-label">Personal Love Reading</div>
-    <div class="cover-title">${firstName}</div>
-    <div class="cover-subtitle">Your Scorpio Love Reading</div>
-    <div class="cover-divider"></div>
-    <div class="cover-meta">
-      Birth Date: <span>${formattedDate}</span><br>
-      Relationship: <span>${status}</span><br>
-      Prepared: <span>${generatedDate}</span><br><br>
-      Scorpio Zodiac &middot; Astranoxis.com
-    </div>
-  </div>
+        const textHeight = doc.heightOfString(para.trim(), {
+          width: pageW - marginL * 2,
+          lineGap: 4
+        })
 
-  <div class="section">
-    <div class="section-label">Opening</div>
-    <div class="section-content opening-text">
-      ${sections['OPENING'].split('\n').filter(p => p.trim()).map(p => `<p>${p.trim()}</p>`).join('')}
-    </div>
-  </div>
+        if (y + textHeight > pageH - 80) {
+          doc.addPage()
+          doc.rect(0, 0, pageW, pageH).fill(bg)
+          doc.fontSize(7).fillColor(dimmed).font('Helvetica')
+             .text(title.toUpperCase(), marginL, 70, { characterSpacing: 2 })
+          doc.moveTo(marginL, 88).lineTo(pageW - marginL, 88)
+             .strokeColor(dimmed).lineWidth(0.4).stroke()
+          y = 108
+        }
 
-  ${section('Your Emotional Nature', sections['YOUR EMOTIONAL NATURE'])}
-  ${section('Your Love Pattern', sections['YOUR LOVE PATTERN'])}
-  ${section('Your Current Situation', sections['YOUR CURRENT SITUATION'], true)}
-  ${section("What's Coming Next", sections["WHAT'S COMING NEXT"])}
-  ${section('Guidance', sections['GUIDANCE'])}
-  ${section('Closing Message', sections['CLOSING MESSAGE'])}
+        doc.fontSize(fontSize).fillColor(lineColor).font(fontName)
+           .text(para.trim(), marginL, y, {
+             width:   pageW - marginL * 2,
+             lineGap: 4,
+             align:   'left'
+           })
 
-  <div class="footer">
-    Scorpio Zodiac &middot; Astranoxis.com &middot; Personal &amp; Confidential
-  </div>
+        y += textHeight + 14
+      }
 
-</div>
-</body>
-</html>`
-}
+      // Footer on each page
+      doc.fontSize(6.5).fillColor('#2e2a42').font('Helvetica')
+         .text('ASTRANOXIS.COM  |  PERSONAL & CONFIDENTIAL', 0, pageH - 40, { align: 'center', width: pageW })
+    }
 
-// ── Generate PDF using html-pdf-node ────────────────────
-async function generatePDF(html, outputPath) {
-  const htmlPdf = require('html-pdf-node')
-  const options = {
-    format: 'A4',
-    printBackground: true,
-    margin: { top: '0mm', right: '0mm', bottom: '0mm', left: '0mm' }
-  }
-  const pdfBuffer = await htmlPdf.generatePdf({ content: html }, options)
-  require('fs').writeFileSync(outputPath, pdfBuffer)
+    doc.end()
+    stream.on('finish', resolve)
+    stream.on('error', reject)
+  })
 }
 
 // ── Main export ──────────────────────────────────────────
 async function generateLoveReadingPDF({ name, birthDate, status, problem, outputPath }) {
   console.log(`[PDF] Generating reading for ${name}...`)
+
   const rawText  = await generateReadingContent({ name, birthDate, status, problem })
   const sections = parseSections(rawText)
-  const html     = buildHTML({ name, birthDate, status, sections })
-  await generatePDF(html, outputPath)
+
+  await generatePDF({ name, birthDate, status, sections, outputPath })
+
   console.log(`[PDF] Reading saved to ${outputPath}`)
   return outputPath
 }
