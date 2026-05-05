@@ -8,15 +8,6 @@ const { getChartSummary } = require('../astro')
 
 const router = express.Router()
 
-// Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-MK7C2CQ3Q2"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-MK7C2CQ3Q2');
-</script>
-
 // ── GET /api/personal/today ───────────────────────────────
 router.get('/today', requireAuth, async (req, res) => {
   try {
