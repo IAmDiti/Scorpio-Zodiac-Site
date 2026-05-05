@@ -58,17 +58,18 @@ router.post('/api/reading', async (req, res) => {
   }
 
   // ── Build Lemon Squeezy checkout URL ──
-  const baseUrl = process.env.LEMONSQUEEZY_CHECKOUT_URL
-  if (!baseUrl) {
-    // No checkout URL configured yet — go straight to success (dev mode)
-    return res.json({
-      checkoutUrl: `/reading/success?name=${encodeURIComponent(name.trim())}&email=${encodeURIComponent(email.toLowerCase().trim())}`
-    })
-  }
+  const baseUrl = process.env.GUMROAD_CHECKOUT_URL
+if (!baseUrl) {
+  return res.json({
+    checkoutUrl: `/reading/success?name=${encodeURIComponent(name.trim())}&email=${encodeURIComponent(email.toLowerCase().trim())}`
+  })
+}
 
-  const checkoutUrl = new URL(baseUrl)
-  checkoutUrl.searchParams.set('checkout[email]', email.toLowerCase().trim())
-  checkoutUrl.searchParams.set('checkout[name]',  name.trim())
+const checkoutUrl = new URL(baseUrl)
+checkoutUrl.searchParams.set('email', email.toLowerCase().trim())
+checkoutUrl.searchParams.set('wanted', 'true')
+
+return res.json({ checkoutUrl: checkoutUrl.toString() })
   // Pass email as custom data so webhook can find the request
   checkoutUrl.searchParams.set('checkout[custom][email]', email.toLowerCase().trim())
 
