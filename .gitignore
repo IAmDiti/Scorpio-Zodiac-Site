@@ -17,3 +17,4 @@ next-env.d.ts
 # Design canvas: keep the .dc.html sources + canvas.json; the seeded
 # single-file build is ~2 MB of editor runtime and is regenerable.
 /design/scorpio-daily-screens.html
+railway.env.txt
