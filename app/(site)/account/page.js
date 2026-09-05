@@ -4,8 +4,10 @@ import { AccountForm } from './account-form'
 import { signOut } from '@/app/(auth)/actions'
 import { getSession } from '@/lib/auth'
 import { getSavedItems } from '@/lib/profile'
+import { getQuizHistory } from '@/lib/quiz-results'
+import { getQuiz } from '@/lib/quizzes/index.js'
 import { sunSign } from '@/lib/astro/sky'
-import { IconClock, IconHeart, IconChevronRight } from '@/components/icons'
+import { IconClock, IconHeart, IconChevronRight, IconQuiz } from '@/components/icons'
 
 export const dynamic = 'force-dynamic'
 export const metadata = { title: 'My Account' }
@@ -25,6 +27,7 @@ export default async function AccountPage() {
     : null
 
   const saved = await getSavedItems()
+  const quizHistory = await getQuizHistory()
 
   return (
     <div className="mx-auto w-full max-w-[26rem] px-5 py-6">
@@ -84,15 +87,43 @@ export default async function AccountPage() {
       {/* quiz history */}
       <section className="mt-6">
         <h2 className="mb-3 text-[15px]">Quiz history</h2>
-        <div className="rounded-xl border border-line bg-surface p-4">
-          <p className="font-ui text-[13px] text-ink-3">Quizzes arrive soon.</p>
-          <Link
-            href="/quizzes"
-            className="mt-2 inline-block font-ui text-[12px] font-bold text-lilac"
-          >
-            See what&rsquo;s coming
-          </Link>
-        </div>
+        {quizHistory.length ? (
+          <ul className="flex flex-col gap-2.5">
+            {quizHistory.map((entry) => {
+              const quiz = getQuiz(entry.quiz_slug)
+              const result = quiz?.results?.[entry.result_key]
+              return (
+                <li key={entry.id}>
+                  <Link
+                    href={`/quiz/${entry.quiz_slug}/result`}
+                    className="flex items-center gap-3 rounded-xl border border-line bg-surface px-3.5 py-3"
+                  >
+                    <IconQuiz className="h-[18px] w-[18px] shrink-0 text-lilac" />
+                    <span className="min-w-0 flex-1">
+                      <span className="block truncate font-ui text-[13px] text-ink">
+                        {quiz?.title || entry.quiz_slug}
+                      </span>
+                      <span className="block truncate font-ui text-[11px] text-ink-4">
+                        {result?.title || entry.result_key}
+                      </span>
+                    </span>
+                    <IconChevronRight className="h-4 w-4 shrink-0 text-ink-4" />
+                  </Link>
+                </li>
+              )
+            })}
+          </ul>
+        ) : (
+          <div className="rounded-xl border border-line bg-surface p-4">
+            <p className="font-ui text-[13px] text-ink-3">No quizzes taken yet.</p>
+            <Link
+              href="/quizzes"
+              className="mt-2 inline-block font-ui text-[12px] font-bold text-lilac"
+            >
+              Browse the quizzes
+            </Link>
+          </div>
+        )}
       </section>
 
       <form action={signOut} className="pb-6 pt-7">

@@ -135,7 +135,7 @@ export default async function HomePage() {
             Mystic, Detective, Phoenix or Sting? Six questions decide.
           </p>
           <Link
-            href="/quizzes"
+            href="/quiz/what-kind-of-scorpio-are-you"
             className="inline-flex min-h-[44px] items-center rounded-full border border-line-2 px-5 font-ui text-[13px] font-bold text-ink transition-colors hover:border-lilac"
           >
             Take the quiz

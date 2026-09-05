@@ -20,6 +20,7 @@ supabase db push
 | --- | --- |
 | `0001_horoscope_and_compatibility.sql` | `daily_horoscopes`, `compatibility` (public read; writes via service role) |
 | `0002_profiles_and_saved_items.sql` | `profiles` (auto-created on signup), `saved_items`; both owner-only RLS |
+| `0003_quiz_results.sql` | `quiz_results` (per-user, owner-only RLS). Quiz definitions live in `lib/quizzes/`. |
 
 ## Auth configuration (dashboard → Authentication)
 
