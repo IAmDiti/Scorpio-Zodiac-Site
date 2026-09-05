@@ -40,7 +40,6 @@ export async function signInWithGoogle(formData) {
 
 export async function signUpWithEmail(_prev, formData) {
   const email = formData.get('email')?.toString().trim().toLowerCase()
-  const confirmEmail = formData.get('confirm_email')?.toString().trim().toLowerCase()
   const password = formData.get('password')?.toString() ?? ''
   const confirmPassword = formData.get('confirm_password')?.toString() ?? ''
   const next = safeNext(formData.get('next')?.toString())
@@ -49,10 +48,7 @@ export async function signUpWithEmail(_prev, formData) {
   if (!email || password.length < 8) {
     return { error: 'Enter an email and a password of at least 8 characters.' }
   }
-  if (confirmEmail !== undefined && confirmEmail !== email) {
-    return { error: 'The two email addresses don’t match.' }
-  }
-  if (confirmPassword !== undefined && confirmPassword !== password) {
+  if (confirmPassword && confirmPassword !== password) {
     return { error: 'The two passwords don’t match.' }
   }
 
