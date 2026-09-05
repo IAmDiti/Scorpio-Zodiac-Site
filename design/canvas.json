@@ -1,0 +1,21 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "title": "Homepage", "x": 0, "y": 0, "w": 390, "h": 2480 },
+    { "file": "Horoscope.dc.html", "title": "Daily horoscope", "x": 490, "y": 0, "w": 390, "h": 1780 },
+    { "file": "Compatibility.dc.html", "title": "Compatibility result", "x": 980, "y": 0, "w": 390, "h": 1720 },
+
+    { "file": "QuizCatalog.dc.html", "title": "Quiz catalog", "x": 0, "y": 2600, "w": 390, "h": 1340 },
+    { "file": "QuizQuestion.dc.html", "title": "Quiz question", "x": 490, "y": 2600, "w": 390, "h": 880 },
+    { "file": "QuizResult.dc.html", "title": "Quiz result + registration gate", "x": 980, "y": 2600, "w": 390, "h": 1180 },
+
+    { "file": "Auth.dc.html", "title": "Sign up / log in", "x": 0, "y": 4060, "w": 390, "h": 1200 },
+    { "file": "Account.dc.html", "title": "Account / profile", "x": 490, "y": 4060, "w": 390, "h": 1380 },
+    { "file": "Reading.dc.html", "title": "Paid reading product", "x": 980, "y": 4060, "w": 390, "h": 1700 },
+    { "file": "Report.dc.html", "title": "Delivered report", "x": 1470, "y": 4060, "w": 390, "h": 2580, "print": "flow" }
+  ],
+  "annotations": [
+    { "id": "direction", "x": -280, "y": 20, "w": 240, "text": "Cosmic-noir direction — obsidian/plum ground, garnet Scorpio accent, cool-violet secondary, restrained gold, Cinzel display + Spectral body. Mobile-first (390px). Static mockups for sign-off before the Next.js build." },
+    { "id": "gate", "x": 1400, "y": 2620, "w": 240, "text": "The growth mechanic: anyone can take a quiz, but the full result is locked behind a free account. Answers are stashed locally and restored right after signup." }
+  ],
+  "launch": { "view": "canvas" }
+}

@@ -1,0 +1,87 @@
+@import 'tailwindcss';
+
+@theme {
+  /* surfaces */
+  --color-void: #0b0812;
+  --color-surface: #141020;
+  --color-surface-2: #1a1330;
+  --color-line: #241b33;
+  --color-line-2: #2c2140;
+
+  /* ink */
+  --color-ink: #f4eef7;
+  --color-ink-bright: #f7f2fb;
+  --color-ink-2: #c7bcd6;
+  --color-ink-3: #a99fb8;
+  --color-ink-4: #6f6480;
+  --color-ink-5: #5f566f;
+
+  /* accents */
+  --color-garnet: #c02a4a;
+  --color-garnet-deep: #6b1f3a;
+  --color-violet: #7c5cff;
+  --color-lilac: #c9a2ff;
+  --color-gold: #d9b46a;
+  --color-eyebrow: #cbb2ea;
+
+  /* type */
+  --font-display: var(--font-cinzel), 'Trajan Pro', Georgia, serif;
+  --font-body: var(--font-spectral), Georgia, 'Times New Roman', serif;
+  --font-ui: var(--font-karla), system-ui, -apple-system, sans-serif;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-void);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    line-height: 1.55;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: 1.16;
+    letter-spacing: 0.02em;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-garnet) 45%, transparent);
+  }
+}
+
+@utility eyebrow {
+  font-family: var(--font-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 11px;
+  color: var(--color-eyebrow);
+}
+
+/* Layered starfield used behind every page. */
+.starfield {
+  background-color: var(--color-void);
+  background-image:
+    radial-gradient(circle at 18% 8%, rgba(124, 92, 255, 0.16), transparent 45%),
+    radial-gradient(circle at 92% 4%, rgba(192, 42, 74, 0.12), transparent 42%),
+    radial-gradient(1px 1px at 12% 22%, rgba(244, 238, 247, 0.7), transparent),
+    radial-gradient(1.4px 1.4px at 82% 12%, rgba(217, 180, 106, 0.8), transparent),
+    radial-gradient(1px 1px at 40% 46%, rgba(244, 238, 247, 0.4), transparent),
+    radial-gradient(1px 1px at 68% 68%, rgba(244, 238, 247, 0.35), transparent),
+    radial-gradient(1px 1px at 22% 82%, rgba(244, 238, 247, 0.45), transparent);
+}

@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Karla:wght@400;500;700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+  <style>
+    *,*::before,*::after{box-sizing:border-box}
+    body{margin:0;background:#0b0812;color:#f4eef7;font-family:'Spectral',Georgia,serif;line-height:1.5}
+    h1,h2,h3{font-family:'Cinzel',Georgia,serif;font-weight:600;margin:0;line-height:1.16;letter-spacing:.02em}
+    p{margin:0}
+    .u{font-family:'Karla',system-ui,sans-serif}
+    .eyebrow{font-family:'Karla',system-ui,sans-serif;text-transform:uppercase;letter-spacing:.2em;font-size:11px;color:#cbb2ea}
+    a{color:#c9a2ff;text-decoration:none}a:hover{color:#e3ccff}
+  </style>
+</helmet>
+
+<div style="width:390px;min-height:1120px;margin:0 auto;position:relative;overflow:hidden;background-color:#0b0812;background-image:radial-gradient(circle at 50% -4%,rgba(192,42,74,.2),transparent 46%),radial-gradient(circle at 80% 8%,rgba(124,92,255,.18),transparent 44%),radial-gradient(1.4px 1.4px at 320px 70px,rgba(217,180,106,.85),transparent),radial-gradient(1px 1px at 50px 150px,rgba(244,238,247,.5),transparent)">
+
+  <div style="text-align:center;padding:22px 20px 8px">
+    <p class="eyebrow" style="margin-bottom:14px">Your result is ready</p>
+    <div style="width:96px;height:96px;margin:0 auto 16px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#3a1440,#150f24);border:1px solid #3a2b4e;display:flex;align-items:center;justify-content:center;box-shadow:0 0 40px rgba(192,42,74,.3)">
+      <svg width="46" height="42" viewBox="0 0 28 24" fill="none" stroke="#d9b46a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8 A3 3 0 0 1 8 8 V17"/><path d="M8 8 A3 3 0 0 1 14 8 V17"/><path d="M14 8 A3 3 0 0 1 20 8 V19 L25 14.5"/><path d="M25 20 L25 14.5 L19.5 14.5"/></svg>
+    </div>
+    <p class="u" style="font-size:12px;color:#a99fb8;margin-bottom:4px">You are the…</p>
+    <h1 style="font-size:32px;color:#f7f2fb">Mystic Scorpio</h1>
+  </div>
+
+  <!-- locked result -->
+  <div style="margin:14px 18px 0;position:relative;border-radius:18px;overflow:hidden;border:1px solid #241b33">
+    <div style="padding:20px 18px;filter:blur(5px);opacity:.55;pointer-events:none">
+      <p style="font-size:14.5px;color:#c7bcd6;margin-bottom:12px">You lead with instinct, not evidence. People tell you things they've never said out loud because some part of them knows you already sensed it. Your gift is depth; your work is not disappearing into it.</p>
+      <p style="font-size:14.5px;color:#c7bcd6;margin-bottom:12px">Best matched with: Pisces, Cancer, Capricorn. Career energy points toward psychology, research, art that unsettles people a little.</p>
+      <p style="font-size:14.5px;color:#c7bcd6">Your shadow: testing people instead of trusting them. Your 2026 theme: letting one person all the way in.</p>
+    </div>
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,8,18,.35),rgba(11,8,18,.86));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:20px">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#d9b46a" stroke-width="1.7" stroke-linecap="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+      <p class="u" style="font-size:12px;color:#e7dff0;text-align:center">Full reading · matches · your 2026 theme</p>
+    </div>
+  </div>
+
+  <!-- gate card -->
+  <div style="margin:16px 18px 0;background:linear-gradient(165deg,#1c1533,#130e22);border:1px solid #2c2140;border-radius:20px;padding:20px">
+    <h3 style="font-size:19px;text-align:center;margin-bottom:6px">Create a free account to reveal it</h3>
+    <p class="u" style="font-size:12px;color:#a99fb8;text-align:center;margin-bottom:16px">Free forever · no spam · about 10 seconds</p>
+
+    <div class="u" style="display:flex;align-items:center;padding:0 14px;min-height:48px;background:#0c0916;border:1px solid #2c2140;border-radius:12px;font-size:13px;color:#6f6480;margin-bottom:9px">you@email.com</div>
+    <div class="u" style="display:flex;align-items:center;justify-content:space-between;padding:0 14px;min-height:48px;background:#0c0916;border:1px solid #2c2140;border-radius:12px;font-size:13px;color:#6f6480;margin-bottom:14px">
+      Choose a password
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#6f6480" stroke-width="1.6"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+    </div>
+
+    <button class="u" style="width:100%;min-height:50px;background:#c02a4a;color:#fff;border:none;border-radius:999px;font-weight:700;font-size:14px;letter-spacing:.03em;margin-bottom:12px">Reveal my result</button>
+
+    <div style="display:flex;align-items:center;gap:12px;margin:4px 0 12px">
+      <span style="flex:1;height:1px;background:#2c2140"></span>
+      <span class="u" style="font-size:11px;color:#6f6480">or</span>
+      <span style="flex:1;height:1px;background:#2c2140"></span>
+    </div>
+
+    <button class="u" style="width:100%;min-height:50px;background:#fff;color:#1a1a1a;border:none;border-radius:999px;font-weight:700;font-size:13.5px;display:flex;align-items:center;justify-content:center;gap:10px">
+      <svg width="17" height="17" viewBox="0 0 24 24"><path fill="#4285F4" d="M22 12c0-.8-.1-1.5-.2-2.2H12v4.3h5.6c-.2 1.3-1 2.4-2 3.1v2.6h3.3c1.9-1.8 3-4.4 3-7.8z"/><path fill="#34A853" d="M12 22c2.7 0 5-1 6.6-2.5l-3.3-2.6c-.9.6-2 1-3.3 1-2.6 0-4.7-1.7-5.5-4.1H3.1v2.6C4.8 19.8 8.1 22 12 22z"/><path fill="#FBBC05" d="M6.5 13.8c-.2-.6-.3-1.2-.3-1.8s.1-1.2.3-1.8V7.6H3.1C2.4 9 2 10.5 2 12s.4 3 1.1 4.4l3.4-2.6z"/><path fill="#EA4335" d="M12 6.1c1.5 0 2.8.5 3.8 1.5l2.9-2.9C16.9 2.9 14.7 2 12 2 8.1 2 4.8 4.2 3.1 7.6l3.4 2.6c.8-2.4 2.9-4.1 5.5-4.1z"/></svg>
+      Continue with Google
+    </button>
+
+    <p class="u" style="font-size:12px;color:#8a7fa0;text-align:center;margin-top:14px">Already have an account? <a href="#" style="font-weight:700">Log in</a></p>
+  </div>
+
+  <p class="u" style="text-align:center;font-size:11px;color:#5f566f;padding:18px 24px 24px">Your answers are saved — they'll be waiting the moment you sign in. For entertainment purposes only.</p>
+
+</div>
+</x-dc>
+</body>
+</html>

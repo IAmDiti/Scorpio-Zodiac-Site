@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Karla:wght@400;500;700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+  <style>
+    *,*::before,*::after{box-sizing:border-box}
+    body{margin:0;background:#0b0812;color:#f4eef7;font-family:'Spectral',Georgia,serif;line-height:1.55}
+    h1,h2,h3{font-family:'Cinzel',Georgia,serif;font-weight:600;margin:0;line-height:1.16;letter-spacing:.02em}
+    p{margin:0}
+    .u{font-family:'Karla',system-ui,sans-serif}
+    .eyebrow{font-family:'Karla',system-ui,sans-serif;text-transform:uppercase;letter-spacing:.2em;font-size:11px;color:#cbb2ea}
+    a{color:#c9a2ff;text-decoration:none}a:hover{color:#e3ccff}
+  </style>
+</helmet>
+
+<div style="width:390px;min-height:1720px;margin:0 auto;position:relative;overflow:hidden;background-color:#0b0812;background-image:radial-gradient(circle at 50% -4%,rgba(124,92,255,.2),transparent 46%),radial-gradient(circle at 88% 3%,rgba(192,42,74,.12),transparent 42%),radial-gradient(1px 1px at 40px 120px,rgba(244,238,247,.6),transparent),radial-gradient(1.4px 1.4px at 320px 80px,rgba(217,180,106,.8),transparent),radial-gradient(1px 1px at 200px 240px,rgba(244,238,247,.4),transparent)">
+
+  <!-- top bar -->
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 18px">
+    <a href="#" class="u" style="display:flex;align-items:center;gap:6px;font-size:13px;color:#a99fb8">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a99fb8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>Home
+    </a>
+    <span class="u" style="font-size:12px;letter-spacing:.16em;color:#6f6480">DAILY HOROSCOPE</span>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c9a2ff" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="1.6"/><path d="M12 8V4M12 20v-4M8 12H4M20 12h-4"/></svg>
+  </div>
+
+  <!-- date nav -->
+  <div style="display:flex;align-items:center;justify-content:space-between;margin:6px 18px 0;background:#120d1f;border:1px solid #241b33;border-radius:14px;padding:10px 12px">
+    <button class="u" style="background:none;border:none;color:#8a7fa0;font-size:12px;display:flex;align-items:center;gap:4px">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8a7fa0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>Thu
+    </button>
+    <span class="u" style="font-size:13px;font-weight:700;color:#f4eef7">Today · Nov 8</span>
+    <button class="u" style="background:none;border:none;color:#8a7fa0;font-size:12px;display:flex;align-items:center;gap:4px">Sat
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8a7fa0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+    </button>
+  </div>
+
+  <!-- title block -->
+  <div style="text-align:center;padding:26px 20px 18px">
+    <svg width="52" height="46" viewBox="0 0 28 24" fill="none" stroke="#c02a4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:12px"><path d="M2 8 A3 3 0 0 1 8 8 V17"/><path d="M8 8 A3 3 0 0 1 14 8 V17"/><path d="M14 8 A3 3 0 0 1 20 8 V19 L25 14.5"/><path d="M25 20 L25 14.5 L19.5 14.5"/></svg>
+    <h1 style="font-size:30px;color:#f7f2fb">Scorpio</h1>
+    <p class="eyebrow" style="margin-top:8px">Friday, November 8, 2026</p>
+  </div>
+
+  <!-- cosmic snapshot -->
+  <div style="margin:0 18px;background:linear-gradient(135deg,#1a1330,#130e21);border:1px solid #2c2140;border-radius:16px;padding:14px 16px">
+    <p class="eyebrow" style="margin-bottom:10px;color:#d9b46a">Today's sky</p>
+    <div style="display:flex;flex-wrap:wrap;gap:7px">
+      <span class="u" style="font-size:11.5px;color:#e7dff0;background:#221836;border-radius:999px;padding:6px 11px">Moon in Pisces</span>
+      <span class="u" style="font-size:11.5px;color:#e7dff0;background:#221836;border-radius:999px;padding:6px 11px">Mars △ Pluto</span>
+      <span class="u" style="font-size:11.5px;color:#e7dff0;background:#221836;border-radius:999px;padding:6px 11px">Venus ☌ Sun</span>
+      <span class="u" style="font-size:11.5px;color:#9b90b3;background:#181228;border-radius:999px;padding:6px 11px">Waxing gibbous</span>
+    </div>
+  </div>
+
+  <!-- sections -->
+  <div style="display:flex;flex-direction:column;gap:12px;padding:18px">
+    <div style="background:#141020;border:1px solid #241b33;border-radius:16px;padding:17px">
+      <div style="display:flex;align-items:center;gap:9px;margin-bottom:9px">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9a2ff" stroke-width="1.5"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg>
+        <h3 style="font-size:16px">Overview</h3>
+      </div>
+      <p style="font-size:14.5px;color:#c7bcd6">With the Moon in fellow water sign Pisces trining your ruler Pluto, your read on people is unusually sharp. A conversation you've been circling for a week finally has an opening — take it before the Moon moves on tonight.</p>
+    </div>
+    <div style="background:#141020;border:1px solid #241b33;border-radius:16px;padding:17px">
+      <div style="display:flex;align-items:center;gap:9px;margin-bottom:9px">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c02a4a" stroke-width="1.6"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>
+        <h3 style="font-size:16px">Love</h3>
+      </div>
+      <p style="font-size:14.5px;color:#c7bcd6">Venus meeting the Sun softens your guard. If you're partnered, say the tender thing out loud. If you're single, someone from a Cancer or Pisces orbit is paying closer attention than you think.</p>
+    </div>
+    <div style="background:#141020;border:1px solid #241b33;border-radius:16px;padding:17px">
+      <div style="display:flex;align-items:center;gap:9px;margin-bottom:9px">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d9b46a" stroke-width="1.6"><path d="M4 20h16M6 20V10M12 20V6M18 20v-7"/></svg>
+        <h3 style="font-size:16px">Career</h3>
+      </div>
+      <p style="font-size:14.5px;color:#c7bcd6">Mars trine Pluto is raw executive power. Push the project that scares people a little. Avoid a 3 p.m. email you'll want to unsend — draft it, sit on it until tomorrow.</p>
+    </div>
+    <div style="background:#141020;border:1px solid #241b33;border-radius:16px;padding:17px">
+      <div style="display:flex;align-items:center;gap:9px;margin-bottom:9px">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7c5cff" stroke-width="1.6"><path d="M12 3c1.5 3 4 4.5 4 8a4 4 0 0 1-8 0c0-3.5 2.5-5 4-8z"/><path d="M8 20h8"/></svg>
+        <h3 style="font-size:16px">Wellbeing</h3>
+      </div>
+      <p style="font-size:14.5px;color:#c7bcd6">Water everywhere in the chart today — literally helps. Hydrate, take the longer shower, and let yourself feel the thing instead of managing it.</p>
+    </div>
+  </div>
+
+  <!-- lucky -->
+  <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:0 18px">
+    <div style="background:#141020;border:1px solid #241b33;border-radius:16px;padding:16px;text-align:center">
+      <p class="eyebrow" style="margin-bottom:10px">Lucky colour</p>
+      <div style="width:34px;height:34px;border-radius:50%;background:#6b1f3a;margin:0 auto 8px;box-shadow:0 0 16px rgba(192,42,74,.4)"></div>
+      <p class="u" style="font-size:13px;color:#efe8f6">Oxblood</p>
+    </div>
+    <div style="background:#141020;border:1px solid #241b33;border-radius:16px;padding:16px;text-align:center">
+      <p class="eyebrow" style="margin-bottom:10px">Lucky number</p>
+      <p style="font-family:'Cinzel',serif;font-size:30px;color:#d9b46a;line-height:1;margin-bottom:6px">8</p>
+      <p class="u" style="font-size:13px;color:#efe8f6">&amp; 17</p>
+    </div>
+  </div>
+
+  <!-- actions -->
+  <div style="display:flex;gap:10px;padding:18px">
+    <button class="u" style="flex:1;min-height:48px;background:#c02a4a;color:#fff;border:none;border-radius:999px;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;gap:8px">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>Save reading
+    </button>
+    <button class="u" style="width:52px;min-height:48px;background:transparent;border:1px solid #3a2f48;border-radius:999px;color:#c9a2ff;display:flex;align-items:center;justify-content:center">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#c9a2ff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+    </button>
+  </div>
+  <p class="u" style="text-align:center;font-size:11px;color:#5f566f;padding:0 20px 26px">Generated from today's real planetary positions. For entertainment purposes only.</p>
+
+</div>
+</x-dc>
+</body>
+</html>

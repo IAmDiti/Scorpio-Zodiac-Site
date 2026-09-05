@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Karla:wght@400;500;700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+  <style>
+    *,*::before,*::after{box-sizing:border-box}
+    body{margin:0;background:#0b0812;color:#f4eef7;font-family:'Spectral',Georgia,serif;line-height:1.5}
+    h1{font-family:'Cinzel',Georgia,serif;font-weight:600;margin:0;line-height:1.16;letter-spacing:.02em}
+    p{margin:0}
+    .u{font-family:'Karla',system-ui,sans-serif}
+    .eyebrow{font-family:'Karla',system-ui,sans-serif;text-transform:uppercase;letter-spacing:.2em;font-size:11px;color:#cbb2ea}
+    a{color:#c9a2ff;text-decoration:none}a:hover{color:#e3ccff}
+  </style>
+</helmet>
+
+<div style="width:390px;min-height:1140px;margin:0 auto;position:relative;overflow:hidden;background-color:#0b0812;background-image:radial-gradient(circle at 50% -8%,rgba(124,92,255,.24),transparent 48%),radial-gradient(circle at 85% 6%,rgba(192,42,74,.12),transparent 42%),radial-gradient(1.4px 1.4px at 320px 90px,rgba(217,180,106,.85),transparent),radial-gradient(1px 1px at 46px 150px,rgba(244,238,247,.5),transparent),radial-gradient(1px 1px at 300px 240px,rgba(244,238,247,.35),transparent)">
+
+  <!-- brand -->
+  <div style="text-align:center;padding:34px 20px 8px">
+    <svg viewBox="0 0 240 70" width="200" height="58" style="opacity:.92">
+      <path d="M14 30 L44 24 L64 40 L100 50 L140 42 L172 52 L196 34 L214 40 L226 56" fill="none" stroke="rgba(201,162,255,.4)" stroke-width="1.3"/>
+      <g fill="#f4eef7"><circle cx="14" cy="30" r="1.7"/><circle cx="44" cy="24" r="1.9"/><circle cx="100" cy="50" r="1.6"/><circle cx="172" cy="52" r="1.6"/><circle cx="226" cy="56" r="1.7"/></g>
+      <g fill="#d9b46a"><circle cx="196" cy="34" r="1.7"/></g>
+      <circle cx="140" cy="42" r="3.6" fill="#c02a4a"/>
+    </svg>
+    <div style="display:flex;align-items:baseline;gap:7px;justify-content:center;margin-top:6px">
+      <span style="font-family:'Cinzel',serif;font-weight:700;font-size:15px;letter-spacing:.18em;color:#f4eef7">SCORPIO</span>
+      <span style="font-style:italic;font-size:14px;color:#a99fb8">daily</span>
+    </div>
+  </div>
+
+  <div style="text-align:center;padding:14px 24px 4px">
+    <h1 style="font-size:27px;color:#f7f2fb">Welcome back to the dark</h1>
+    <p class="u" style="font-size:13px;color:#a99fb8;margin-top:8px">Save your readings, unlock quiz results, keep your history.</p>
+  </div>
+
+  <!-- tabs -->
+  <div style="display:flex;gap:6px;margin:22px 22px 0;background:#120d1f;border:1px solid #241b33;border-radius:12px;padding:5px">
+    <span class="u" style="flex:1;text-align:center;font-size:13px;font-weight:700;color:#0b0812;background:#c9a2ff;border-radius:8px;padding:10px 0">Create account</span>
+    <span class="u" style="flex:1;text-align:center;font-size:13px;color:#a99fb8;padding:10px 0">Log in</span>
+  </div>
+
+  <!-- form -->
+  <div style="padding:18px 22px 0">
+    <label class="u" style="font-size:11px;letter-spacing:.06em;color:#8a7fa0;text-transform:uppercase">Email</label>
+    <div class="u" style="display:flex;align-items:center;padding:0 14px;min-height:48px;background:#0c0916;border:1px solid #2c2140;border-radius:12px;font-size:13px;color:#6f6480;margin:7px 0 14px">you@email.com</div>
+
+    <label class="u" style="font-size:11px;letter-spacing:.06em;color:#8a7fa0;text-transform:uppercase">Password</label>
+    <div class="u" style="display:flex;align-items:center;justify-content:space-between;padding:0 14px;min-height:48px;background:#0c0916;border:1px solid #2c2140;border-radius:12px;font-size:13px;color:#6f6480;margin:7px 0 8px">
+      At least 8 characters
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#6f6480" stroke-width="1.6"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+    </div>
+    <p class="u" style="font-size:11px;color:#6f6480;margin-bottom:16px">Marketing emails are opt-in — untick anytime.</p>
+
+    <button class="u" style="width:100%;min-height:50px;background:#c02a4a;color:#fff;border:none;border-radius:999px;font-weight:700;font-size:14px;letter-spacing:.03em">Create free account</button>
+
+    <div style="display:flex;align-items:center;gap:12px;margin:16px 0">
+      <span style="flex:1;height:1px;background:#2c2140"></span><span class="u" style="font-size:11px;color:#6f6480">or</span><span style="flex:1;height:1px;background:#2c2140"></span>
+    </div>
+
+    <button class="u" style="width:100%;min-height:50px;background:#fff;color:#1a1a1a;border:none;border-radius:999px;font-weight:700;font-size:13.5px;display:flex;align-items:center;justify-content:center;gap:10px">
+      <svg width="17" height="17" viewBox="0 0 24 24"><path fill="#4285F4" d="M22 12c0-.8-.1-1.5-.2-2.2H12v4.3h5.6c-.2 1.3-1 2.4-2 3.1v2.6h3.3c1.9-1.8 3-4.4 3-7.8z"/><path fill="#34A853" d="M12 22c2.7 0 5-1 6.6-2.5l-3.3-2.6c-.9.6-2 1-3.3 1-2.6 0-4.7-1.7-5.5-4.1H3.1v2.6C4.8 19.8 8.1 22 12 22z"/><path fill="#FBBC05" d="M6.5 13.8c-.2-.6-.3-1.2-.3-1.8s.1-1.2.3-1.8V7.6H3.1C2.4 9 2 10.5 2 12s.4 3 1.1 4.4l3.4-2.6z"/><path fill="#EA4335" d="M12 6.1c1.5 0 2.8.5 3.8 1.5l2.9-2.9C16.9 2.9 14.7 2 12 2 8.1 2 4.8 4.2 3.1 7.6l3.4 2.6c.8-2.4 2.9-4.1 5.5-4.1z"/></svg>
+      Continue with Google
+    </button>
+
+    <p class="u" style="font-size:11px;color:#6f6480;text-align:center;margin-top:18px;line-height:1.6">By continuing you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.<br>Horoscopes are for entertainment only.</p>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>
