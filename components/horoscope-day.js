@@ -37,7 +37,7 @@ export async function HoroscopeDay({ dateISO }) {
 
       <div className="mt-6">
         {horoscope ? (
-          <HoroscopeView horoscope={horoscope} dateLabel={formatLong(dateISO)} />
+          <HoroscopeView horoscope={horoscope} dateISO={dateISO} dateLabel={formatLong(dateISO)} />
         ) : (
           <div className="rounded-2xl border border-line bg-surface p-6 text-center">
             <h1 className="text-[22px] text-ink-bright">

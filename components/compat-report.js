@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { SignGlyph } from '@/components/sign-glyph'
 import { ScoreMeter } from '@/components/score-meter'
+import { SaveButton } from '@/components/save-button'
 import { SIGNS } from '@/lib/astro/zodiac'
 import { pairSlug } from '@/lib/constants'
 
@@ -80,6 +81,15 @@ export function CompatReport({ partner, data }) {
           <p className="eyebrow mb-2 text-garnet">The friction</p>
           <p className="text-sm text-ink-2">{data.friction}</p>
         </div>
+      </div>
+
+      <div className="mt-4 flex">
+        <SaveButton
+          kind="compatibility"
+          refKey={partner.key}
+          label={`Scorpio & ${partner.name}`}
+          redirectTo={`/compatibility/${pairSlug(partner.key)}`}
+        />
       </div>
 
       <div className="mt-6">

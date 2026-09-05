@@ -1,4 +1,5 @@
 import { IconScorpio, IconMoon, IconHeart, IconSparkle } from '@/components/icons'
+import { SaveButton } from '@/components/save-button'
 
 const cap = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s)
 
@@ -60,7 +61,7 @@ const SECTIONS = [
   { key: 'wellbeing', label: 'Wellbeing', Icon: IconMoon, color: 'text-violet' },
 ]
 
-export function HoroscopeView({ horoscope, dateLabel }) {
+export function HoroscopeView({ horoscope, dateISO, dateLabel }) {
   return (
     <article>
       <div className="mb-4 text-center">
@@ -92,6 +93,15 @@ export function HoroscopeView({ horoscope, dateLabel }) {
           <p className="eyebrow mb-2.5">Lucky number</p>
           <p className="font-display text-2xl leading-none text-gold">{horoscope.lucky_number}</p>
         </div>
+      </div>
+
+      <div className="mt-4 flex gap-2.5">
+        <SaveButton
+          kind="horoscope"
+          refKey={dateISO}
+          label={`Scorpio horoscope · ${dateLabel}`}
+          redirectTo={dateISO ? `/horoscope/${dateISO}` : '/horoscope'}
+        />
       </div>
 
       <p className="mt-5 text-center font-ui text-[11px] text-ink-5">
