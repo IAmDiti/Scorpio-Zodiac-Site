@@ -92,4 +92,3 @@ quiz engine · SEO / legal / accessibility · responsive pass · launch prep.
 Remaining: **Phase 8** — one-time paid readings via Lemon Squeezy.
 
 Plan: `C:\Users\Diti\.claude\plans\i-have-a-facebook-cached-dove.md`
-# Scorpio-Zodiac-Site
