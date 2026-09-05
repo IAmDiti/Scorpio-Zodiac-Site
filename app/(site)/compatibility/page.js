@@ -8,6 +8,7 @@ export const metadata = {
   title: 'Scorpio Compatibility With Every Sign',
   description:
     'How Scorpio matches with all twelve signs — passion, trust, communication and friendship. Free. For entertainment purposes only.',
+  alternates: { canonical: '/compatibility' },
 }
 
 export default function CompatibilityIndexPage() {

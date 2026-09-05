@@ -12,6 +12,7 @@ export async function generateMetadata({ params }) {
   return {
     title: `Scorpio Horoscope — ${formatLong(date)}`,
     description: `The Scorpio horoscope for ${formatLong(date)}, drawn from that day's real sky.`,
+    alternates: { canonical: `/horoscope/${date}` },
   }
 }
 

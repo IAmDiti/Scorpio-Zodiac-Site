@@ -5,7 +5,9 @@ export default function SiteLayout({ children }) {
   return (
     <div className="flex min-h-screen min-w-0 flex-col overflow-x-clip">
       <SiteHeader />
-      <main className="min-w-0 flex-1">{children}</main>
+      <main id="main-content" className="min-w-0 flex-1">
+        {children}
+      </main>
       <SiteFooter />
     </div>
   )

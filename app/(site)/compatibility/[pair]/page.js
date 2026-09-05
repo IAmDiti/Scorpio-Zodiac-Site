@@ -19,9 +19,13 @@ export async function generateMetadata({ params }) {
   const { pair } = await params
   const sign = partnerSign(keyFromPair(pair))
   if (!sign) return {}
+  const title = `Scorpio & ${sign.name} Compatibility`
+  const description = `How Scorpio and ${sign.name} match in love, trust, communication and friendship. For entertainment purposes only.`
   return {
-    title: `Scorpio & ${sign.name} Compatibility`,
-    description: `How Scorpio and ${sign.name} match in love, trust, communication and friendship. For entertainment purposes only.`,
+    title,
+    description,
+    alternates: { canonical: `/compatibility/scorpio-and-${sign.key}` },
+    openGraph: { title, description },
   }
 }
 

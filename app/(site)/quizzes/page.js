@@ -6,6 +6,7 @@ export const metadata = {
   title: 'Scorpio Quizzes',
   description:
     'Quick, a little addictive, occasionally too accurate. Free Scorpio personality, love and just-for-fun quizzes.',
+  alternates: { canonical: '/quizzes' },
 }
 
 export default function QuizzesPage() {

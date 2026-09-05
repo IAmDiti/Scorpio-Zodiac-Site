@@ -8,13 +8,13 @@
   --color-line: #241b33;
   --color-line-2: #2c2140;
 
-  /* ink */
+  /* ink — every level clears WCAG AA (>=4.5:1) on the void background */
   --color-ink: #f4eef7;
   --color-ink-bright: #f7f2fb;
   --color-ink-2: #c7bcd6;
   --color-ink-3: #a99fb8;
-  --color-ink-4: #6f6480;
-  --color-ink-5: #5f566f;
+  --color-ink-4: #9c92b4;
+  --color-ink-5: #8a80a1;
 
   /* accents */
   --color-garnet: #c02a4a;
@@ -74,8 +74,24 @@
     text-decoration: none;
   }
 
+  :focus-visible {
+    outline: 2px solid var(--color-lilac);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
   ::selection {
     background: color-mix(in oklab, var(--color-garnet) 45%, transparent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
 
