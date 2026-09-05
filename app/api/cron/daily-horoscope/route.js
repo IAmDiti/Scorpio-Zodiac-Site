@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server'
-import { ensureHoroscope, generateHoroscope } from '@/lib/horoscope'
-import { createAdminClient } from '@/lib/supabase/admin'
+import { ensureHoroscope, generateHoroscope, storeHoroscope } from '@/lib/horoscope'
 import { todayISO, isValidDateISO } from '@/lib/dates'
 
 export const dynamic = 'force-dynamic'
@@ -30,10 +29,7 @@ async function handle(request) {
     let row
     if (force) {
       row = await generateHoroscope(date)
-      const { error } = await createAdminClient()
-        .from('daily_horoscopes')
-        .upsert(row, { onConflict: 'date' })
-      if (error) throw error
+      await storeHoroscope(row, { overwrite: true })
     } else {
       row = await ensureHoroscope(date)
     }

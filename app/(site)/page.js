@@ -21,9 +21,10 @@ const FALLBACK = {
   transits: null,
 }
 
-function firstSentence(text) {
-  const m = text?.match(/^.*?[.!?](\s|$)/)
-  return (m ? m[0] : text || '').trim()
+function firstSentences(text, count = 2) {
+  const matches = (text || '').match(/[^.!?]+[.!?]+(\s|$)/g)
+  if (!matches) return (text || '').trim()
+  return matches.slice(0, count).join('').trim()
 }
 
 async function loadHero() {
@@ -41,7 +42,11 @@ async function loadHero() {
           .filter(Boolean)
           .join(' · ')
       : null
-    return { headline: firstSentence(h.overview), teaser: h.overview, transits }
+    return {
+      headline: h.headline?.trim() || FALLBACK.headline,
+      teaser: firstSentences(h.overview, 2) || FALLBACK.teaser,
+      transits,
+    }
   } catch {
     return FALLBACK
   }
@@ -70,10 +75,10 @@ export default async function HomePage() {
       <section className="pb-8 pt-3 sm:mx-auto sm:max-w-2xl sm:pt-6 sm:text-center lg:pb-12 lg:pt-10">
         <Constellation className="mb-3.5 h-24 w-full opacity-90 sm:h-28 lg:h-32" />
         <p className="eyebrow mb-2.5">{dateLabel}</p>
-        <h1 className="text-balance text-[clamp(27px,8.5vw,33px)] text-ink-bright sm:text-[38px] lg:text-[46px]">
+        <h1 className="text-balance text-[clamp(24px,6.5vw,30px)] text-ink-bright sm:text-[34px] lg:text-[40px]">
           {hero.headline}
         </h1>
-        <p className="mx-auto mt-3.5 max-w-xl text-base text-ink-2 sm:text-[17px]">{hero.teaser}</p>
+        <p className="mx-auto mt-3.5 max-w-xl text-[15px] text-ink-2 sm:text-base">{hero.teaser}</p>
 
         <div className="mt-5 flex flex-col items-center gap-2.5 sm:mt-7">
           <Link

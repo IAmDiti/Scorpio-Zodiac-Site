@@ -1,5 +1,6 @@
 -- Scorpio Daily — full schema (generated from supabase/migrations/, in order)
 -- Paste this whole file into the Supabase SQL Editor and Run.
+-- Safe to re-run: every statement is idempotent.
 
 -- ============================================================
 -- supabase/migrations/0001_horoscope_and_compatibility.sql
@@ -174,4 +175,11 @@ create policy "quiz_results: own rows"
 
 create index if not exists quiz_results_user_quiz_idx
   on public.quiz_results (user_id, quiz_slug, created_at desc);
+
+-- ============================================================
+-- supabase/migrations/0004_horoscope_headline.sql
+-- ============================================================
+-- Phase 7 polish: a short, evocative daily headline (the homepage hero uses it).
+alter table public.daily_horoscopes
+  add column if not exists headline text;
 

@@ -7,8 +7,7 @@
 //
 // Railway runs this once a day as a scheduled cron service.
 
-import { ensureHoroscope, generateHoroscope } from '../lib/horoscope.js'
-import { createAdminClient } from '../lib/supabase/admin.js'
+import { ensureHoroscope, generateHoroscope, storeHoroscope } from '../lib/horoscope.js'
 import { todayISO, isValidDateISO } from '../lib/dates.js'
 
 const args = process.argv.slice(2)
@@ -22,14 +21,12 @@ try {
   let row
   if (force) {
     row = await generateHoroscope(date)
-    const { error } = await createAdminClient()
-      .from('daily_horoscopes')
-      .upsert(row, { onConflict: 'date' })
-    if (error) throw error
+    await storeHoroscope(row, { overwrite: true })
   } else {
     row = await ensureHoroscope(date)
   }
   console.log(`  model: ${row.model}`)
+  console.log(`  headline: ${row.headline ?? '(n/a)'}`)
   console.log(`  overview: ${row.overview}`)
   console.log('done.')
 } catch (e) {
