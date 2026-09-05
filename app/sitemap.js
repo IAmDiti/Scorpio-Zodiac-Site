@@ -1,8 +1,9 @@
 import { allQuizzes, allResultParams } from '@/lib/quizzes/index.js'
 import { SIGNS } from '@/lib/astro/zodiac'
 import { pairSlug } from '@/lib/constants'
+import { SITE_URL } from '@/lib/site'
 
-const base = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+const base = SITE_URL
 
 export default function sitemap() {
   const lastModified = new Date().toISOString().slice(0, 10)

@@ -4,6 +4,7 @@ import { Starfield } from '@/components/starfield'
 import { Analytics } from '@/components/analytics'
 import { SiteNotice } from '@/components/site-notice'
 import { JsonLd } from '@/components/json-ld'
+import { SITE_URL } from '@/lib/site'
 import { SITE_NAME, SITE_DESCRIPTION } from '@/lib/constants'
 
 const cinzel = Cinzel({
@@ -28,7 +29,7 @@ const karla = Karla({
   display: 'swap',
 })
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+const siteUrl = SITE_URL
 
 export const metadata = {
   metadataBase: new URL(siteUrl),

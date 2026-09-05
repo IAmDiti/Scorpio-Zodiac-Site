@@ -3,8 +3,9 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { postAuthDestination } from '@/lib/auth'
+import { SITE_URL } from '@/lib/site'
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+const siteUrl = SITE_URL
 const UNAVAILABLE = 'Sign-in is unavailable right now. Please try again shortly.'
 
 function safeNext(value) {

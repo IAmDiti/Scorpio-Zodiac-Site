@@ -2,10 +2,9 @@ import { HoroscopeDay } from '@/components/horoscope-day'
 import { JsonLd } from '@/components/json-ld'
 import { todayISO, formatLong } from '@/lib/dates'
 import { SITE_NAME } from '@/lib/constants'
+import { SITE_URL as siteUrl } from '@/lib/site'
 
 export const dynamic = 'force-dynamic'
-
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
 
 export function generateMetadata() {
   const today = todayISO()

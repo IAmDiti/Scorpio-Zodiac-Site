@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { JsonLd } from '@/components/json-ld'
 import { SCORPIO } from '@/lib/constants'
+import { SITE_URL as siteUrl } from '@/lib/site'
 
 export const metadata = {
   title: 'About Scorpio',
@@ -36,8 +37,6 @@ const FAQ = [
     a: 'Traditional astrology assigns Mars as Scorpio’s ruler; modern astrology adds Pluto, the planet of transformation, which is why Scorpio is so associated with reinvention and depth.',
   },
 ]
-
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
 
 export default function AboutScorpioPage() {
   const faqJsonLd = {

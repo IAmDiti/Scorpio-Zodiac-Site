@@ -3,8 +3,9 @@ import { QuizRunner } from './quiz-runner'
 import { JsonLd } from '@/components/json-ld'
 import { getQuiz, allQuizzes } from '@/lib/quizzes/index.js'
 import { SITE_NAME } from '@/lib/constants'
+import { SITE_URL } from '@/lib/site'
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+const siteUrl = SITE_URL
 
 export function generateStaticParams() {
   return allQuizzes().map((q) => ({ slug: q.slug }))
