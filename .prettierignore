@@ -1,0 +1,10 @@
+.next
+node_modules
+out
+build
+package-lock.json
+*.sql
+design/scorpio-daily-screens.html
+design/*.png
+AGENTS.md
+CLAUDE.md

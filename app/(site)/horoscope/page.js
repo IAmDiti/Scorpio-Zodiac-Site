@@ -1,14 +1,18 @@
-import { PagePlaceholder } from '@/components/page-placeholder'
+import { HoroscopeDay } from '@/components/horoscope-day'
+import { todayISO, formatLong } from '@/lib/dates'
 
-export const metadata = { title: 'Daily Horoscope' }
+export const dynamic = 'force-dynamic'
+
+export function generateMetadata() {
+  const today = todayISO()
+  return {
+    title: `Scorpio Horoscope — ${formatLong(today)}`,
+    description:
+      "Today's Scorpio horoscope, read from the real positions of the Sun, Moon and planets: love, career and wellbeing. For entertainment purposes only.",
+    alternates: { canonical: '/horoscope' },
+  }
+}
 
 export default function HoroscopePage() {
-  return (
-    <PagePlaceholder
-      eyebrow="Daily horoscope"
-      title="Scorpio, today"
-      blurb="Generated each morning from the real positions of the Sun, Moon and planets — not generic sun-sign filler."
-      phase="Phase 3 (horoscope + compatibility)"
-    />
-  )
+  return <HoroscopeDay dateISO={todayISO()} />
 }

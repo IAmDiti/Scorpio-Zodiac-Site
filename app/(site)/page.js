@@ -1,33 +1,54 @@
 import Link from 'next/link'
 import { Constellation } from '@/components/constellation'
-import {
-  IconArrowRight,
-  IconClock,
-  IconHeart,
-  IconMoon,
-  IconQuiz,
-  IconScorpio,
-} from '@/components/icons'
-import { SCORPIO, PARTNER_SIGNS } from '@/lib/constants'
+import { IconArrowRight, IconClock, IconHeart, IconMoon, IconQuiz } from '@/components/icons'
+import { SCORPIO, PARTNER_SIGNS, pairSlug } from '@/lib/constants'
+import { getHoroscope } from '@/lib/horoscope'
+import { todayISO, formatLong } from '@/lib/dates'
+
+export const revalidate = 1800
 
 export const metadata = {
   title: 'Daily Scorpio Horoscope & Compatibility',
 }
 
-// Placeholder content until the daily-horoscope pipeline is wired (Phase 3).
-const PREVIEW = {
-  headline: 'The depths call today',
+const cap = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s)
+
+const FALLBACK = {
+  headline: 'Read the room, then the stars',
   teaser:
-    'The Moon slips into Pisces and meets your ruler Pluto — intuition runs ahead of logic. Trust the first thing you feel, not the fifth thing you talk yourself into.',
-  transits: 'Moon in Pisces · Mars trine Pluto · Mercury direct',
+    'Your daily Scorpio horoscope is drawn from the real positions of the Sun, Moon and planets — not the same sentence recycled twelve ways.',
+  transits: null,
 }
 
-export default function HomePage() {
-  const dateLabel = new Date().toLocaleDateString('en-US', {
-    weekday: 'long',
-    month: 'long',
-    day: 'numeric',
-  })
+function firstSentence(text) {
+  const m = text?.match(/^.*?[.!?](\s|$)/)
+  return (m ? m[0] : text || '').trim()
+}
+
+async function loadHero() {
+  try {
+    const h = await getHoroscope(todayISO())
+    if (!h) return FALLBACK
+    const sky = h.transit_data
+    const transits = sky
+      ? [
+          sky.moon?.sign && `Moon in ${sky.moon.sign}`,
+          sky.aspects?.[0] &&
+            `${cap(sky.aspects[0].a)} ${sky.aspects[0].aspect} ${cap(sky.aspects[0].b)}`,
+          sky.retrogrades?.[0] && `${sky.retrogrades[0]} retrograde`,
+        ]
+          .filter(Boolean)
+          .join(' · ')
+      : null
+    return { headline: firstSentence(h.overview), teaser: h.overview, transits }
+  } catch {
+    return FALLBACK
+  }
+}
+
+export default async function HomePage() {
+  const hero = await loadHero()
+  const dateLabel = formatLong(todayISO())
 
   return (
     <div className="mx-auto w-full max-w-[26rem] px-5">
@@ -35,10 +56,10 @@ export default function HomePage() {
       <section className="pb-7 pt-3">
         <Constellation className="mb-3.5 h-24 w-full opacity-90" />
         <p className="eyebrow mb-2.5">{dateLabel}</p>
-        <h1 className="text-[clamp(28px,9vw,34px)] text-ink-bright text-balance">
-          {PREVIEW.headline}
+        <h1 className="text-balance text-[clamp(27px,8.5vw,33px)] text-ink-bright">
+          {hero.headline}
         </h1>
-        <p className="mt-3.5 text-base text-ink-2">{PREVIEW.teaser}</p>
+        <p className="mt-3.5 text-base text-ink-2">{hero.teaser}</p>
 
         <div className="mt-5 flex flex-col gap-2.5">
           <Link
@@ -48,10 +69,12 @@ export default function HomePage() {
             Read your full horoscope
             <IconArrowRight className="h-4 w-4 shrink-0" />
           </Link>
-          <p className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center font-ui text-xs text-ink-4">
-            <IconMoon className="h-3.5 w-3.5 shrink-0 text-gold" />
-            <span>{PREVIEW.transits}</span>
-          </p>
+          {hero.transits ? (
+            <p className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center font-ui text-xs text-ink-4">
+              <IconMoon className="h-3.5 w-3.5 shrink-0 text-gold" />
+              <span>{hero.transits}</span>
+            </p>
+          ) : null}
         </div>
       </section>
 
@@ -73,23 +96,8 @@ export default function HomePage() {
         ))}
       </section>
 
-      {/* cosmic weather */}
-      <section className="mt-6 flex items-center gap-4 rounded-[18px] border border-line-2 bg-gradient-to-br from-surface-2 to-surface p-[18px]">
-        <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full shadow-[0_0_24px_rgba(217,180,106,0.22)]">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_34%_34%,#f3ecd9,#cdbf9c)]" />
-          <div className="absolute -right-[15px] -top-1.5 h-[68px] w-[52px] rounded-full bg-surface-2" />
-        </div>
-        <div>
-          <p className="eyebrow mb-1.5">Tonight&rsquo;s sky</p>
-          <p className="text-sm text-ink-2">
-            Waxing gibbous, 84% lit. A good night to finish something quietly rather than start
-            something loud.
-          </p>
-        </div>
-      </section>
-
       {/* compatibility teaser */}
-      <section className="mt-6">
+      <section className="mt-7">
         <h2 className="mb-1 text-[19px]">Who&rsquo;s your match?</h2>
         <p className="mb-3.5 font-ui text-[13px] text-ink-3">
           See how {SCORPIO.name} pairs with every sign.
@@ -100,7 +108,7 @@ export default function HomePage() {
             .map((s) => (
               <Link
                 key={s.key}
-                href={`/compatibility/scorpio-and-${s.key}`}
+                href={`/compatibility/${pairSlug(s.key)}`}
                 className="rounded-full border border-line-2 bg-surface-2 px-3 py-2 font-ui text-xs text-ink-2 transition-colors hover:text-ink"
               >
                 {s.name}
@@ -110,13 +118,13 @@ export default function HomePage() {
             href="/compatibility"
             className="rounded-full border border-line-2 px-3 py-2 font-ui text-xs text-eyebrow"
           >
-            +7 more
+            all 12
           </Link>
         </div>
       </section>
 
       {/* featured quiz */}
-      <section className="mt-6 overflow-hidden rounded-[20px] border border-line bg-surface">
+      <section className="mt-7 overflow-hidden rounded-[20px] border border-line bg-surface">
         <div className="relative h-[132px] bg-gradient-to-br from-[#3a1030] via-[#1c1030] to-[#241338]">
           <Constellation className="h-full w-full opacity-60" />
         </div>
@@ -127,7 +135,7 @@ export default function HomePage() {
             Mystic, Detective, Phoenix or Sting? Six questions decide.
           </p>
           <Link
-            href="/quiz/what-kind-of-scorpio-are-you"
+            href="/quizzes"
             className="inline-flex min-h-[44px] items-center rounded-full border border-line-2 px-5 font-ui text-[13px] font-bold text-ink transition-colors hover:border-lilac"
           >
             Take the quiz
@@ -136,14 +144,14 @@ export default function HomePage() {
       </section>
 
       {/* know your sign */}
-      <section className="mt-6">
+      <section className="mt-7">
         <h2 className="mb-3.5 text-[19px]">Know your sign</h2>
         <dl className="overflow-hidden rounded-2xl border border-line">
           {[
             ['Dates', 'Oct 23 – Nov 21'],
             ['Element', SCORPIO.element],
             ['Quality', SCORPIO.modality],
-            ['Ruling planets', 'Mars & Pluto'],
+            ['Ruling planets', SCORPIO.ruler],
           ].map(([k, v], i) => (
             <div
               key={k}

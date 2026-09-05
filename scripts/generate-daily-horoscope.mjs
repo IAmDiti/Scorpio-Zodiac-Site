@@ -1,16 +1,38 @@
 #!/usr/bin/env node
-/**
- * Daily Scorpio horoscope generator.
- *
- * Wired in Phase 3. Will:
- *   1. compute the day's real sky with astronomy-engine
- *   2. build a transit summary for the Scorpio band (210deg-240deg)
- *   3. ask Claude to interpret ONLY that data
- *   4. upsert the result into `daily_horoscopes` via the service-role client
- *
- * Run locally with:  npm run horoscope:generate
- * Run on Railway as a scheduled cron service hitting /api/cron/daily-horoscope.
- */
+// Generate the Scorpio daily horoscope and store it.
+//
+//   npm run horoscope:generate               -> today (skips if it exists)
+//   npm run horoscope:generate 2026-09-05     -> a specific date
+//   npm run horoscope:generate -- --force     -> regenerate today
+//
+// Railway runs this once a day as a scheduled cron service.
 
-console.error('generate-daily-horoscope: not implemented yet — arrives in Phase 3.')
-process.exit(1)
+import { ensureHoroscope, generateHoroscope } from '../lib/horoscope.js'
+import { createAdminClient } from '../lib/supabase/admin.js'
+import { todayISO, isValidDateISO } from '../lib/dates.js'
+
+const args = process.argv.slice(2)
+const force = args.includes('--force')
+const dateArg = args.find((a) => isValidDateISO(a))
+const date = dateArg || todayISO()
+
+console.log(`Scorpio horoscope · ${date}${force ? ' (force)' : ''}`)
+
+try {
+  let row
+  if (force) {
+    row = await generateHoroscope(date)
+    const { error } = await createAdminClient()
+      .from('daily_horoscopes')
+      .upsert(row, { onConflict: 'date' })
+    if (error) throw error
+  } else {
+    row = await ensureHoroscope(date)
+  }
+  console.log(`  model: ${row.model}`)
+  console.log(`  overview: ${row.overview}`)
+  console.log('done.')
+} catch (e) {
+  console.error('failed:', e?.message || e)
+  process.exit(1)
+}

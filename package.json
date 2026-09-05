@@ -12,7 +12,9 @@
     "start": "next start -H 0.0.0.0",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "horoscope:generate": "node scripts/generate-daily-horoscope.mjs"
+    "test": "node --test \"lib/**/*.test.js\"",
+    "horoscope:generate": "node --env-file-if-exists=.env scripts/generate-daily-horoscope.mjs",
+    "compat:generate": "node --env-file-if-exists=.env scripts/generate-compatibility.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.124.0",
