@@ -1,4 +1,5 @@
 import { QuizCatalog } from '@/components/quiz-catalog'
+import { Container } from '@/components/container'
 import { allQuizzes } from '@/lib/quizzes/index.js'
 
 export const metadata = {
@@ -19,18 +20,20 @@ export default function QuizzesPage() {
   }))
 
   return (
-    <div className="mx-auto w-full max-w-[26rem] px-5 py-8">
-      <p className="eyebrow mb-2 text-eyebrow">Play · Discover · Share</p>
-      <h1 className="text-[30px] text-ink-bright">Scorpio quizzes</h1>
-      <p className="mt-2 text-[14px] text-ink-3">
-        Quick, a little addictive, occasionally too accurate.
-      </p>
+    <Container size="wide" className="py-8 sm:py-12">
+      <div className="sm:mx-auto sm:max-w-2xl sm:text-center">
+        <p className="eyebrow mb-2 text-eyebrow">Play · Discover · Share</p>
+        <h1 className="text-[30px] text-ink-bright sm:text-[42px]">Scorpio quizzes</h1>
+        <p className="mt-2 text-[14px] text-ink-3 sm:text-[16px]">
+          Quick, a little addictive, occasionally too accurate.
+        </p>
+      </div>
 
       <QuizCatalog quizzes={quizzes} />
 
-      <p className="mt-8 rounded-2xl border border-line bg-surface p-4 text-center font-ui text-[13px] text-ink-3">
+      <p className="mx-auto mt-8 max-w-xl rounded-2xl border border-line bg-surface p-4 text-center font-ui text-[13px] text-ink-3 sm:mt-12">
         Take any quiz free. A free account unlocks your result and keeps your history.
       </p>
-    </div>
+    </Container>
   )
 }

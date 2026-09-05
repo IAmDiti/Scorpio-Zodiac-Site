@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { HoroscopeView } from '@/components/horoscope-view'
 import { DateNav } from '@/components/date-nav'
+import { Container } from '@/components/container'
 import { getHoroscope, ensureHoroscope } from '@/lib/horoscope'
 import { todayISO, addDays, relativeToToday, formatLong } from '@/lib/dates'
 
@@ -28,21 +29,21 @@ export async function HoroscopeDay({ dateISO }) {
   const label = dateISO === today ? 'Today' : formatLong(dateISO)
 
   return (
-    <div className="mx-auto w-full max-w-[26rem] px-5 py-4">
+    <Container size="prose" className="py-4 sm:py-8">
       <DateNav
         prev={prev}
         next={next}
         label={dateISO === today ? `Today · ${formatLong(dateISO)}` : label}
       />
 
-      <div className="mt-6">
+      <div className="mt-6 sm:mt-8">
         {horoscope ? (
           <HoroscopeView horoscope={horoscope} dateISO={dateISO} dateLabel={formatLong(dateISO)} />
         ) : (
           <div className="rounded-2xl border border-line bg-surface p-6 text-center">
             <h1 className="text-[22px] text-ink-bright">
               {when === 'future'
-                ? 'This day hasn&rsquo;t arrived'
+                ? 'This day hasn’t arrived'
                 : error
                   ? 'The reading is being prepared'
                   : 'Not in the archive'}
@@ -52,17 +53,17 @@ export async function HoroscopeDay({ dateISO }) {
                 ? 'Come back on the day for its horoscope.'
                 : error
                   ? 'Something went wrong generating this one. Try again in a moment.'
-                  : 'We only keep recent days. Read today&rsquo;s instead.'}
+                  : 'We only keep recent days. Read today’s instead.'}
             </p>
             <Link
               href="/horoscope"
               className="mt-5 inline-flex rounded-full bg-garnet px-5 py-2.5 font-ui text-[13px] font-bold text-white"
             >
-              Today&rsquo;s horoscope
+              Today’s horoscope
             </Link>
           </div>
         )}
       </div>
-    </div>
+    </Container>
   )
 }

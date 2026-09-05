@@ -9,19 +9,21 @@ export function QuizResultCard({ quiz, resultKey, eyebrow, footer }) {
   if (!result) return null
 
   return (
-    <article className="text-center">
+    <article className="mx-auto max-w-xl text-center">
       <p className="eyebrow mb-3.5">{eyebrow}</p>
 
-      <div className="mx-auto mb-4 flex h-24 w-24 items-center justify-center rounded-full border border-[#3a2b4e] bg-[radial-gradient(circle_at_40%_35%,#3a1440,#150f24)] shadow-[0_0_40px_rgba(192,42,74,0.3)]">
-        <IconScorpio className="h-11 w-12 text-gold" />
+      <div className="mx-auto mb-4 flex h-24 w-24 items-center justify-center rounded-full border border-[#3a2b4e] bg-[radial-gradient(circle_at_40%_35%,#3a1440,#150f24)] shadow-[0_0_40px_rgba(192,42,74,0.3)] sm:h-28 sm:w-28">
+        <IconScorpio className="h-11 w-12 text-gold sm:h-14 sm:w-14" />
       </div>
 
       <p className="font-ui text-[12px] text-ink-3">
         {quiz.scoring === 'scale' ? 'You’re' : 'You are'}
       </p>
-      <h1 className="mt-0.5 text-[32px] text-ink-bright">{result.title}</h1>
+      <h1 className="mt-0.5 text-[32px] text-ink-bright sm:text-[40px]">{result.title}</h1>
 
-      <p className="mx-auto mt-4 max-w-[22rem] text-[14.5px] text-ink-2">{result.blurb}</p>
+      <p className="mx-auto mt-4 max-w-[24rem] text-[14.5px] text-ink-2 sm:max-w-lg sm:text-[15.5px]">
+        {result.blurb}
+      </p>
 
       {result.traits?.length ? (
         <ul className="mx-auto mt-5 flex max-w-[20rem] flex-col gap-2 text-left">

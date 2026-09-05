@@ -5,7 +5,7 @@ export const metadata = { title: 'Lost in the dark' }
 
 export default function NotFound() {
   return (
-    <div className="mx-auto flex min-h-screen w-full max-w-[26rem] flex-col items-center justify-center px-5 text-center">
+    <div className="mx-auto flex min-h-screen w-full max-w-[26rem] flex-col items-center justify-center px-5 text-center sm:max-w-lg">
       <IconScorpio className="mb-6 h-12 w-14 text-garnet" />
       <p className="eyebrow mb-3">404</p>
       <h1 className="text-[28px] text-ink-bright">This page slipped into shadow</h1>

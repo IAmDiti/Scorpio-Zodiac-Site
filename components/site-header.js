@@ -10,17 +10,17 @@ export function SiteHeader() {
 
   return (
     <header className="relative z-20">
-      <div className="mx-auto flex w-full max-w-[26rem] items-center justify-between px-5 py-4">
+      <div className="mx-auto flex w-full max-w-[26rem] items-center justify-between px-5 py-4 sm:max-w-3xl sm:px-8 lg:max-w-6xl lg:py-5">
         <Link href="/" className="flex items-baseline gap-1.5" onClick={() => setOpen(false)}>
-          <span className="font-display text-base font-bold tracking-[0.16em] text-ink">
+          <span className="font-display text-base font-bold tracking-[0.16em] text-ink lg:text-lg">
             {SITE_NAME.split(' ')[0].toUpperCase()}
           </span>
-          <span className="font-body text-sm italic text-ink-3">
+          <span className="font-body text-sm italic text-ink-3 lg:text-[15px]">
             {SITE_NAME.split(' ')[1]?.toLowerCase()}
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-6 font-ui text-[13px] text-ink-3 sm:flex">
+        <nav className="hidden items-center gap-6 font-ui text-[13px] text-ink-3 sm:flex lg:gap-8 lg:text-sm">
           {NAV_LINKS.map((l) => (
             <Link key={l.href} href={l.href} className="transition-colors hover:text-ink">
               {l.label}

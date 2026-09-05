@@ -35,7 +35,7 @@ export default async function PublicResultPage({ params }) {
   return (
     <>
       <PlayHeader />
-      <div className="mx-auto w-full max-w-[26rem] px-5 py-8">
+      <div className="mx-auto w-full max-w-2xl px-5 py-8 sm:px-8 sm:py-14">
         <QuizResultCard
           quiz={quiz}
           resultKey={key}

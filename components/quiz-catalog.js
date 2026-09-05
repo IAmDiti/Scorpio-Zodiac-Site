@@ -10,7 +10,7 @@ export function QuizCatalog({ quizzes }) {
 
   return (
     <>
-      <div className="-mx-5 mt-4 flex gap-2 overflow-x-auto px-5 pb-1">
+      <div className="-mx-5 mt-5 flex gap-2 overflow-x-auto px-5 pb-1 sm:mx-0 sm:flex-wrap sm:px-0">
         {QUIZ_CATEGORIES.map((c) => (
           <button
             key={c}
@@ -27,22 +27,22 @@ export function QuizCatalog({ quizzes }) {
         ))}
       </div>
 
-      <div className="mt-4 grid grid-cols-2 gap-3">
+      <div className="mt-4 grid grid-cols-2 gap-3 sm:mt-6 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
         {shown.map((quiz) => (
           <Link
             key={quiz.slug}
             href={`/quiz/${quiz.slug}`}
-            className="overflow-hidden rounded-2xl border border-line bg-surface transition-colors hover:border-line-2"
+            className="group overflow-hidden rounded-2xl border border-line bg-surface transition-colors hover:border-line-2"
           >
             <div
-              className="h-24"
+              className="h-24 transition-transform duration-300 group-hover:scale-[1.03] sm:h-28"
               style={{
                 backgroundImage: `linear-gradient(135deg, ${quiz.cover.from}, ${quiz.cover.to})`,
               }}
             />
-            <div className="p-3 pb-3.5">
+            <div className="p-3 pb-3.5 sm:p-4">
               <p className="eyebrow mb-1.5 text-[10.5px] text-gold">{quiz.category}</p>
-              <h3 className="mb-2 text-[14.5px] leading-snug">{quiz.title}</h3>
+              <h3 className="mb-2 text-[14.5px] leading-snug sm:text-base">{quiz.title}</h3>
               <p className="font-ui text-[11px] text-ink-4">
                 {quiz.questionCount} questions · {quiz.minutes} min
               </p>

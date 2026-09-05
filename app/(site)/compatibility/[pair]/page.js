@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import { CompatReport } from '@/components/compat-report'
+import { Container } from '@/components/container'
 import { partnerSign, getCompatibility, ensureCompatibility } from '@/lib/compatibility'
 
 const PREFIX = 'scorpio-and-'
@@ -40,7 +41,7 @@ export default async function PairPage({ params }) {
   }
 
   return (
-    <div className="mx-auto w-full max-w-[26rem] px-5 py-8">
+    <Container size="prose" className="py-8 sm:py-12">
       {data ? (
         <CompatReport partner={sign} data={data} />
       ) : (
@@ -49,10 +50,10 @@ export default async function PairPage({ params }) {
           <p className="mt-3 text-sm text-ink-3">
             {error
               ? 'This reading is being prepared — check back shortly.'
-              : 'This reading isn&rsquo;t ready yet.'}
+              : 'This reading isn’t ready yet.'}
           </p>
         </div>
       )}
-    </div>
+    </Container>
   )
 }

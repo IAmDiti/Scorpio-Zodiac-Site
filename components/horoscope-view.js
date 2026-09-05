@@ -36,7 +36,7 @@ function SkySnapshot({ sky }) {
   }
 
   return (
-    <div className="rounded-2xl border border-line-2 bg-gradient-to-br from-surface-2 to-surface p-4">
+    <div className="rounded-2xl border border-line-2 bg-gradient-to-br from-surface-2 to-surface p-4 sm:p-5">
       <p className="eyebrow mb-2.5 text-gold">Today&rsquo;s sky</p>
       <div className="flex flex-wrap gap-1.5">
         {chips.map((c) => (
@@ -64,27 +64,27 @@ const SECTIONS = [
 export function HoroscopeView({ horoscope, dateISO, dateLabel }) {
   return (
     <article>
-      <div className="mb-4 text-center">
-        <IconScorpio className="mx-auto mb-3 h-11 w-12 text-garnet" />
-        <h1 className="text-[30px] text-ink-bright">Scorpio</h1>
+      <div className="mb-4 text-center sm:mb-6">
+        <IconScorpio className="mx-auto mb-3 h-11 w-12 text-garnet sm:h-14 sm:w-16" />
+        <h1 className="text-[30px] text-ink-bright sm:text-[40px]">Scorpio</h1>
         <p className="eyebrow mt-2">{dateLabel}</p>
       </div>
 
       <SkySnapshot sky={horoscope.transit_data} />
 
-      <div className="mt-4 flex flex-col gap-3">
+      <div className="mt-4 grid gap-3 sm:mt-5 sm:grid-cols-2 sm:gap-3.5">
         {SECTIONS.map(({ key, label, Icon, color }) => (
-          <section key={key} className="rounded-2xl border border-line bg-surface p-[17px]">
+          <section key={key} className="rounded-2xl border border-line bg-surface p-[17px] sm:p-5">
             <div className="mb-2 flex items-center gap-2.5">
               <Icon className={`h-[18px] w-[18px] ${color}`} />
               <h2 className="text-base">{label}</h2>
             </div>
-            <p className="text-[14.5px] text-ink-2">{horoscope[key]}</p>
+            <p className="text-[14.5px] text-ink-2 sm:text-[15px]">{horoscope[key]}</p>
           </section>
         ))}
       </div>
 
-      <div className="mt-3 grid grid-cols-2 gap-3">
+      <div className="mx-auto mt-3 grid max-w-md grid-cols-2 gap-3 sm:mt-4">
         <div className="rounded-2xl border border-line bg-surface p-4 text-center">
           <p className="eyebrow mb-2.5">Lucky colour</p>
           <p className="font-ui text-sm text-ink">{horoscope.lucky_color}</p>
@@ -95,7 +95,7 @@ export function HoroscopeView({ horoscope, dateISO, dateLabel }) {
         </div>
       </div>
 
-      <div className="mt-4 flex gap-2.5">
+      <div className="mx-auto mt-4 flex max-w-sm">
         <SaveButton
           kind="horoscope"
           refKey={dateISO}

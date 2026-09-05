@@ -17,10 +17,10 @@ const TRAITS = [
 
 export default function AboutScorpioPage() {
   return (
-    <div className="mx-auto w-full max-w-[26rem] px-5 py-10">
+    <div className="mx-auto w-full max-w-[26rem] px-5 py-10 sm:max-w-2xl sm:px-8 sm:py-14">
       <p className="eyebrow mb-3">The sign</p>
-      <h1 className="text-[30px] text-ink-bright">Scorpio</h1>
-      <p className="mt-4 text-ink-2">
+      <h1 className="text-[30px] text-ink-bright sm:text-[42px]">Scorpio</h1>
+      <p className="mt-4 text-ink-2 sm:text-[17px]">
         The eighth sign of the zodiac and the one people find hardest to read. A fixed water sign:
         emotional depth held with unusual control. Scorpio is associated with intensity, loyalty,
         privacy, transformation and a refusal to do anything by halves.

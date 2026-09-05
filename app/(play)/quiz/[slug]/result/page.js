@@ -30,7 +30,7 @@ export default async function QuizResultPage({ params }) {
     return (
       <>
         <PlayHeader />
-        <div className="mx-auto w-full max-w-[26rem] px-5 py-10">
+        <div className="mx-auto w-full max-w-2xl px-5 py-10 sm:px-8 sm:py-14">
           <ClaimPendingResult slug={slug} />
         </div>
         <PlayFooter />
@@ -43,7 +43,7 @@ export default async function QuizResultPage({ params }) {
   return (
     <>
       <PlayHeader />
-      <div className="mx-auto w-full max-w-[26rem] px-5 py-8">
+      <div className="mx-auto w-full max-w-2xl px-5 py-8 sm:px-8 sm:py-14">
         <QuizResultCard
           quiz={quiz}
           resultKey={row.result_key}
