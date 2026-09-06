@@ -16,7 +16,9 @@ sign-in), and a **domain registrar**. Optional: **Plausible** (analytics),
    - `anon` public key → `NEXT_PUBLIC_SUPABASE_ANON_KEY`
    - `service_role` secret key → `SUPABASE_SERVICE_ROLE_KEY` (server-only!)
 2. **SQL Editor** → run each file in `supabase/migrations/` in order
-   (`0001` → `0002` → `0003`).
+   (`0001` → `0002` → … → `0005`). `0005` adds the blog (`posts`), the
+   `quizzes` table, and the public `media` Storage bucket used by the admin
+   panel.
 3. **Authentication → URL Configuration**
    - Site URL: `https://YOURDOMAIN`
    - Redirect URLs: add `https://YOURDOMAIN/**` and `http://localhost:3000/**`
@@ -62,6 +64,7 @@ sign-in), and a **domain registrar**. Optional: **Plausible** (analytics),
    | `SUPABASE_SERVICE_ROLE_KEY`     | from Supabase (secret)                                      |
    | `ANTHROPIC_API_KEY`             | from console.anthropic.com                                  |
    | `CRON_SECRET`                   | a long random string (e.g. `openssl rand -hex 32`)          |
+   | `ADMIN_EMAILS`                  | comma-separated emails allowed into `/admin` (your login)   |
    | `NEXT_PUBLIC_SITE_URL`          | `https://YOURDOMAIN`                                        |
    | `SITE_TZ`                       | IANA zone the "horoscope day" resets on, e.g. `Europe/Rome` |
    | `NEXT_PUBLIC_PLAUSIBLE_DOMAIN`  | your domain, or leave unset                                 |
@@ -108,15 +111,33 @@ Actions, Supabase `pg_cron` + `pg_net`) doing a daily:
 GET https://YOURDOMAIN/api/cron/daily-horoscope?secret=YOUR_CRON_SECRET
 ```
 
-Either way, seed the first day + the 12 compatibility pages once (locally with a
-filled `.env`, or from a Railway one-off shell):
+Either way, seed the first day + the 12 compatibility pages + the quizzes once
+(locally with a filled `.env`, or from a Railway one-off shell):
 
 ```
 npm run compat:generate      # ~1 min, a few cents of Anthropic usage
 npm run horoscope:generate   # today's horoscope
+npm run quizzes:seed         # loads the 6 built-in quizzes into the DB
 ```
 
 ---
+
+## 5b. The admin panel
+
+`/admin` is a password-gated area (write blog posts, upload images, edit and
+regenerate horoscopes / compatibility, edit quizzes).
+
+1. Run migration `0005` (step 1.2) — it creates `posts`, `quizzes` and the
+   `media` bucket. If your Supabase project blocks `insert into storage.buckets`
+   from the SQL editor, create a **public** bucket named `media` by hand under
+   **Storage**.
+2. `npm run quizzes:seed` once (step 5) so quizzes come from the database.
+3. Set `ADMIN_EMAILS` on Railway to the email you sign in with, e.g.
+   `ADMIN_EMAILS=you@example.com` (comma-separate for more than one). Redeploy.
+4. Sign in normally, then visit `/admin`. Non-listed users get a 404.
+
+Until `ADMIN_EMAILS` is set the admin area 404s for everyone and the rest of
+the site is unaffected.
 
 ## 6. Analytics (optional)
 

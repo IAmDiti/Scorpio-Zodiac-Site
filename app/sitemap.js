@@ -1,11 +1,12 @@
 import { allQuizzes, allResultParams } from '@/lib/quizzes/index.js'
+import { listPublishedPosts } from '@/lib/posts'
 import { SIGNS } from '@/lib/astro/zodiac'
 import { pairSlug } from '@/lib/constants'
 import { SITE_URL } from '@/lib/site'
 
 const base = SITE_URL
 
-export default function sitemap() {
+export default async function sitemap() {
   const lastModified = new Date().toISOString().slice(0, 10)
 
   const entries = [
@@ -13,6 +14,7 @@ export default function sitemap() {
     { url: `${base}/horoscope`, priority: 0.9, changeFrequency: 'daily' },
     { url: `${base}/compatibility`, priority: 0.8, changeFrequency: 'monthly' },
     { url: `${base}/quizzes`, priority: 0.8, changeFrequency: 'monthly' },
+    { url: `${base}/blog`, priority: 0.7, changeFrequency: 'weekly' },
     { url: `${base}/about-scorpio`, priority: 0.6, changeFrequency: 'yearly' },
     { url: `${base}/privacy`, priority: 0.2, changeFrequency: 'yearly' },
     { url: `${base}/terms`, priority: 0.2, changeFrequency: 'yearly' },
@@ -26,10 +28,12 @@ export default function sitemap() {
       changeFrequency: 'monthly',
     })
   }
-  for (const quiz of allQuizzes()) {
+
+  const quizzes = await allQuizzes()
+  for (const quiz of quizzes) {
     entries.push({ url: `${base}/quiz/${quiz.slug}`, priority: 0.7, changeFrequency: 'monthly' })
   }
-  for (const { slug, key } of allResultParams()) {
+  for (const { slug, key } of await allResultParams()) {
     entries.push({
       url: `${base}/quiz/${slug}/r/${key}`,
       priority: 0.5,
@@ -37,5 +41,14 @@ export default function sitemap() {
     })
   }
 
-  return entries.map((e) => ({ ...e, lastModified }))
+  for (const post of await listPublishedPosts()) {
+    entries.push({
+      url: `${base}/blog/${post.slug}`,
+      priority: 0.6,
+      changeFrequency: 'monthly',
+      lastModified: post.published_at ? post.published_at.slice(0, 10) : lastModified,
+    })
+  }
+
+  return entries.map((e) => ({ lastModified, ...e }))
 }
