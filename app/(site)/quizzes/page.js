@@ -2,6 +2,8 @@ import { QuizCatalog } from '@/components/quiz-catalog'
 import { Container } from '@/components/container'
 import { allQuizzes } from '@/lib/quizzes/index.js'
 
+export const revalidate = 3600
+
 export const metadata = {
   title: 'Scorpio Quizzes',
   description:
@@ -9,8 +11,8 @@ export const metadata = {
   alternates: { canonical: '/quizzes' },
 }
 
-export default function QuizzesPage() {
-  const quizzes = allQuizzes().map((q) => ({
+export default async function QuizzesPage() {
+  const quizzes = (await allQuizzes()).map((q) => ({
     slug: q.slug,
     title: q.title,
     description: q.description,

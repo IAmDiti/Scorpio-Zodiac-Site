@@ -8,7 +8,7 @@ export const alt = OG_ALT
 
 export default async function Image({ params }) {
   const { slug, key } = await params
-  const quiz = getQuiz(slug)
+  const quiz = await getQuiz(slug)
   const result = quiz?.results?.[key]
 
   return new ImageResponse(

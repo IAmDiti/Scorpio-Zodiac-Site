@@ -6,7 +6,7 @@ import { signOut } from '@/app/(auth)/actions'
 import { getSession } from '@/lib/auth'
 import { getSavedItems } from '@/lib/profile'
 import { getQuizHistory } from '@/lib/quiz-results'
-import { getQuiz } from '@/lib/quizzes/index.js'
+import { allQuizzes } from '@/lib/quizzes/index.js'
 import { sunSign } from '@/lib/astro/sky'
 import { IconClock, IconHeart, IconChevronRight, IconQuiz } from '@/components/icons'
 
@@ -29,6 +29,7 @@ export default async function AccountPage() {
 
   const saved = await getSavedItems()
   const quizHistory = await getQuizHistory()
+  const quizzesBySlug = new Map((await allQuizzes()).map((q) => [q.slug, q]))
 
   return (
     <Container size="prose" className="py-6 sm:py-10">
@@ -92,7 +93,7 @@ export default async function AccountPage() {
           {quizHistory.length ? (
             <ul className="flex flex-col gap-2.5">
               {quizHistory.map((entry) => {
-                const quiz = getQuiz(entry.quiz_slug)
+                const quiz = quizzesBySlug.get(entry.quiz_slug)
                 const result = quiz?.results?.[entry.result_key]
                 return (
                   <li key={entry.id}>

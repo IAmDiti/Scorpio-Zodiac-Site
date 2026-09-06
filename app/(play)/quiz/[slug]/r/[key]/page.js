@@ -1,18 +1,19 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { getQuiz, allResultParams } from '@/lib/quizzes/index.js'
+import { getQuiz } from '@/lib/quizzes/index.js'
 import { QuizResultCard } from '@/components/quiz-result-card'
 import { PlayHeader, PlayFooter } from '@/components/play-chrome'
 
 export const revalidate = 604800
+export const dynamicParams = true
 
 export function generateStaticParams() {
-  return allResultParams()
+  return []
 }
 
 export async function generateMetadata({ params }) {
   const { slug, key } = await params
-  const quiz = getQuiz(slug)
+  const quiz = await getQuiz(slug)
   const result = quiz?.results?.[key]
   if (!result) return {}
 
@@ -27,7 +28,7 @@ export async function generateMetadata({ params }) {
 
 export default async function PublicResultPage({ params }) {
   const { slug, key } = await params
-  const quiz = getQuiz(slug)
+  const quiz = await getQuiz(slug)
   if (!quiz || !quiz.results[key]) notFound()
 
   const count = Object.keys(quiz.results).length

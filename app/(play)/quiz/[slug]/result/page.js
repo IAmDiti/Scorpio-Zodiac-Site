@@ -11,7 +11,7 @@ export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({ params }) {
   const { slug } = await params
-  const quiz = getQuiz(slug)
+  const quiz = await getQuiz(slug)
   if (!quiz) return {}
   return { title: `Your result · ${quiz.title}`, robots: { index: false } }
 }
@@ -21,7 +21,7 @@ const ghost =
 
 export default async function QuizResultPage({ params }) {
   const { slug } = await params
-  const quiz = getQuiz(slug)
+  const quiz = await getQuiz(slug)
   if (!quiz) notFound()
 
   const row = await getLatestResult(slug)
