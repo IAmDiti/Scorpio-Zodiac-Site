@@ -41,6 +41,7 @@ export function QuizCatalog({ quizzes }) {
               }}
             >
               {quiz.image ? (
+                // eslint-disable-next-line @next/next/no-img-element -- static SVG thumbnail; next/image would need dangerouslyAllowSVG
                 <img
                   src={quiz.image}
                   alt=""

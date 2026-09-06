@@ -144,6 +144,7 @@ export default async function HomePage() {
           {/* featured quiz */}
           <section className="overflow-hidden rounded-[20px] border border-line bg-surface">
             <div className="relative h-[132px] overflow-hidden bg-gradient-to-br from-[#3a1030] via-[#1c1030] to-[#241338] sm:h-40">
+              {/* eslint-disable-next-line @next/next/no-img-element -- static SVG thumbnail; next/image would need dangerouslyAllowSVG */}
               <img
                 src="/quiz/what-kind-of-scorpio-are-you.svg"
                 alt=""
