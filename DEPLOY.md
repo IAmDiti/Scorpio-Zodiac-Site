@@ -120,8 +120,13 @@ npm run horoscope:generate   # today's horoscope
 
 ## 6. Analytics (optional)
 
-Add the site in [Plausible](https://plausible.io), set
-`NEXT_PUBLIC_PLAUSIBLE_DOMAIN` on Railway, redeploy. It's cookieless — no consent
+Google Analytics 4 is on by default (measurement ID `G-MK7C2CQ3Q2`). Override it
+with `NEXT_PUBLIC_GA_MEASUREMENT_ID` on Railway, or set it to an empty string to
+turn GA off. GA sets cookies — in the EU/UK you need a consent gate before it
+loads.
+
+Optionally also add the site in [Plausible](https://plausible.io) and set
+`NEXT_PUBLIC_PLAUSIBLE_DOMAIN` on Railway. Plausible is cookieless — no consent
 gate needed.
 
 ---

@@ -13,7 +13,7 @@ every sign and engagement quizzes. Growth-first; one-time paid readings later.
 | Horoscope / reading text | Anthropic API (`claude-opus-5`), grounded in `astronomy-engine` ephemeris |
 | Payments (Phase 8)       | Lemon Squeezy, one-time purchases                                         |
 | Hosting                  | Railway (web service + a daily cron)                                      |
-| Analytics                | Plausible (cookieless, optional)                                          |
+| Analytics                | Google Analytics 4 + Plausible (cookieless, optional)                     |
 | Errors                   | Sentry (optional)                                                         |
 
 ## Local setup

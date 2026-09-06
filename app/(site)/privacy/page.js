@@ -43,22 +43,23 @@ export default function PrivacyPage() {
       </p>
       <p>
         <strong>Analytics</strong> — we use Plausible Analytics, which is cookieless and does not
-        collect personal data or build cross-site profiles. It records aggregate page views and
-        referrers only. Legal basis: our legitimate interest in understanding site usage.
+        collect personal data or build cross-site profiles, and Google Analytics 4, which sets
+        cookies to measure page views, referrers and aggregate usage. Legal basis: our legitimate
+        interest in understanding site usage.
       </p>
 
       <H>Cookies and local storage</H>
       <p>
         We use only what is strictly necessary: a session cookie that keeps you signed in, and
         browser local storage that temporarily holds your in-progress quiz answers so they survive
-        sign-up. We do not use advertising or tracking cookies, so no consent banner is legally
-        required — the notice you saw is informational.
+        sign-up. Google Analytics also sets measurement cookies. We do not use advertising cookies.
       </p>
 
       <H>Who we share data with</H>
       <p>We use these processors, each under a data-processing agreement:</p>
       <p>
-        Supabase (authentication, database, file storage); Railway (application hosting); Anthropic
+        Supabase (authentication, database, file storage); Railway (application hosting); Google
+        (Analytics); Anthropic
         (generates horoscope and reading text from planetary data — your identity is not sent);
         [EMAIL PROVIDER] (sends confirmation and account emails); and, if you buy a paid reading,
         Lemon Squeezy, which acts as the seller of record and handles payment — we never receive

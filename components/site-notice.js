@@ -37,7 +37,7 @@ export function SiteNotice() {
       <div className="fixed inset-x-0 bottom-0 z-50 border-t border-line-2 bg-surface/95 pb-[env(safe-area-inset-bottom)] backdrop-blur">
         <div className="mx-auto flex max-w-3xl flex-col gap-2 px-5 py-3 sm:flex-row sm:items-center sm:gap-4">
           <p className="font-ui text-[12px] leading-relaxed text-ink-3">
-            Scorpio Daily uses only the cookies needed to keep you signed in, plus cookieless
+            Scorpio Daily uses cookies to keep you signed in and to measure site usage with
             analytics — no ad tracking.{' '}
             <Link href="/privacy" className="text-lilac underline-offset-2 hover:underline">
               Privacy

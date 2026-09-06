@@ -2,6 +2,7 @@ import { Cinzel, Spectral, Karla } from 'next/font/google'
 import './globals.css'
 import { Starfield } from '@/components/starfield'
 import { Analytics } from '@/components/analytics'
+import { GoogleAnalytics } from '@/components/google-analytics'
 import { SiteNotice } from '@/components/site-notice'
 import { JsonLd } from '@/components/json-ld'
 import { SITE_URL } from '@/lib/site'
@@ -95,6 +96,7 @@ export default function RootLayout({ children }) {
         {children}
         <SiteNotice />
         <Analytics />
+        <GoogleAnalytics />
         <JsonLd data={orgJsonLd} />
       </body>
     </html>
