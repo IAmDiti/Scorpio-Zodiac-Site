@@ -17,6 +17,7 @@ export default function QuizzesPage() {
     category: q.category,
     minutes: q.minutes,
     cover: q.cover,
+    image: q.image ?? null,
     questionCount: q.questions.length,
   }))
 

@@ -35,11 +35,20 @@ export function QuizCatalog({ quizzes }) {
             className="group overflow-hidden rounded-2xl border border-line bg-surface transition-colors hover:border-line-2"
           >
             <div
-              className="h-24 transition-transform duration-300 group-hover:scale-[1.03] sm:h-28"
+              className="relative h-28 overflow-hidden sm:h-32"
               style={{
                 backgroundImage: `linear-gradient(135deg, ${quiz.cover.from}, ${quiz.cover.to})`,
               }}
-            />
+            >
+              {quiz.image ? (
+                <img
+                  src={quiz.image}
+                  alt=""
+                  loading="lazy"
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.04]"
+                />
+              ) : null}
+            </div>
             <div className="p-3 pb-3.5 sm:p-4">
               <p className="eyebrow mb-1.5 text-[10.5px] text-gold">{quiz.category}</p>
               <h3 className="mb-2 text-[14.5px] leading-snug sm:text-base">{quiz.title}</h3>

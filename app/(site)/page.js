@@ -143,8 +143,12 @@ export default async function HomePage() {
 
           {/* featured quiz */}
           <section className="overflow-hidden rounded-[20px] border border-line bg-surface">
-            <div className="relative h-[132px] bg-gradient-to-br from-[#3a1030] via-[#1c1030] to-[#241338] sm:h-40">
-              <Constellation className="h-full w-full opacity-60" />
+            <div className="relative h-[132px] overflow-hidden bg-gradient-to-br from-[#3a1030] via-[#1c1030] to-[#241338] sm:h-40">
+              <img
+                src="/quiz/what-kind-of-scorpio-are-you.svg"
+                alt=""
+                className="absolute inset-0 h-full w-full object-cover"
+              />
             </div>
             <div className="p-5 pt-4 sm:p-6">
               <p className="eyebrow mb-2 text-gold">Personality · 2 min</p>
