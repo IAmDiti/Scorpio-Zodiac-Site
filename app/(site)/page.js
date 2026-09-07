@@ -1,9 +1,11 @@
 import Link from 'next/link'
 import { Constellation } from '@/components/constellation'
 import { Container } from '@/components/container'
-import { IconArrowRight, IconClock, IconHeart, IconMoon, IconQuiz } from '@/components/icons'
+import { EmailCapture } from '@/components/email-capture'
+import { IconClock, IconHeart, IconMoon, IconQuiz } from '@/components/icons'
 import { SCORPIO, PARTNER_SIGNS, pairSlug } from '@/lib/constants'
 import { getHoroscope } from '@/lib/horoscope'
+import { subscriberCount } from '@/lib/subscribers'
 import { todayISO, formatLong } from '@/lib/dates'
 
 export const revalidate = 1800
@@ -66,35 +68,66 @@ const SIGN_FACTS = [
 ]
 
 export default async function HomePage() {
-  const hero = await loadHero()
+  const [hero, subs] = await Promise.all([loadHero(), subscriberCount()])
   const dateLabel = formatLong(todayISO())
 
   return (
     <Container size="wide" className="pb-8">
       {/* hero */}
-      <section className="pb-8 pt-3 sm:mx-auto sm:max-w-2xl sm:pt-6 sm:text-center lg:pb-12 lg:pt-10">
-        <Constellation className="mb-3.5 h-24 w-full opacity-90 sm:h-28 lg:h-32" />
-        <p className="eyebrow mb-2.5">{dateLabel}</p>
-        <h1 className="text-balance text-[clamp(24px,6.5vw,30px)] text-ink-bright sm:text-[34px] lg:text-[40px]">
-          {hero.headline}
-        </h1>
-        <p className="mx-auto mt-3.5 max-w-xl text-[15px] text-ink-2 sm:text-base">{hero.teaser}</p>
+      <section className="pb-9 pt-3 sm:mx-auto sm:max-w-2xl sm:pt-8 sm:text-center lg:pb-14">
+        <Constellation className="mb-4 h-20 w-full opacity-90 sm:h-24 lg:h-28" />
 
-        <div className="mt-5 flex flex-col items-center gap-2.5 sm:mt-7">
+        {/* live sky — chip, readable against the dark ground */}
+        <p className="mx-auto mb-5 inline-flex flex-wrap items-center justify-center gap-x-2 gap-y-1 rounded-full border border-line-2 bg-surface-2/70 px-3.5 py-1.5 font-ui text-[12px] text-ink-2">
+          <IconMoon className="h-3.5 w-3.5 shrink-0 text-gold" />
+          <span className="font-bold text-lilac">{dateLabel}</span>
+          {hero.transits ? (
+            <>
+              <span aria-hidden="true" className="text-ink-4">
+                &middot;
+              </span>
+              <span>{hero.transits}</span>
+            </>
+          ) : null}
+        </p>
+
+        <h1 className="text-balance text-[clamp(26px,6.6vw,42px)] leading-[1.12] text-ink-bright">
+          The Scorpio horoscope that actually reads the sky
+        </h1>
+        <p className="mx-auto mt-3.5 max-w-xl text-[15px] text-ink-2 sm:text-[17px]">
+          Every morning, one honest paragraph on love, work and what to watch for, read from the
+          real positions of the Sun, Moon and planets. Free.
+        </p>
+
+        <EmailCapture
+          source="hero"
+          cta="Get tomorrow&rsquo;s reading"
+          className="mx-auto mt-7 w-full max-w-lg"
+        />
+
+        {/* social proof — real numbers only; a softer line until they add up */}
+        <p className="mx-auto mt-6 max-w-md font-ui text-[12px] text-ink-3">
+          {subs >= 50 ? (
+            <>
+              <strong className="font-bold tabular-nums text-ink">
+                {subs.toLocaleString('en-US')}
+              </strong>{' '}
+              Scorpios read this every morning.
+            </>
+          ) : (
+            <>A fresh reading every morning, drawn from that day&rsquo;s real sky.</>
+          )}
+        </p>
+
+        {/* secondary path for the not-ready-yet */}
+        <p className="mt-4">
           <Link
             href="/horoscope"
-            className="flex min-h-[50px] w-full items-center justify-center gap-2 rounded-full bg-garnet px-6 text-center font-ui text-sm font-bold tracking-[0.04em] text-white transition-opacity hover:opacity-90 sm:w-auto"
+            className="font-ui text-[13px] font-bold text-lilac underline-offset-4 hover:underline"
           >
-            Read your full horoscope
-            <IconArrowRight className="h-4 w-4 shrink-0" />
+            Read today&rsquo;s horoscope first &rarr;
           </Link>
-          {hero.transits ? (
-            <p className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center font-ui text-xs text-ink-4">
-              <IconMoon className="h-3.5 w-3.5 shrink-0 text-gold" />
-              <span>{hero.transits}</span>
-            </p>
-          ) : null}
-        </div>
+        </p>
       </section>
 
       {/* quick nav */}
@@ -190,23 +223,9 @@ export default async function HomePage() {
           <section className="rounded-[20px] border border-line-2 bg-gradient-to-b from-surface-2 to-surface p-5 sm:p-6">
             <h3 className="mb-1.5 text-[18px]">Your stars, in your inbox</h3>
             <p className="mb-3.5 text-[13px] text-ink-3">
-              A short Scorpio reading every morning. Free.
+              A short Scorpio reading every morning. Free, no password.
             </p>
-            <form className="flex gap-2" action="/signup">
-              <input
-                type="email"
-                name="email"
-                placeholder="you@email.com"
-                aria-label="Email address"
-                className="min-h-[46px] flex-1 rounded-xl border border-line-2 bg-void px-3.5 font-ui text-[13px] text-ink placeholder:text-ink-4 focus:border-lilac focus:outline-none"
-              />
-              <button
-                type="submit"
-                className="min-h-[46px] shrink-0 rounded-xl bg-garnet px-4 font-ui text-[13px] font-bold text-white transition-opacity hover:opacity-90"
-              >
-                Join
-              </button>
-            </form>
+            <EmailCapture source="footer" cta="Join" compact note={null} />
           </section>
         </div>
       </div>

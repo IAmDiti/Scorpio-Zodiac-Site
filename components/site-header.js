@@ -1,12 +1,36 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { NAV_LINKS, SITE_NAME } from '@/lib/constants'
 import { IconMenu } from '@/components/icons'
+import { createClient } from '@/lib/supabase/client'
+
+// Logged-out visitors are the ones we're trying to convert, so the default
+// (and server-rendered) state shows "Log in / Join free". If the browser
+// session says they're already in, swap to a single "Account" link.
+function useAuthed() {
+  const [authed, setAuthed] = useState(false)
+  useEffect(() => {
+    let active = true
+    try {
+      const supabase = createClient()
+      supabase.auth.getUser().then(({ data }) => {
+        if (active) setAuthed(Boolean(data?.user))
+      })
+    } catch {
+      /* Supabase not configured — stay logged-out */
+    }
+    return () => {
+      active = false
+    }
+  }, [])
+  return authed
+}
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false)
+  const authed = useAuthed()
 
   return (
     <header className="relative z-20">
@@ -26,12 +50,26 @@ export function SiteHeader() {
               {l.label}
             </Link>
           ))}
-          <Link
-            href="/account"
-            className="rounded-full border border-line-2 px-3.5 py-1.5 text-ink transition-colors hover:border-lilac"
-          >
-            Account
-          </Link>
+          {authed ? (
+            <Link
+              href="/account"
+              className="rounded-full border border-line-2 px-3.5 py-1.5 text-ink transition-colors hover:border-lilac"
+            >
+              Account
+            </Link>
+          ) : (
+            <span className="flex items-center gap-3">
+              <Link href="/login" className="text-ink-2 transition-colors hover:text-ink">
+                Log in
+              </Link>
+              <Link
+                href="/signup"
+                className="rounded-full bg-garnet px-3.5 py-1.5 font-bold text-white transition-opacity hover:opacity-90"
+              >
+                Join free
+              </Link>
+            </span>
+          )}
         </nav>
 
         <button
@@ -58,13 +96,32 @@ export function SiteHeader() {
                 {l.label}
               </Link>
             ))}
-            <Link
-              href="/account"
-              onClick={() => setOpen(false)}
-              className="rounded-xl px-3 py-2.5 font-bold text-lilac transition-colors hover:bg-surface-2"
-            >
-              Account
-            </Link>
+            {authed ? (
+              <Link
+                href="/account"
+                onClick={() => setOpen(false)}
+                className="rounded-xl px-3 py-2.5 font-bold text-lilac transition-colors hover:bg-surface-2"
+              >
+                Account
+              </Link>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  onClick={() => setOpen(false)}
+                  className="rounded-xl px-3 py-2.5 text-ink-2 transition-colors hover:bg-surface-2 hover:text-ink"
+                >
+                  Log in
+                </Link>
+                <Link
+                  href="/signup"
+                  onClick={() => setOpen(false)}
+                  className="mt-0.5 rounded-xl bg-garnet px-3 py-2.5 text-center font-bold text-white"
+                >
+                  Join free
+                </Link>
+              </>
+            )}
           </nav>
         </div>
       )}

@@ -16,9 +16,10 @@ sign-in), and a **domain registrar**. Optional: **Plausible** (analytics),
    - `anon` public key → `NEXT_PUBLIC_SUPABASE_ANON_KEY`
    - `service_role` secret key → `SUPABASE_SERVICE_ROLE_KEY` (server-only!)
 2. **SQL Editor** → run each file in `supabase/migrations/` in order
-   (`0001` → `0002` → … → `0005`). `0005` adds the blog (`posts`), the
+   (`0001` → `0002` → … → `0006`). `0005` adds the blog (`posts`), the
    `quizzes` table, and the public `media` Storage bucket used by the admin
-   panel.
+   panel; `0006` adds `subscribers` (the no-password email capture on the
+   homepage hero).
 3. **Authentication → URL Configuration**
    - Site URL: `https://YOURDOMAIN`
    - Redirect URLs: add `https://YOURDOMAIN/**` and `http://localhost:3000/**`
