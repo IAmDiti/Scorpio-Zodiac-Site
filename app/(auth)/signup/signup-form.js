@@ -3,9 +3,8 @@
 import { useActionState, useState } from 'react'
 import Link from 'next/link'
 import { signUpWithEmail } from '@/app/(auth)/actions'
-import { SubmitButton, FormError, FieldHint, Divider } from '@/components/auth-fields'
+import { SubmitButton, FormError, FieldHint } from '@/components/auth-fields'
 import { fieldClass, labelClass } from '@/components/form-styles'
-import { OAuthButton } from '@/components/oauth-button'
 
 export function SignupForm({ next }) {
   const [state, action] = useActionState(signUpWithEmail, {})
@@ -99,9 +98,6 @@ export function SignupForm({ next }) {
           Create free account
         </SubmitButton>
       </form>
-
-      <Divider />
-      <OAuthButton next={next} />
 
       <p className="mt-2 text-center font-ui text-[11px] leading-relaxed text-ink-4">
         By continuing you agree to our{' '}

@@ -6,7 +6,7 @@ import { getUser } from '@/lib/auth'
 export const metadata = { title: 'Log in' }
 
 export default async function LoginPage({ searchParams }) {
-  const { next, error } = await searchParams
+  const { next } = await searchParams
   if (await getUser()) redirect(next && next.startsWith('/') ? next : '/account')
 
   return (
@@ -18,7 +18,7 @@ export default async function LoginPage({ searchParams }) {
         </p>
       </div>
       <AuthTabs active="login" next={next} />
-      <LoginForm next={next} oauthError={error === 'oauth'} />
+      <LoginForm next={next} />
     </div>
   )
 }

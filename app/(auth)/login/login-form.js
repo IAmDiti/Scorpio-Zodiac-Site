@@ -3,11 +3,10 @@
 import { useActionState } from 'react'
 import Link from 'next/link'
 import { signInWithEmail } from '@/app/(auth)/actions'
-import { SubmitButton, FormError, Divider } from '@/components/auth-fields'
+import { SubmitButton, FormError } from '@/components/auth-fields'
 import { fieldClass, labelClass } from '@/components/form-styles'
-import { OAuthButton } from '@/components/oauth-button'
 
-export function LoginForm({ next, oauthError }) {
+export function LoginForm({ next }) {
   const [state, action] = useActionState(signInWithEmail, {})
 
   return (
@@ -45,15 +44,10 @@ export function LoginForm({ next, oauthError }) {
           />
         </div>
 
-        <FormError
-          message={state?.error || (oauthError ? 'Google sign-in was cancelled.' : null)}
-        />
+        <FormError message={state?.error} />
 
         <SubmitButton pendingLabel="Signing in…">Log in</SubmitButton>
       </form>
-
-      <Divider />
-      <OAuthButton next={next} />
 
       <p className="mt-2 text-center font-ui text-[12px] text-ink-4">
         New here?{' '}
