@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { Constellation } from '@/components/constellation'
 import { Container } from '@/components/container'
 import { EmailCapture } from '@/components/email-capture'
-import { IconClock, IconHeart, IconMoon, IconQuiz } from '@/components/icons'
+import { IconArrowRight, IconClock, IconHeart, IconMoon, IconQuiz } from '@/components/icons'
 import { SCORPIO, PARTNER_SIGNS, pairSlug } from '@/lib/constants'
 import { getHoroscope } from '@/lib/horoscope'
 import { subscriberCount } from '@/lib/subscribers'
@@ -144,91 +144,91 @@ export default async function HomePage() {
         ))}
       </section>
 
-      {/* feature grid — two balanced columns on desktop */}
-      <div className="mt-8 flex flex-col gap-6 sm:mt-10 lg:grid lg:grid-cols-2 lg:items-start lg:gap-6">
-        <div className="contents lg:flex lg:flex-col lg:gap-6">
-          {/* compatibility */}
-          <section className="rounded-[20px] border border-line bg-surface p-5 sm:p-6">
-            <h2 className="mb-1 text-[19px]">Who&rsquo;s your match?</h2>
-            <p className="mb-3.5 font-ui text-[13px] text-ink-3">
-              See how {SCORPIO.name} pairs with every sign.
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {PARTNER_SIGNS.filter((s) => s.key !== 'scorpio')
-                .slice(0, 5)
-                .map((s) => (
-                  <Link
-                    key={s.key}
-                    href={`/compatibility/${pairSlug(s.key)}`}
-                    className="rounded-full border border-line-2 bg-surface-2 px-3 py-2 font-ui text-xs text-ink-2 transition-colors hover:text-ink"
-                  >
-                    {s.name}
-                  </Link>
-                ))}
-              <Link
-                href="/compatibility"
-                className="rounded-full border border-line-2 px-3 py-2 font-ui text-xs text-eyebrow"
-              >
-                all 12
-              </Link>
-            </div>
-          </section>
-
-          {/* featured quiz */}
-          <section className="overflow-hidden rounded-[20px] border border-line bg-surface">
-            <div className="relative h-[132px] overflow-hidden bg-gradient-to-br from-[#3a1030] via-[#1c1030] to-[#241338] sm:h-40">
-              {/* eslint-disable-next-line @next/next/no-img-element -- static SVG thumbnail; next/image would need dangerouslyAllowSVG */}
-              <img
-                src="/quiz/what-kind-of-scorpio-are-you.svg"
-                alt=""
-                className="absolute inset-0 h-full w-full object-cover"
-              />
-            </div>
-            <div className="p-5 pt-4 sm:p-6">
-              <p className="eyebrow mb-2 text-gold">Personality · 2 min</p>
-              <h3 className="mb-2 text-xl">What kind of Scorpio are you?</h3>
-              <p className="mb-3.5 text-sm text-ink-2">
-                Mystic, Detective, Phoenix or Sting? Six questions decide.
-              </p>
-              <Link
-                href="/quiz/what-kind-of-scorpio-are-you"
-                className="inline-flex min-h-[44px] items-center rounded-full border border-line-2 px-5 font-ui text-[13px] font-bold text-ink transition-colors hover:border-lilac"
-              >
-                Take the quiz
-              </Link>
-            </div>
-          </section>
+      {/* lead magnet: the quiz — moved up and given room */}
+      <section className="mt-8 overflow-hidden rounded-[22px] border border-line-2 bg-surface sm:mt-10">
+        <div className="relative aspect-[2/1] max-h-52 overflow-hidden bg-gradient-to-br from-[#3a1030] via-[#1c1030] to-[#241338] sm:aspect-[3/1]">
+          {/* eslint-disable-next-line @next/next/no-img-element -- static SVG thumbnail; next/image would need dangerouslyAllowSVG */}
+          <img
+            src="/quiz/what-kind-of-scorpio-are-you.svg"
+            alt=""
+            className="absolute inset-0 h-full w-full object-cover object-top"
+          />
+          <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-surface to-transparent" />
         </div>
+        <div className="px-6 pb-6 pt-4 sm:px-8 sm:pb-8">
+          <p className="eyebrow mb-2 text-gold">Free · 6 questions · 2 minutes</p>
+          <h2 className="text-[22px] text-ink-bright sm:text-[27px]">What kind of Scorpio are you?</h2>
+          <p className="mt-2 max-w-xl text-[14px] text-ink-2 sm:text-[15px]">
+            Mystic, Detective, Phoenix or Sting? Answer six and find out which Scorpio you really
+            are, then unlock your traits and your best matches.
+          </p>
+          <Link
+            href="/quiz/what-kind-of-scorpio-are-you"
+            className="mt-4 inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-garnet px-6 font-ui text-[13px] font-bold text-white transition-opacity hover:opacity-90"
+          >
+            Reveal my Scorpio type
+            <IconArrowRight className="h-4 w-4 shrink-0" />
+          </Link>
+        </div>
+      </section>
 
-        <div className="contents lg:flex lg:flex-col lg:gap-6">
-          {/* know your sign */}
-          <section className="rounded-[20px] border border-line bg-surface p-5 sm:p-6">
-            <h2 className="mb-3.5 text-[19px]">Know your sign</h2>
-            <dl className="overflow-hidden rounded-2xl border border-line">
-              {SIGN_FACTS.map(([k, v], i) => (
-                <div
-                  key={k}
-                  className={`flex items-center justify-between bg-void/60 px-4 py-3.5 ${
-                    i > 0 ? 'border-t border-line' : ''
-                  }`}
+      {/* feature grid */}
+      <div className="mt-6 grid gap-6 sm:mt-8 lg:grid-cols-2 lg:items-start">
+        {/* compatibility */}
+        <section className="rounded-[20px] border border-line bg-surface p-5 sm:p-6">
+          <h2 className="mb-1 text-[19px]">Who&rsquo;s your match?</h2>
+          <p className="mb-3.5 font-ui text-[13px] text-ink-3">
+            See how {SCORPIO.name} pairs with every sign.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {PARTNER_SIGNS.filter((s) => s.key !== 'scorpio')
+              .slice(0, 5)
+              .map((s) => (
+                <Link
+                  key={s.key}
+                  href={`/compatibility/${pairSlug(s.key)}`}
+                  className="rounded-full border border-line-2 bg-surface-2 px-3 py-2 font-ui text-xs text-ink-2 transition-colors hover:text-ink"
                 >
-                  <dt className="font-ui text-[13px] text-ink-3">{k}</dt>
-                  <dd className="font-ui text-[13px] text-ink">{v}</dd>
-                </div>
+                  {s.name}
+                </Link>
               ))}
-            </dl>
-          </section>
+            <Link
+              href="/compatibility"
+              className="rounded-full border border-line-2 px-3 py-2 font-ui text-xs text-eyebrow"
+            >
+              all 12
+            </Link>
+          </div>
+        </section>
 
-          {/* newsletter */}
-          <section className="rounded-[20px] border border-line-2 bg-gradient-to-b from-surface-2 to-surface p-5 sm:p-6">
-            <h3 className="mb-1.5 text-[18px]">Your stars, in your inbox</h3>
-            <p className="mb-3.5 text-[13px] text-ink-3">
-              A short Scorpio reading every morning. Free, no password.
-            </p>
-            <EmailCapture source="footer" cta="Join" compact note={null} />
-          </section>
-        </div>
+        {/* know your sign */}
+        <section className="rounded-[20px] border border-line bg-surface p-5 sm:p-6">
+          <h2 className="mb-3.5 text-[19px]">Know your sign</h2>
+          <dl className="overflow-hidden rounded-2xl border border-line">
+            {SIGN_FACTS.map(([k, v], i) => (
+              <div
+                key={k}
+                className={`flex items-center justify-between bg-void/60 px-4 py-3.5 ${
+                  i > 0 ? 'border-t border-line' : ''
+                }`}
+              >
+                <dt className="font-ui text-[13px] text-ink-3">{k}</dt>
+                <dd className="font-ui text-[13px] text-ink">{v}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
       </div>
+
+      {/* closing capture */}
+      <section className="mt-6 rounded-[20px] border border-line-2 bg-gradient-to-b from-surface-2 to-surface p-6 text-center sm:mt-8 sm:p-8">
+        <h2 className="text-[20px] text-ink-bright sm:text-[24px]">Your stars, every morning</h2>
+        <p className="mx-auto mt-2 max-w-md text-[13px] text-ink-3 sm:text-[14px]">
+          One short Scorpio reading in your inbox by morning, read from the real sky. Free, no
+          password.
+        </p>
+        <EmailCapture source="footer" cta="Send my first reading" className="mx-auto mt-5 w-full max-w-md" />
+      </section>
     </Container>
   )
 }

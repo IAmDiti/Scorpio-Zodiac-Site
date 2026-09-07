@@ -1,17 +1,17 @@
 'use client'
 
-import { useState, useTransition } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { submitQuiz } from './actions'
 import { stashAnswers } from '@/lib/quiz-storage'
+import { scoreQuiz } from '@/lib/quizzes/score.js'
+import { QuizResultReveal } from '@/components/quiz-result-reveal'
 import { IconChevronLeft, IconArrowRight } from '@/components/icons'
 
 export function QuizRunner({ quiz }) {
-  const router = useRouter()
   const [step, setStep] = useState(0)
   const [answers, setAnswers] = useState(() => Array(quiz.questions.length).fill(null))
-  const [submitting, startSubmit] = useTransition()
+  const [resultKey, setResultKey] = useState(null)
   const [error, setError] = useState(null)
 
   const question = quiz.questions[step]
@@ -37,21 +37,21 @@ export function QuizRunner({ quiz }) {
   }
 
   function finish() {
+    const key = scoreQuiz(quiz, answers)
+    if (!key || !quiz.results[key]) {
+      setError('Something went wrong scoring that. Try again.')
+      return
+    }
     setError(null)
     stashAnswers(quiz.slug, answers)
-    startSubmit(async () => {
-      const res = await submitQuiz({ slug: quiz.slug, answers })
-      if (res?.needsAuth) {
-        router.push(`/signup?next=${encodeURIComponent(`/quiz/${quiz.slug}/result`)}`)
-        return
-      }
-      if (res?.error) {
-        setError('Something went wrong scoring that. Try again.')
-        return
-      }
-      router.push(`/quiz/${quiz.slug}/result`)
-      router.refresh()
-    })
+    setResultKey(key)
+    // Best effort: persist the result for a signed-in user. The email gate on
+    // the result screen is what captures everyone else.
+    submitQuiz({ slug: quiz.slug, answers }).catch(() => {})
+  }
+
+  if (resultKey) {
+    return <QuizResultReveal quiz={quiz} resultKey={resultKey} answers={answers} />
   }
 
   return (
@@ -148,11 +148,11 @@ export function QuizRunner({ quiz }) {
           <button
             type="button"
             onClick={next}
-            disabled={chosen == null || submitting}
+            disabled={chosen == null}
             className="flex h-[50px] flex-1 items-center justify-center gap-2 rounded-full bg-garnet font-ui text-[14px] font-bold text-white transition-opacity hover:opacity-90 disabled:opacity-50"
           >
-            {submitting ? 'Reading your stars…' : isLast ? 'See my result' : 'Next'}
-            {!submitting ? <IconArrowRight className="h-4 w-4" /> : null}
+            {isLast ? 'See my result' : 'Next'}
+            <IconArrowRight className="h-4 w-4" />
           </button>
         </div>
       </div>

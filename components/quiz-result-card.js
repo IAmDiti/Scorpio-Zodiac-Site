@@ -4,7 +4,7 @@ import { IconScorpio } from '@/components/icons'
  * Presentation of one quiz result. `eyebrow` and `footer` differ between the
  * personal result page and the public shareable page.
  */
-export function QuizResultCard({ quiz, resultKey, eyebrow, footer }) {
+export function QuizResultCard({ quiz, resultKey, eyebrow, footer, locked = false }) {
   const result = quiz.results[resultKey]
   if (!result) return null
 
@@ -25,7 +25,7 @@ export function QuizResultCard({ quiz, resultKey, eyebrow, footer }) {
         {result.blurb}
       </p>
 
-      {result.traits?.length ? (
+      {!locked && result.traits?.length ? (
         <ul className="mx-auto mt-5 flex max-w-[20rem] flex-col gap-2 text-left">
           {result.traits.map((t) => (
             <li key={t} className="flex items-start gap-2.5 font-ui text-[13px] text-ink-2">
@@ -46,7 +46,7 @@ export function QuizResultCard({ quiz, resultKey, eyebrow, footer }) {
         </ul>
       ) : null}
 
-      {result.matches ? (
+      {!locked && result.matches ? (
         <p className="mt-5 font-ui text-[12px] text-ink-3">
           Best matched with <span className="text-gold">{result.matches}</span>
         </p>
